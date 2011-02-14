@@ -9,6 +9,7 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
   # 请先准备一个Microphone
   # 浏览器： Firefox 3.5+, IE7+, Chrome 7+, Safari 5+
   # 网络环境： 此SDK客户端需要连接服务器1935端口，请确认您的网络设置没有屏蔽服务器1935端口。
+  # 申请appKey。
 
 = 简单例子 = 
   # 建立一个html页面，导入`JavaScript`文件：
