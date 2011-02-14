@@ -4,7 +4,6 @@
 
 = 变更记录 =
 
-
 = 名词解释 =
  * 录音服务器，Audio Server，代指AISpeech 的服务端。AISpeech API需要连接到服务器才能完成录音等请求。
 
@@ -25,4 +24,12 @@
 = 错误码 = 
  * [ErrorCode]
 
-= 工作流程 =
+= API =
+ # App权限
+  连接录音服务器之前，服务器需要验证客户端app的身份，使用appKey+secretKey的方式验证。
+  * 初始化的时候设置appKey和secretKey参数。关于appKey的申请，请向api@aispeech.com申请。
+  * 连接错误信息反馈
+ # AudioRecorder对象
+ # AudioPlayer对象
+ # AiStatusCode对象
+ # AiFlot对象
