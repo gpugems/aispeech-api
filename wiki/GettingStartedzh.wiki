@@ -38,20 +38,33 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
             showFlash: true,    
             flashRecorderUrl: "../airecorder/AudioRecorder4JS_developer_20110211_beta1.swf",    // flash录音机的路径。
             expressInstallUrl: "../common/expressInstall.swf",  
-            fmsList: fmsList,      //录音服务器列表 
-            fmsAppKey: "1295337509549",
-            fmsSecretKey: "391720efc00de450c56bbd7954171bc9af1b8ccf",
+            serverList: fmsList,      //录音服务器列表 
+            appKey: "1295337509549",
+            secretKey: "391720efc00de450c56bbd7954171bc9af1b8ccf",
             onFlashLoad: function(code, message){
-                jsLog("JS: onFlashLoad callback. code=" + code + "&message=[" + $.param(message) + "]");
+
+                aispeech.AiDebug.info("JS: onFlashLoad callback. code=" + code + ", message=" + JSON.stringify(message));
+
             },
-            onServerConnect: function(code, message){
-                jsLog("JS: onServerConnect callback. code=" + code + "&message=[" + $.param(message) + "]");
+
+            onConnectorStatusChange: function(code, message){
+
+                window.T = message;
+
+                aispeech.AiDebug.info("JS: onConnectorStatusChange callback. code=" + code + ", message=" + JSON.stringify(message));
+
             },
-            onMicDetect: function(code, message){
-                jsLog("JS: onMicDetect callback. code=" + code + "&message=[" + $.param(message) + "]");
+
+            onMicStatusChange: function(code, message){
+
+                aispeech.AiDebug.info("JS: onMicStatusChange callback. code=" + code + ", message=" + JSON.stringify(message));
+
             },
+
             onError: function(code, message){
-                jsLog("JS: onError callback. code=" + code + "&message=[" + $.param(message) + "]");
+
+                aispeech.AiDebug.info("JS: onError callback. code=" + code + ", message=" + JSON.stringify(message));
+
             }
         });
        
@@ -60,27 +73,43 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
      * 请确认swf地址正确。
      * 查看页面是否成功注入了flash对应的object节点。
   # 现在，你已经在页面添加了一个录音机组件，接下来你要添加一些操作按钮来控制录音机。增加一个开始录音按钮。对click添加处理函数：
+   * 参数 duration，录音的时间长度，单位ms。
+   * 参数 refText，本次录音对应的参考文本。
+   * 参数 serverParams，语音服务的参数，清参考[ServiceList]。
+   * 回调 onRecordIdGenerated，服务器为本次录音生成了唯一的文件id。
+   * 回调 onStart， 录音开始事件。
+   * 回调 onStop， 录音停止事件。
 {{{
      function onStartRecordClick {
-           var duration = parseFloat($("#recorder1Duration").val());      
-           var refText = $("#recorder1Text").val();   
-      
+           var duration =  5000;  
+           var refText = "ni2-hao3";   
             var r = recorder1.record({
                 //recordId: recordId,
                 duration: duration,       
                 serverParams: {    
-                    scoreType: $("#scoreType").val(),
-                    coreType: $("#coreType").val(),
+                    scoreType: 4,
+                    coreType: "cn.word.score.v2.1",
                     refText: refText,
                     userId: "midfar@qq.com",
-                    applicationId: "aichinese"
+                    applicationId: "firstapp"
                 },
-                onRecordIdGetted: function(code, message){   // onRecordIdGenerated
-                    jsLog("JS: onRecordIdGetted. code=" + code + "&message=[" + $.param(message) + "]");
-                    $("#recorder1RecordId").val(message.recordId);   
+               onRecordIdGenerated: function(code, message){
+
+                    aispeech.AiDebug.info("JS: onRecordIdGenerated. code=" + code + ", message=" + JSON.stringify(message));
+
+                   
                 },
-                onStop: function(code, message){   //自动结束录音
-                    jsLog("AS: recordStopped. code=" + code + "&message=[" + $.param(message) + "]");
+
+                onStart: function(code, message){
+
+                    aispeech.AiDebug.info("AS: recordStart callback. code=" + code + ", message=" + JSON.stringify(message));
+
+                },
+
+                onStop: function(code, message){
+
+                    aispeech.AiDebug.info("AS: recordStop callback. code=" + code + ", message=" + JSON.stringify(message));
+
                 }
             });
 
@@ -98,11 +127,13 @@ function onStopRecordClick{
    * 返回值说明，参考[ServiceList]中不同coreType的返回值。
    * 代码：
 {{{
+  var lastRecordId = recorder1.getLastRecordId();
   recorder1.getScores({
-                recordId: recordId,  
-                success: function(data){
-                    jsLog("JS: getScores success.");
-                    jsLog(data);
+                recordId: lastRecordId,  
+               success: function(data){
+
+                    aispeech.AiDebug.log("JS: getScores success.", data);
+
                 }
             });
 }}}
