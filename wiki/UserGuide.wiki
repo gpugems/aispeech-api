@@ -1,4 +1,4 @@
-#sidebar Tutorail
+#sidebar Docs
 
 <wiki:toc max_depth="1" />
 
