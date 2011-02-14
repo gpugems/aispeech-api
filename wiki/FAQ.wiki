@@ -1,0 +1,25 @@
+
+= 调试工具 = 
+ * FireBug，建议您在FireFox下使用FireBug调试。
+ * Arthropod，Flash日志查看工具：
+  * 安装Arthropod. 地址：http://arthropod.stopp.se/
+  * 打开安装好的Arthropod，在settings中输入Connection Password： CDC309AF。
+  * 当Flash开始运行的时候，Flash日志会输出到Arthropod。
+
+= 常见问题排查 = 
+
+  # *页面没有显示Flash？*
+   * 检查您代码中设定的swf文件地址是否正确。
+   * 使用FireBug查看页面中是否有flash录音机对应的object。
+   * 如果有flash录音机对应的object组件，检查div的可见性，是否有div遮盖。
+  # *不能连接服务器？*
+    * 检查您代码中的服务器地址。
+    * 检查您的网络是否允许连接服务器1935端口。
+    * 检查您的appkey和secretkey。
+    * 在连接事件的回调中查看返回信息。
+  # *无法开始录音？*
+    * 如果您设置了播放提示音，那么开始录音的时候应该能听到“叮”的声音。
+    * 如果没有听到，请检查您是否已经连上了服务器。
+  # *无法获取语音评估结果？*
+    * 请检查您的输入参数。
+    * 请查看Arthropod输出日志。
