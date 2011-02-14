@@ -1,5 +1,7 @@
-＝ 概述 =
- 目前开发者调用API可能出现的错误有四类：连接AISpeech服务器错误、录音流程错误、Flash组件错误和服务器计算错误。  
+#sidebar Tutorial
+
+= 概述 =
+ 目前开发者调用API可能出现的错误有：Flash组件错误,录音服务器错误和内核计算错误。  
 
   # 内核错误码 (0 - 39999)
     * 20001 VAD模块没有检测到语音端点 Speech server detected no start of the speech, please try again.
