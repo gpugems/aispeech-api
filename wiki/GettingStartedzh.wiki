@@ -35,7 +35,7 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
 {{{
      window.recorder1 = new aispeech.AiRecorder({
             id: "aiRecorder1",     //此处id和容器div的id相同
-            showFlash: true,    //这个默认是false， 修改为showFlash
+            showFlash: true,    
             flashRecorderUrl: "../airecorder/AudioRecorder4JS_developer_20110211_beta1.swf",    // flash录音机的路径。
             expressInstallUrl: "../common/expressInstall.swf",  
             fmsList: fmsList,      //录音服务器列表 
@@ -62,14 +62,13 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
   # 现在，你已经在页面添加了一个录音机组件，接下来你要添加一些操作按钮来控制录音机。增加一个开始录音按钮。对click添加处理函数：
 {{{
      function onStartRecordClick {
-           var duration = parseFloat($("#recorder1Duration").val());     // duratioin 如何确定？？
-            var refText = $("#recorder1Text").val();   
+           var duration = parseFloat($("#recorder1Duration").val());      
+           var refText = $("#recorder1Text").val();   
       
             var r = recorder1.record({
                 //recordId: recordId,
-                duration: duration,    //超过最大值怎么办？
-                isPlayDing: $("#isPlayDing").val(),    //是否可以不传，有默认值？
-                serverParams: {    //修改为speechResourceParams
+                duration: duration,       
+                serverParams: {    
                     scoreType: $("#scoreType").val(),
                     coreType: $("#coreType").val(),
                     refText: refText,
@@ -78,7 +77,7 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
                 },
                 onRecordIdGetted: function(code, message){   // onRecordIdGenerated
                     jsLog("JS: onRecordIdGetted. code=" + code + "&message=[" + $.param(message) + "]");
-                    $("#recorder1RecordId").val(message.recordId);   // 如何保存，并传递给其他部分使用？？
+                    $("#recorder1RecordId").val(message.recordId);   
                 },
                 onStop: function(code, message){   //自动结束录音
                     jsLog("AS: recordStopped. code=" + code + "&message=[" + $.param(message) + "]");
