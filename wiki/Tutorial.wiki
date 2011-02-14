@@ -1,5 +1,3 @@
  * [GettingStarted Getting Started]
-    * [SimpleDemo Simple Demo]
-    * [AdvancedFeature Advanced Feature]
-  * [FAQ FAQ]
-  * [TechSupport Technical Support]
+ * [FAQ FAQ]
+ * [TechSupport Technical Support]
