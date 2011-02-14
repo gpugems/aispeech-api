@@ -75,7 +75,7 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
   # 现在，你已经在页面添加了一个录音机组件，接下来你要添加一些操作按钮来控制录音机。增加一个开始录音按钮。对click添加处理函数：
    * 参数 duration，录音的时间长度，单位ms。
    * 参数 refText，本次录音对应的参考文本。
-   * 参数 serverParams，语音服务的参数，清参考[ServiceList]。
+   * 参数 serverParams，语音服务的参数，参考[ServiceList]。
    * 回调 onRecordIdGenerated，服务器为本次录音生成了唯一的文件id。
    * 回调 onStart， 录音开始事件。
    * 回调 onStop， 录音停止事件。
