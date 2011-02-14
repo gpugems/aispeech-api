@@ -1,3 +1,4 @@
  * [GettingStartedzh Getting Started]
  * [FAQ FAQ]
+ * [Tools Tools]
  * [TechSupport Technical Support]
