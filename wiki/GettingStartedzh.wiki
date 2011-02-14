@@ -107,50 +107,13 @@ function onStopRecordClick{
                 }
             });
 }}}
-  # 解析结果，绘制声调曲线。绘制曲线用到了flot。
-   * 首先导入绘制曲线需要的JavaScript文件
-{{{
- <script type="text/javascript" src="load_aiflot.js"></script>
-}}}
-   * 建立绘制曲线的容器：
-{{{
-    <div id="toneCurve1" style="width:200px; height:200px; border:1px solid #000;">
-                    </div>
-}}}
-   * 绘制标准声调曲线： 
-{{{
-            var id =  toneCurve1; // 对应html页面中div容器的id。
-            var tone =  // 声调， 0-4, 0表示轻声，1－4分别表示汉语拼音中的1声到四声。
-            var color = ＃000000 //曲线颜色值
-            aiFlot1 = aispeech.AiFlot.draw({
-                id: id,
-                stdData: {
-                    tone: tone,
-                    color: color
-                
-                }
-            }); 
-
-}}}
-   * 绘制用户发音声调曲线：
-{{{
-            var id =  // flot元素id。
-            var color =  #000000;// 曲线颜色值。
-            var confidence = [0,100,0,0,0]  // 表示用户声调的置信度。
-            aiFlot2 = aispeech.AiFlot.draw({
-                id: id,
-                userData: {
-                    confidence: confidence,
-                    color: color
-                }
-            });
- 
-}}}
+  
 
 = 高级功能 =
   # Mic设置
   # 录音回放
   # 音量控制
+  # 中文字词类应用，绘制声调曲线
   * 更多功能请参考[UserGuide]
 = 问题排查 =
  请参考[FAQ]
