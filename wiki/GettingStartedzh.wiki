@@ -95,7 +95,7 @@ function onStopRecordClick{
 }
 }}}
   # 现在你已经可以控制录音机开始录音和结束录音了。接下来需要获取语音评估结果，你可以调用getScores方法，
-   * 返回值说明
+   * 返回值说明，参考[ServiceList]中不同coreType的返回值。
    * 代码：
 {{{
   recorder1.getScores({
