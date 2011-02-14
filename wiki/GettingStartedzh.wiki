@@ -1,0 +1,12 @@
+#summary One-sentence summary of this page.
+
+
+<wiki:toc max_depth="1" />
+
+= 简单介绍 =
+AISpeech API JavaScript SDK，提供了录音，内核计算，结果处理的方法调用，减小了广大开发者开发语音应用的成本。
+
+=  = 
+
+
+ 
