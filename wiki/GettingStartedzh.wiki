@@ -106,13 +106,28 @@ function onStopRecordClick{
                 }
             });
 }}}
-  
+  # 如果你在上面的步骤遇到了困难，可以开启debug功能：
+   * 首先在页面上包含一个log信息输出div:
+{{{
+<div id="aispeechAiDebug" class="aispeechAiDebug">
+
+        </div>
+}}}
+   * 将日志输出到log信息区域中,之需要修改jsLog的实现：
+{{{
+    function jsLog(text){
+
+        aispeech.AiDebug.log(text);
+
+    }
+}}}
 
 = 高级功能 =
   # Mic设置
   # 录音回放
   # 音量控制
   # 中文字词类应用，绘制声调曲线
+  # 调试日志输出
   * 更多功能请参考[UserGuide]
 = 问题排查 =
  请参考[FAQ]
