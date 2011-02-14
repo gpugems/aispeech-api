@@ -1,4 +1,4 @@
-
+#sidebar Tutorial
 = 调试工具 = 
  * FireBug，建议您在FireFox下使用FireBug调试。
  * Arthropod，Flash日志查看工具：
