@@ -6,7 +6,144 @@
 = 简单介绍 =
 AISpeech API JavaScript SDK，提供了录音，内核计算，结果处理的方法调用，减小了广大开发者开发语音应用的成本。
 
-=  = 
+= 环境准备 = 
+  # 请先准备一个Microphone
+  # 浏览器： Firefox 3.5+, IE7+, Chrome 7+, Safari 5+
+  # 网络环境： 此SDK客户端需要连接服务器1935端口，请确认您的网络设置没有屏蔽服务器1935端口。
 
+= 简单例子 = 
+  # 建立一个html页面，导入JavaScript文件：
+ {{{
+ <script type="text/javascript" src="load_core.js"></script>
+}}}
+  # 在body中加入一个div，此div是flash录音机的容器：
+  {{{
+<div id="aiRecorder1">
+            <a href="http://www.adobe.com/go/getflashplayer">get flash player</a>
+</div>
+}}}
+  # 新建AudioRecorder对象：
+   * AudioRecorder对象是JavaScript对Flash录音机的封装，提供了在页面注入flash，操作flash的功能。
+   * 构造一个AudioRecorder对象，
+     * 参数 id， AudioRecorder实例的id，和容器div的id相同。
+     * 参数 flashRecorderUrl， flash 录音机swf文件地址。
+     * 参数 fmsList，服务器列表。
+     * 回调 onFlashLoad， Flash加载事件回调。
+     * 回调 onServerConnect，连接录音服务器的事件回调。
+     * 回调 onMicDetect，Microphone事件回调。
+     * 回调 onError，错误事件回调。
+   * 代码：
+{{{
+     window.recorder1 = new aispeech.AiRecorder({
+            id: "aiRecorder1",     //此处id和容器div的id相同
+            isHideFlash: false,    //这个默认是false， 修改为showFlash
+            flashRecorderUrl: "../airecorder/AudioRecorder4JS_developer_20110211_beta1.swf",    // flash录音机的路径。
+            expressInstallUrl: "../common/expressInstall.swf",  
+            fmsList: fmsList,      //录音服务器列表 
+            fmsAppKey: "1295337509549",
+            fmsSecretKey: "391720efc00de450c56bbd7954171bc9af1b8ccf",
+            onFlashLoad: function(code, message){
+                jsLog("JS: onFlashLoad callback. code=" + code + "&message=[" + $.param(message) + "]");
+            },
+            onServerConnect: function(code, message){
+                jsLog("JS: onServerConnect callback. code=" + code + "&message=[" + $.param(message) + "]");
+            },
+            onMicDetect: function(code, message){
+                jsLog("JS: onMicDetect callback. code=" + code + "&message=[" + $.param(message) + "]");
+            },
+            onError: function(code, message){
+                jsLog("JS: onError callback. code=" + code + "&message=[" + $.param(message) + "]");
+            }
+        });
+       
+ }}}
+  # 现在，你已经在页面添加了一个录音机组件，接下来你要添加一些操作按钮来控制录音机。增加一个开始录音按钮。对click添加处理函数：
+{{{
+     function onStartRecordClick {
+           var duration = parseFloat($("#recorder1Duration").val());     // duratioin 如何确定？？
+            var refText = $("#recorder1Text").val();   
+      
+            var r = recorder1.record({
+                //recordId: recordId,
+                duration: duration,    //超过最大值怎么办？
+                isPlayDing: $("#isPlayDing").val(),    //是否可以不传，有默认值？
+                serverParams: {    //修改为speechResourceParams
+                    scoreType: $("#scoreType").val(),
+                    coreType: $("#coreType").val(),
+                    refText: refText,
+                    userId: "midfar@qq.com",
+                    applicationId: "aichinese"
+                },
+                onRecordIdGetted: function(code, message){   // onRecordIdGenerated
+                    jsLog("JS: onRecordIdGetted. code=" + code + "&message=[" + $.param(message) + "]");
+                    $("#recorder1RecordId").val(message.recordId);   // 如何保存，并传递给其他部分使用？？
+                },
+                onStop: function(code, message){   //自动结束录音
+                    jsLog("AS: recordStopped. code=" + code + "&message=[" + $.param(message) + "]");
+                }
+            });
 
+}
+ }}}
+  # 增加一个结束录音按钮，对click事件添加处理函数：
+{{{
+function onStopRecordClick{
+    
+       recorder1.stop();
+  
+}
+}}}
+  # 现在你已经可以控制录音机开始录音和结束录音了。接下来需要获取语音评估结果，你可以调用getScores方法，
+   * 返回值说明
+   * 代码：
+{{{
+  recorder1.getScores({
+                recordId: recordId,  
+                success: function(data){
+                    jsLog("JS: getScores success.");
+                    jsLog(data);
+                }
+            });
+}}}
+  # 解析结果，绘制声调曲线。绘制曲线用到了flot。
+   * 首先导入绘制曲线需要的JavaScript文件
+{{{
+ <script type="text/javascript" src="load_aiflot.js"></script>
+}}}
+   * 建立绘制曲线的容器：
+{{{
+    <div id="toneCurve1" style="width:200px; height:200px; border:1px solid #000;">
+                    </div>
+}}}
+   * 绘制标准声调曲线： 
+{{{
+            var id =  toneCurve1; // 对应html页面中div容器的id。
+            var tone =  // 声调， 0-4, 0表示轻声，1－4分别表示汉语拼音中的1声到四声。
+            var color = //曲线颜色值
+            aiFlot1 = aispeech.AiFlot.draw({
+                id: id,
+                stdData: {
+                    tone: tone,
+                    color: color
+                
+                }
+            }); 
+
+}}}
+   * 绘制用户发音声调曲线：
+{{{
+            var id =  // flot元素id。
+            var color = // 曲线颜色值。
+            var confidence =  // 表示用户声调的置信度。
+            aiFlot2 = aispeech.AiFlot.draw({
+                id: id,
+                userData: {
+                    confidence: confidence,
+                    color: color
+                }
+            });
  
+}}}
+
+= 问题排查 =
+ 请参考[FAQ]
