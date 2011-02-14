@@ -1,3 +1,5 @@
+#sidebar Tutorial
+
 <wiki:toc max_depth="1" />
 
 = 简单介绍 =
