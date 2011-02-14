@@ -9,7 +9,7 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
   # 网络环境： 此SDK客户端需要连接服务器1935端口，请确认您的网络设置没有屏蔽服务器1935端口。
 
 = 简单例子 = 
-  # 建立一个html页面，导入JavaScript文件：
+  # 建立一个html页面，导入`JavaScript`文件：
  {{{
  <script type="text/javascript" src="load_core.js"></script>
 }}}
@@ -19,10 +19,10 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
             <a href="http://www.adobe.com/go/getflashplayer">get flash player</a>
 </div>
 }}}
-  # 新建AudioRecorder对象：
-   * AudioRecorder对象是JavaScript对Flash录音机的封装，提供了在页面注入flash，操作flash的功能。
-   * 构造一个AudioRecorder对象，
-     * 参数 id， AudioRecorder实例的id，和容器div的id相同。
+  # 新建`AudioRecorder`对象：
+   * `AudioRecorder`对象是`JavaScript`对Flash录音机的封装，提供了在页面注入flash，操作flash的功能。
+   * 构造一个`AudioRecorder`对象，
+     * 参数 id， `AudioRecorder`实例的id，和容器div的id相同。
      * 参数 flashRecorderUrl， flash 录音机swf文件地址。
      * 参数 fmsList，服务器列表。
      * 回调 onFlashLoad， Flash加载事件回调。
