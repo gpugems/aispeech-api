@@ -35,7 +35,7 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
 {{{
      window.recorder1 = new aispeech.AiRecorder({
             id: "aiRecorder1",     //此处id和容器div的id相同
-            isHideFlash: false,    //这个默认是false， 修改为showFlash
+            showFlash: true,    //这个默认是false， 修改为showFlash
             flashRecorderUrl: "../airecorder/AudioRecorder4JS_developer_20110211_beta1.swf",    // flash录音机的路径。
             expressInstallUrl: "../common/expressInstall.swf",  
             fmsList: fmsList,      //录音服务器列表 
@@ -56,6 +56,9 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
         });
        
  }}}
+   * 注意：
+     * 请确认swf地址正确。
+     * 查看页面是否成功注入了flash对应的object节点。
   # 现在，你已经在页面添加了一个录音机组件，接下来你要添加一些操作按钮来控制录音机。增加一个开始录音按钮。对click添加处理函数：
 {{{
      function onStartRecordClick {
@@ -118,7 +121,7 @@ function onStopRecordClick{
 {{{
             var id =  toneCurve1; // 对应html页面中div容器的id。
             var tone =  // 声调， 0-4, 0表示轻声，1－4分别表示汉语拼音中的1声到四声。
-            var color = //曲线颜色值
+            var color = ＃000000 //曲线颜色值
             aiFlot1 = aispeech.AiFlot.draw({
                 id: id,
                 stdData: {
@@ -132,8 +135,8 @@ function onStopRecordClick{
    * 绘制用户发音声调曲线：
 {{{
             var id =  // flot元素id。
-            var color = // 曲线颜色值。
-            var confidence =  // 表示用户声调的置信度。
+            var color =  #000000;// 曲线颜色值。
+            var confidence = [0,100,0,0,0]  // 表示用户声调的置信度。
             aiFlot2 = aispeech.AiFlot.draw({
                 id: id,
                 userData: {
@@ -144,5 +147,10 @@ function onStopRecordClick{
  
 }}}
 
+= 高级功能 =
+  # Mic设置
+  # 录音回放
+  # 音量控制
+  * 更多功能请参考[UserGuide]
 = 问题排查 =
  请参考[FAQ]
