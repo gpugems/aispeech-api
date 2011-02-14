@@ -1,0 +1,25 @@
+＝ 概述 =
+ 目前开发者调用API可能出现的错误有四类：连接AISpeech服务器错误、录音流程错误、Flash组件错误和服务器计算错误。  
+
+  # 内核错误码 (0 - 39999)
+    * 20001 VAD模块没有检测到语音端点 Speech server detected no start of the speech, please try again.
+    * 20002 输入VAD模块的Package数据为空 Speech server detected no start of the speech, please try again.
+    * 20101 提取的所有F0特征均为0 Speech server detected no speech, please try again.
+    * 20102 经过特征后处理，没有得到voiced段 Speech server detected no speech, please try again.
+    * 20300 识别模块一般性错误 Speech server detected incompleted speech, please try again.
+    * 20303 切分没有结果,no token suvived Speech server cannot recognise the speech. Please try again.
+    * 20302 没有识别结果, no token suvived Speech server cannot recognise the speech. Please try again.
+    * 20401 信噪比过低 Speech is too weak to process, please try again.
+    * 20402 语音能量过低 Speech is too weak to process, please try again.
+    * 20403 语音能量过高 Speech is too laud to process, please try again.
+    * 20404 出现截幅现象 Speech is too laud to process, please try again.
+    * 503   计算超时， Speech Server Timeout, please try again.
+    * others  Speech server error. Please contact us to report this.
+  # RTMP Server 错误码 (40000 - 49999)
+    * 40001 AUDIO_FILE_NOTEXSIT Media server error, please try again.
+    * 40002 AUDIO_FILE_OPEN_FAIL Media server error, please try again.
+    * 40003 AUDIO_CONVERT_ERROR, convert flv to wav error Media server error, please try again.
+    * 40004 AUDIO_FILE_EMPTY, file size <= 13 bytes Media server error, please try again.
+    * 40031 PARAM_MISMATCH, 参数不正确 Media server cannot recognise the parameter. Please contact us to report this.
+    * 40051   Media server error, please try again. 
+  # Flash组件错误
