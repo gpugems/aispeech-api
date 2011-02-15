@@ -25,6 +25,8 @@
  # 内核计算返回值（getScores调用的返回值）
   * 中文单词内核（coreType=cn.word.score.vxx）
 {{{
+{
+"5e5e7f39244347d48b2c27252805bce0":
  {
     "recordId": "5e5e7f39244347d48b2c27252805bce0",  // 在startRecord的时候，服务器生成的一个唯一的id，并回传给客户端
     "result": {
@@ -95,6 +97,7 @@
 ,
     "sessionId": "4d2b757c22c7580b7f46a154dfd3b0c3"  // session，同一个客户端的一个连接称之为一个session，具有一个唯一的sessionid。
 }
+}
 
 }}}
   * 中文句子内核 (coreType=cn.sent.score.vxx)
@@ -151,6 +154,8 @@
    * applicationId, app的标识，为appKey
  # 内核计算返回值（getScores调用的返回值）
 {{{
+{
+"8b717908f05a4b589c76ce41e27d665e":   //表示recordId为8b717908f05a4b589c76ce41e27d665e的结果。
 {
     "sessionId": "cf2e203b494753de30138b7f74a39391",
     "result": {
@@ -210,7 +215,7 @@
     },
     "recordId": "8b717908f05a4b589c76ce41e27d665e"
 }
-
+}
 
 }}}
 
