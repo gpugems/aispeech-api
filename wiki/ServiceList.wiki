@@ -151,6 +151,67 @@
    * applicationId, app的标识，为appKey
  # 内核计算返回值（getScores调用的返回值）
 {{{
+{
+    "sessionId": "cf2e203b494753de30138b7f74a39391",
+    "result": {
+        "version": "AIScoreEn_demo_v1.2.0",
+        "res": "aeng_enwds_1.3",
+        "rank": 4,
+        "overall": "D",
+        "details": [
+            {
+                "char": "present",
+                "score": "D",
+                "dur": 131,
+                "phone": [
+                    {
+                        "char": "p",
+                        "score": "B"
+                    },
+                    {
+                        "char": "r",
+                        "score": "D"
+                    },
+                    {
+                        "char": "eh",
+                        "score": "C"
+                    },
+                    {
+                        "char": "z",
+                        "score": "A"
+                    },
+                    {
+                        "char": "ax",
+                        "score": "D"
+                    },
+                    {
+                        "char": "n",
+                        "score": "D"
+                    },
+                    {
+                        "char": "t",
+                        "score": "D"
+                    }
+                ],
+                "stress": [
+                    {
+                        "char": "p_r_eh",
+                        "ref": "1",
+                        "score": "0"
+                    },
+                    {
+                        "char": "z_ax_n_t",
+                        "ref": "0",
+                        "score": "1"
+                    }
+                ] 
+            }
+        ] 
+    },
+    "recordId": "8b717908f05a4b589c76ce41e27d665e"
+}
+
+
 }}}
 
  
