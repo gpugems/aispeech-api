@@ -1,0 +1,7 @@
+#labels Featured
+ * [GettingStartedzh Getting Started]
+ * [UserGuide User Guide]
+ * [ServiceList Service List]
+ * [FAQ FAQ]
+ * [Tools Tools]
+ * [TechSupport Technical Support]
