@@ -1,4 +1,4 @@
-#sidebar Tutorial
+#sidebar APIDocumentation
 = 调试工具 = 
  参考[Tools]
 
