@@ -1,4 +1,4 @@
-#sidebar Tutorial
+#sidebar APIDocumentation
 <wiki:toc max-depth=1 />
 
 = 中文评分 ： aistream.cnscore =
