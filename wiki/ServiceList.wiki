@@ -26,7 +26,7 @@
   * 中文单词内核（coreType=cn.word.score.vxx）
 {{{
 {
-"5e5e7f39244347d48b2c27252805bce0":
+"5e5e7f39244347d48b2c27252805bce0":  //表示recordId为5e5e7f39244347d48b2c27252805bce0的录音评分结果。
  {
     "recordId": "5e5e7f39244347d48b2c27252805bce0",  // 在startRecord的时候，服务器生成的一个唯一的id，并回传给客户端
     "result": {
