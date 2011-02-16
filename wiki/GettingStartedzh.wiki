@@ -86,7 +86,7 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
   # 现在，你已经在页面添加了一个录音机组件，接下来你要添加一些操作按钮来控制录音机。增加一个开始录音按钮。对click添加处理函数：
    * 参数 duration，录音的时间长度，单位ms。
    * 参数 refText，本次录音对应的参考文本，可以硬编码为"ni2-hao3"。
-   * 参数 serverParams，语音服务的参数，参考[ServiceList]。
+   * 参数 serverParams，请求不同的语音服务内核，参数有所异同，具体请参考[ServiceList]中每个内核资源的说明。
    * 回调 onRecordIdGenerated，服务器为本次录音生成了唯一的文件id。
    * 回调 onStart， 录音开始事件。
    * 回调 onStop， 录音停止事件。
@@ -135,21 +135,20 @@ function onStopRecordClick{
 }
 }}}
   # 现在你已经可以控制录音机开始录音和结束录音了。接下来需要获取语音评估结果，你可以调用getScores方法，
-   * 返回值说明，参考[ServiceList]中不同coreType的返回值。
+   * 返回值说明，参考[ServiceList]中不同语音内核的返回值。
+   * 什么时候调用getScores？录音结束事件发生后可以调用getScores获取结果。
    * 代码：
 {{{
-  var lastRecordId = recorder1.getLastRecordId();
+  var lastRecordId = recorder1.getLastRecordId();  //获取最近一次的录音的ID
   recorder1.getScores({
-                recordId: lastRecordId,  
+                recordId: lastRecordId,            //根据recordId获取评分结果
                success: function(data){
-
                     aispeech.AiDebug.log("JS: getScores success.", data);
-
                 }
             });
 }}}
   # 如果你在上面的步骤遇到了困难，可以开启debug功能：
-   * 首先在页面上包含一个log信息输出div:
+   * 在页面上包含一个log信息输出div:
 {{{
 <div id="aispeechAiDebug" class="aispeechAiDebug">
 
