@@ -3,3 +3,9 @@
 <wiki:toc max_depth=1/>
 
 = 介绍 =
+ 通过AISpeech API 提供的Text-to-speech服务，您可以将任意文本转换成语音，然后播放给用户。目前，AISpeech API TTS支持英文单词的合成服务。我们即将开放更丰富的合成服务。
+
+= API = 
+ # HTTP URL
+ # 参数说明
+ # 返回值说明
