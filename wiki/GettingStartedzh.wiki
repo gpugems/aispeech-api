@@ -13,26 +13,33 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
   # [TechSupport 申请appKey]。
 
 = 简单例子 = 
-  # 下面我们开发一个中文单词评分的Demo。
-  # 建立一个html页面，导入`JavaScript`文件：
+  在这个例子中，我们开发一个中文单词评分的Demo。
+   * 中文参考文本：你好，数字拼音表示为ni2-hao3。
+   * 录音，对着Microphone说“你好”。
+   * 查看结果，看看你说的“你好”是否标准。
+  # 下载SDK。
+  # 解压到 $WWWROOT$/aispeechapi-js
+  # 在$WWWROOT$/aispeechapi-js目录下建立一个html页面。 
+  # html页面中导入load_core.js文件，这个文件定义了需要加载的JS资源：
  {{{
  <script type="text/javascript" src="load_core.js"></script>
 }}}
-  # 在body中加入一个div，此div是flash录音机的容器：
+   * load_core.js中有这样一行 window.aispeech.host = aispeech.host || _"http://127.0.0.1/aispeechapi-js"_; 请确认_"http://127.0.0.1/aispeechapi-js"_和你的部署路径一致，如果不是，请修改，以保证_"http://127.0.0.1/aispeechapi-js/load_core.js"_可访问。
+  # 接下来，我们想要在页面中加入一个录音机组件。首先要新建一个div作为容器，在body中加入一个div，此div是flash录音机的容器：
   {{{
 <div id="aiRecorder1">
             <a href="http://www.adobe.com/go/getflashplayer">get flash player</a>
 </div>
 }}}
-  # 新建`AudioRecorder`对象：
-   * `AudioRecorder`对象是`JavaScript`对Flash录音机的封装，提供了在页面注入flash，操作flash的功能。
-   * 构造一个`AudioRecorder`对象，
-     * 参数 id， `AudioRecorder`实例的id，和容器div的id相同。
+  # 有了div容器，我们需要通过JavaScript代码在页面注入一个录音机组件。很简单，只需要新建`AiRecorder`对象：
+   * `AiRecorder`对象是`JavaScript`对Flash录音机的封装，提供了在页面注入flash，操作flash的功能。
+   * 构造一个`AiRecorder`对象，
+     * 参数 id， `AiRecorder`实例的id，和容器div的id相同。
      * 参数 flashRecorderUrl， flash 录音机swf文件地址。
-     * 参数 fmsList，服务器列表。
+     * 参数 serverList，服务器列表。
      * 回调 onFlashLoad， Flash加载事件回调。
-     * 回调 onServerConnect，连接录音服务器的事件回调。
-     * 回调 onMicDetect，Microphone事件回调。
+     * 回调 onConnectorStatusChange，连接录音服务器的事件回调。
+     * 回调 onMicStatusChange，Microphone事件回调。
      * 回调 onError，错误事件回调。
    * 代码：
 {{{
@@ -77,7 +84,7 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
      * 查看页面是否成功注入了flash对应的object节点。
   # 现在，你已经在页面添加了一个录音机组件，接下来你要添加一些操作按钮来控制录音机。增加一个开始录音按钮。对click添加处理函数：
    * 参数 duration，录音的时间长度，单位ms。
-   * 参数 refText，本次录音对应的参考文本。
+   * 参数 refText，本次录音对应的参考文本，可以硬编码为"ni2-hao3"。
    * 参数 serverParams，语音服务的参数，参考[ServiceList]。
    * 回调 onRecordIdGenerated，服务器为本次录音生成了唯一的文件id。
    * 回调 onStart， 录音开始事件。
@@ -93,7 +100,7 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
                     scoreType: 4,
                     coreType: "cn.word.score.v2.1",
                     refText: refText,
-                    userId: "midfar@qq.com",
+                    userId: "demo@domain.com",
                     applicationId: "firstapp"
                 },
                onRecordIdGenerated: function(code, message){
@@ -118,7 +125,7 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
 
 }
  }}}
-  # 增加一个结束录音按钮，对click事件添加处理函数：
+  # 有了上面的过程，你就可以开始录音了。当录音时间达到duration指定的时间长度后会自动停止录音。你也可以增加一个结束录音按钮，以便手动停止录音，对按钮click事件添加处理函数：
 {{{
 function onStopRecordClick{
     
