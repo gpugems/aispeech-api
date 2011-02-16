@@ -13,6 +13,7 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
   # [TechSupport 申请appKey]。
 
 = 简单例子 = 
+  # 下面我们开发一个中文单词评分的Demo。
   # 建立一个html页面，导入`JavaScript`文件：
  {{{
  <script type="text/javascript" src="load_core.js"></script>
