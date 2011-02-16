@@ -2,7 +2,98 @@
 
 <wiki:toc max_depth=1/>
 
-
+= Audio Player介绍 =
+ AISpeech API提供了Flash版本的播放器，能够在浏览器中播放mp3,flv音频文件。
 = Audio Player使用手册 =
+ # 首先请加载AISpeech API的资源，加载load_core.js。
+{{{
+ <script type="text/javascript" src="load_core.js"></script>
+}}}
+ # 要在html页面使用AudioPlayer，需要在html页面有一个div容器：
+{{{
+ <div id="aiPlayer1">
 
+            <a href="http://www.adobe.com/go/getflashplayer">get flash player</a>
+
+        </div>
+}}}
+ # 页面初始化的时候，你可以新建一个AiPlayer对象，这将播放器组件注入到了html页面，构造AiPlayer对象的代码片段：
+{{{
+        var flashPlayerUrl = "../aiplayer/AudioPlayer4JS_20110215_beta.swf";
+
+        var expressInstallUrl = "../common/expressInstall.swf";
+
+        
+
+        window.player1 = new aispeech.AiPlayer({
+
+            id: "aiPlayer1",
+
+            flashPlayerUrl: flashPlayerUrl,
+
+            expressInstallUrl: expressInstallUrl,
+
+            onFlashLoad: function(code, message){
+
+                player1AiDebug.info("JS: onFlashLoad callback, code=" + code + ", message=" + JSON.stringify(message));
+
+            },
+
+            onError: function(code, message){
+
+                player1AiDebug.info("JS: onError callback, code=" + code + ", message=" + JSON.stringify(message));
+
+            }
+
+        });
+}}}
+  # 你需要添加控制按钮来操作播放器。
+   * 要成功播放音频，你需要先执行load操作，load操作成功后执行play。
+   * 调用load的代码
+{{{
+ var r = player1.load({
+
+                url:            //音频的url,
+                appKey: "1295337509549",
+
+                secretKey: "391720efc00de450c56bbd7954171bc9af1b8ccf",
+
+                success: function(code, message){
+
+                    player1AiDebug.info("JS: player1.load-success callback, code=" + code + ", message=" + JSON.stringify(message));
+
+                }
+
+            });
+}}}
+   * 调用play的代码
+{{{
+ var r = player1.play({
+
+                onStart: function(code, message){
+
+                    player1AiDebug.info("JS: player1.play-onStart callback, code=" + code + " message=" + JSON.stringify(message));
+
+                },
+
+                onStop: function(code, message){
+
+                    player1AiDebug.info("JS: player1.play-onStop callback, code=" + code + " message=" + JSON.stringify(message));
+
+                }
+
+            });
+}}}
+  # 手动停止播放音频，可以调用stop方法，调用stop的代码
+{{{
+var r = player1.stop({
+
+                onStop: function(code, message){
+
+                    player1AiDebug.info("JS: player1.stop-onStop callback, code=" + code + " message=" + JSON.stringify(message));
+
+                }
+
+            });
+}}}
  
