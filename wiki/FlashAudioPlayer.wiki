@@ -17,7 +17,7 @@
 
         </div>
 }}}
- # 页面初始化的时候，你可以新建一个AiPlayer对象，这将播放器组件注入到了html页面，构造AiPlayer对象的代码片段：
+ # 页面初始化的时候，你可以新建一个AiPlayer对象，这将播放器组件注入到了html页面，构造AiPlayer对象的代码片段
 {{{
         var flashPlayerUrl = "../aiplayer/AudioPlayer4JS_20110215_beta.swf";
 
@@ -47,7 +47,7 @@
 
         });
 }}}
-  # 你需要添加控制按钮来操作播放器。
+ # 你需要添加控制按钮来操作播放器。
    * 要成功播放音频，你需要先执行load操作，load操作成功后执行play。
    * 调用load的代码
 {{{
@@ -84,7 +84,7 @@
 
             });
 }}}
-  # 手动停止播放音频，可以调用stop方法，调用stop的代码
+ # 手动停止播放音频，可以调用stop方法，调用stop的代码
 {{{
 var r = player1.stop({
 
