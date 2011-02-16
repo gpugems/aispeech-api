@@ -2,6 +2,7 @@
  * [GettingStartedzh Getting Started]
  * [UserGuide User Guide]
  * [ServiceList Service List]
+ * [TTS Text To Speech]
  * [FlashAudioPlayer  Flash Audio Player]
  * [FAQ FAQ]
  * [Tools Tools]
