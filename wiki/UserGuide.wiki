@@ -35,6 +35,5 @@
  # AudioRecorder对象
   * 参看docs。
  # AudioPlayer对象
-  * 参看docs。
-  
+  * 参看docs。 
  # AiFlot对象
