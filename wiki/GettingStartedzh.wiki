@@ -18,13 +18,13 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
    * 录音，对着Microphone说“你好”。
    * 查看结果，看看你说的“你好”是否标准。
   # 下载SDK。
-  # 解压到 $WWWROOT$/aispeechapi-js
+  # 解压到 $WWWROOT$/aispeechapi-js。
   # 在$WWWROOT$/aispeechapi-js目录下建立一个html页面。 
   # html页面中导入load_core.js文件，这个文件定义了需要加载的JS资源：
  {{{
  <script type="text/javascript" src="load_core.js"></script>
 }}}
-   * load_core.js中有这样一行 window.aispeech.host = aispeech.host || _"http://127.0.0.1/aispeechapi-js"_; 请确认_"http://127.0.0.1/aispeechapi-js"_和你的部署路径一致，如果不是，请修改，以保证_"http://127.0.0.1/aispeechapi-js/load_core.js"_可访问。
+   * load_core.js中有这样一行 window.aispeech.host = aispeech.host || _"http://127.0.0.1/aispeechapi-js"_; 请确认_"http://127.0.0.1/aispeechapi-js"_和你的部署路径一致，如果不是，请修改，以保证_"http://yourpath/load_core.js"_可访问。
   # 接下来，我们想要在页面中加入一个录音机组件。首先要新建一个div作为容器，在body中加入一个div，此div是flash录音机的容器：
   {{{
 <div id="aiRecorder1">
@@ -43,12 +43,13 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
      * 回调 onError，错误事件回调。
    * 代码：
 {{{
+     var serverList =  var serverList = ["rtmp://sandbox.api.aispeech.com/aistream.cnscore.v1.0"];
      window.recorder1 = new aispeech.AiRecorder({
             id: "aiRecorder1",     //此处id和容器div的id相同
             showFlash: true,    
             flashRecorderUrl: "../airecorder/AudioRecorder4JS_developer_20110211_beta1.swf",    // flash录音机的路径。
             expressInstallUrl: "../common/expressInstall.swf",  
-            serverList: fmsList,      //录音服务器列表 
+            serverList: serverList,      //录音服务器列表 
             appKey: "1295337509549",
             secretKey: "391720efc00de450c56bbd7954171bc9af1b8ccf",
             onFlashLoad: function(code, message){
