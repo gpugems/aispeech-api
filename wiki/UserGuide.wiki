@@ -1,4 +1,4 @@
-#sidebar Tutorial
+#sidebar APIDocumentation
 
 <wiki:toc max_depth="1" />
 
