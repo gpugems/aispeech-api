@@ -28,8 +28,10 @@
  # App权限
   连接录音服务器之前，服务器需要验证客户端app的身份，使用appKey+secretKey的方式验证。
   * 初始化的时候设置appKey和secretKey参数。关于appKey的申请，请向api@aispeech.com申请。
-  * 连接错误信息反馈
+  * 连接错误信息反馈，通过ConnectorStatus反馈Auth.Failed。
  # AudioRecorder对象
+  * 参看docs。
  # AudioPlayer对象
- # AiStatusCode对象
+  * 参看docs。
+  
  # AiFlot对象
