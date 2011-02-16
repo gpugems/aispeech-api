@@ -24,6 +24,9 @@
 = 错误码 = 
  * [ErrorCode]
 
+= 录音类应用工作流程 =
+ * http://aispeech-api.googlecode.com/files/apiflow(2).jpg
+
 = API =
  # App权限
   连接录音服务器之前，服务器需要验证客户端app的身份，使用appKey+secretKey的方式验证。
