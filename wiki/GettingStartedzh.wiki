@@ -155,14 +155,6 @@ function onStopRecordClick{
 
         </div>
 }}}
-   * 将日志输出到log信息区域中,需要修改jsLog的实现：
-{{{
-    function jsLog(text){
-
-        aispeech.AiDebug.log(text);
-
-    }
-}}}
 
 = 高级功能 =
   # Mic设置
