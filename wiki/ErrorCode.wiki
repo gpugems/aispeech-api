@@ -24,4 +24,9 @@
     * 40004 AUDIO_FILE_EMPTY, file size <= 13 bytes Media server error, please try again.
     * 40031 PARAM_MISMATCH, 参数不正确 Media server cannot recognise the parameter. Please contact us to report this.
     * 40051   Media server error, please try again. 
-  # Flash组件错误
+  # Flash组件错误码 (50000 - 59999)
+    * 50000 FLASH_LOAD_COMPLETE flash load complete
+    * 50001 MIC_UNMUTED microphone is unmuted
+    * 50002 MIC_MUTED microphone is muted, please add the permission for microphone using
+    * 50003 MIC_NOT_FOUND please check the audio driver or try install latest flashplayer from adobe
+    * 50004 FUNCTION_EXECUTE_SUCCESSFUL excute function successfully
