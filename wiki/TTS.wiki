@@ -6,6 +6,15 @@
  通过AISpeech API 提供的Text-to-speech服务，您可以将任意文本转换成语音，然后播放给用户。目前，AISpeech API TTS支持英文单词的合成服务。我们即将开放更丰富的合成服务。
 
 = API = 
+ # 调用方式：合成服务通过HTTP调用，返回合成的结果文件。
  # HTTP URL
+  * http://sandbox.api.aispeech.com/api/synth/v1.0/appkey/{appkey}/lang/{lang}/text/{text}/model/{model}?rdm={rdm}
  # 参数说明
+  * appkey, app key。
+  * lang, 合成的语言类型，当前支持en。
+  * text, 要合成的文本，现在支持英文单词。
+  * model, 声音模型。
+  * rdm , 随即数字，避免IE下缓存。
  # 返回值说明
+  * 返回值为合成的语音文件。
+  * 使用播放器可以播放语音文件。
