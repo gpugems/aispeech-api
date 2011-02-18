@@ -30,3 +30,55 @@
     * 50002 MIC_MUTED microphone is muted, please add the permission for microphone using
     * 50003 MIC_NOT_FOUND please check the audio driver or try install latest flashplayer from adobe
     * 50004 FUNCTION_EXECUTE_SUCCESSFUL excute function successfully
+    * 50100 FMS_CONNECT_SUCCESSFUL recorder server connect successful
+    * 50101 FMS_CONNECT_FAILED recorder server connect failed
+    * 50102 FMS_CONNECT_REJECTED recorder server connect rejected
+    * 50103 FMS_CONNECT_CLOSED recorder server connect closed
+    * 50104 FMS_CONNECT_TIMEOUT recorder server connect timeout
+    * 50105 FMS_CONNECT_NET_CHANGE recorder server connect net change, 这个只能作为状态报告用，比如出现用户网口硬件断开，或者硬件网络端口连上了
+    * 50106 EXCEPTION_FMS_DISCONNECTED recorder server not connected
+    * 50108 ASPING_DETECT_STATUS bwcheck status info 
+    * 50200 CORE_REQUEST_GETTED get core request
+    * 50201 CORE_REQUEST_TIMEOUT get core request timeout		
+    * 50300 RECORD_STOP recorder record stop
+    * 50301 RECORD_START recorder record start
+    * 50302 REPLAY_STOP recorder replay stop
+    * 50303 REPLAY_START recorder replay start
+    * 50304 RECORDID_GETTED get recordId	
+    * 50351 ERROR_STARTRECORD_PARAMETER_ERROR recorder startRecord parameter error 
+    * 50352 ERROR_STARTREPLAY_PARAMETER_ERROR recorder startReplay parameter error
+    * 50353 ERROR_RECORDER_STATUS_ERROR recorder status error
+    * 50400 PLAYER_AUDIO_LOAD_COMPLETED player audio load complete
+    * 50401 PLAY_START player play start
+    * 50402 PLAY_STOP player play stop
+    * 50403 PLAY_BUFFERING player audio buffering
+    * 50404 PLAY_CONTINUE player audio 从 buffering 恢复播放
+    * 50405 PLAY_PAUSE player play pause 
+    * 50406 PLAY_RESUME player play resume
+    * 50407 PLAY_SEEK_SUCCESSFUL player seek successful
+    * 50408 PLAY_SEEK_FAILED player seek failed
+    * 50409 PLAY_FILE_NOT_FOUND player not found file
+    * 50410 PLAY_SERVER_ERROR player server error
+    * 50411 PLAY_NETSTREAM_INSUFFICIENT_BW  客户端没有足够的带宽，无法以正常速度播放数据
+    * 50412 PLAYER_AUDIO_LOAD_FAILED player audio load failed
+    * 50413PLAYER_FILE_NOT_LOADED player audio not loaded
+    * 50450 ERROR_STARTPLAY_PARAMETER_ERROR player startPlay parameter error
+    * 50451 ERROR_LOADAUDIO_PARAMETER_ERROR player loadAudio parameter error
+    * 50452 ERROR_ADJUSTVOLUME_PARAMETER_ERROR player adjustVolume parameter error
+    * 50453 ERROR_PLAYER_FLASHVARS_ERROR player 
+		public static const ERROR_PLAYER_STATUS_ERROR:String = "50454";
+		
+		
+		
+			/*  status sub error code */
+			public static const CANNOT_BE_RECORDING:String = "status.invalid:recording";
+			public static const CANNOT_BE_IDLE:String = "status.invalid:idle";
+			public static const CANNOT_BE_REPLAYING:String = "status.invalid:replaying";
+			public static const CANNOT_BE_NOT_READY:String = "status.invalid:not_ready";
+			public static const CANNOT_BE_TORECORD:String = "status.invalid:torecord";
+			public static const CANNOT_BE_INIT:String = "status.invalid:init";
+			public static const CANNOT_BE_PLAYING:String = "status.invalid:playing";
+			public static const CANNOT_BE_LOADING:String = "status.invalid:loading";
+			public static const CANNOT_BE_PAUSE:String = "status.invalid:pause";
+			public static const CANNOT_BE_BUFFERING:String = "status.invalid:buffering";
+			public static const CANNOT_BE_LOADED:String = "status.invalid:loaded";
