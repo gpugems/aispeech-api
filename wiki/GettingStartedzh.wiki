@@ -25,7 +25,7 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
  <script type="text/javascript" src="load_core.js"></script>
 }}}
    * load_core.js中有这样一行 window.aispeech.host = aispeech.host || _"http://127.0.0.1/aispeechapi-js"_; 请确认_"http://127.0.0.1/aispeechapi-js"_和你的部署路径一致，如果不是，请修改，以保证_"http://yourpath/load_core.js"_可访问。
-  # 接下来，我们想要在页面中加入一个录音机组件。首先要新建一个div作为容器，在body中加入一个div，此div是flash录音机的容器：
+  # 接下来，我们想要在页面中加入一个录音机组件，以便进行语音录制。首先要新建一个div作为容器，在body中加入一个div，此div是flash录音机的容器：
   {{{
 <div id="aiRecorder1">
             <a href="http://www.adobe.com/go/getflashplayer">get flash player</a>
@@ -52,27 +52,25 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
             serverList: serverList,      //录音服务器列表 
             appKey: "1295337509549",
             secretKey: "391720efc00de450c56bbd7954171bc9af1b8ccf",
-            onFlashLoad: function(code, message){
+            onFlashLoad: function(code, message){ // flash加载完成回调
 
                 aispeech.AiDebug.info("JS: onFlashLoad callback. code=" + code + ", message=" + JSON.stringify(message));
 
             },
 
-            onConnectorStatusChange: function(code, message){
-
-                window.T = message;
+            onConnectorStatusChange: function(code, message){ //连接服务器状态回调
 
                 aispeech.AiDebug.info("JS: onConnectorStatusChange callback. code=" + code + ", message=" + JSON.stringify(message));
 
             },
 
-            onMicStatusChange: function(code, message){
+            onMicStatusChange: function(code, message){   // Mic状态回调
 
                 aispeech.AiDebug.info("JS: onMicStatusChange callback. code=" + code + ", message=" + JSON.stringify(message));
 
             },
 
-            onError: function(code, message){
+            onError: function(code, message){      //错误回调
 
                 aispeech.AiDebug.info("JS: onError callback. code=" + code + ", message=" + JSON.stringify(message));
 
@@ -83,7 +81,8 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
    * 注意：
      * 请确认swf地址正确。
      * 查看页面是否成功注入了flash对应的object节点。
-  # 现在，你已经在页面添加了一个录音机组件，接下来你要添加一些操作按钮来控制录音机。增加一个开始录音按钮。对click添加处理函数：
+  # 现在，你已经在页面添加了一个录音机组件，接下来你要添加一些操作按钮来控制录音机。增加一个开始录音按钮。对click添加处理函数。
+   * 开始录音的时候，需要指定本次录音对应的计算参数。
    * 参数 duration，录音的时间长度，单位ms。
    * 参数 refText，本次录音对应的参考文本，可以硬编码为"ni2-hao3"。
    * 参数 serverParams，请求不同的语音服务内核，参数有所异同，具体请参考[ServiceList]中每个内核资源的说明。
