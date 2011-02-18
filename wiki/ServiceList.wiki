@@ -162,11 +162,11 @@
         "version": "AIScoreEn_demo_v1.2.0",
         "res": "aeng_enwds_1.3",
         "rank": 4,                  //分制，此处为4分制
-        "overall": "D",             //单词的总评分，4分制中A,B,C,D四级表示
+        "overall": "D",             //单词的总评分，包括发音，重音的综合评估，4分制中A,B,C,D四级表示
         "details": [                
             {
                 "char": "present",  //评估的单词
-                "score": "D",       //单词的总体评分
+                "score": "D",       //单词的发音评分
                 "dur": 131,
                 "phone": [          // 此结果段尚在beta阶段，如需要使用，请联系api@aispeech.com
                     {
