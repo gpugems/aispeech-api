@@ -147,7 +147,7 @@
 = 英文单词评分： aistream.enscore =
   # 服务URL： rtmp://sandbox.api.aispeech.com/aistream.enscore.v1.0
   # 参数
-   * scoreType, 2 | 4 | 100 , //评分分制选择。可以是2，4，100中的一个。
+   * scoreType, 2 | 4   , //评分分制选择。可以是2，4 中的一个。
    * coreType, en.word.score.v1.0， 表示使用哪个语音内核计算。
    * refText, 参考文本，小写的英文单词。
    * userId, 用户在网站中的唯一身份标识，用于区别不同的终端用户，一般用用户的email表示。
@@ -166,7 +166,7 @@
         "details": [                
             {
                 "char": "present",  //评估的单词
-                "score": "D",       //单词的评分
+                "score": "D",       //单词的总体评分
                 "dur": 131,
                 "phone": [          // 此结果段尚在beta阶段，如需要使用，请联系api@aispeech.com
                     {
