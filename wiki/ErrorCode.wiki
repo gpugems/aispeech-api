@@ -48,6 +48,12 @@
     * 50351 ERROR_STARTRECORD_PARAMETER_ERROR recorder startRecord parameter error 
     * 50352 ERROR_STARTREPLAY_PARAMETER_ERROR recorder startReplay parameter error
     * 50353 ERROR_RECORDER_STATUS_ERROR recorder status error
+     * "status.invalid:recording"
+     * "status.invalid:idle"
+     * "status.invalid:replaying"
+     * "status.invalid:not_ready"
+     * "status.invalid:torecord"
+     * "status.invalid:init"
     * 50400 PLAYER_AUDIO_LOAD_COMPLETED player audio load complete
     * 50401 PLAY_START player play start
     * 50402 PLAY_STOP player play stop
@@ -65,20 +71,11 @@
     * 50450 ERROR_STARTPLAY_PARAMETER_ERROR player startPlay parameter error
     * 50451 ERROR_LOADAUDIO_PARAMETER_ERROR player loadAudio parameter error
     * 50452 ERROR_ADJUSTVOLUME_PARAMETER_ERROR player adjustVolume parameter error
-    * 50453 ERROR_PLAYER_FLASHVARS_ERROR player 
-		public static const ERROR_PLAYER_STATUS_ERROR:String = "50454";
-		
-		
-		
-			/*  status sub error code */
-			public static const CANNOT_BE_RECORDING:String = "status.invalid:recording";
-			public static const CANNOT_BE_IDLE:String = "status.invalid:idle";
-			public static const CANNOT_BE_REPLAYING:String = "status.invalid:replaying";
-			public static const CANNOT_BE_NOT_READY:String = "status.invalid:not_ready";
-			public static const CANNOT_BE_TORECORD:String = "status.invalid:torecord";
-			public static const CANNOT_BE_INIT:String = "status.invalid:init";
-			public static const CANNOT_BE_PLAYING:String = "status.invalid:playing";
-			public static const CANNOT_BE_LOADING:String = "status.invalid:loading";
-			public static const CANNOT_BE_PAUSE:String = "status.invalid:pause";
-			public static const CANNOT_BE_BUFFERING:String = "status.invalid:buffering";
-			public static const CANNOT_BE_LOADED:String = "status.invalid:loaded";
+    * 50453 ERROR_PLAYER_FLASHVARS_ERROR player flashvars error
+    * 50454 ERROR_PLAYER_STATUS_ERROR player status error
+     * "status.invalid:idle"
+     * "status.invalid:playing"
+     * "status.invalid:loading"
+     * "status.invalid:pause"
+     * "status.invalid:buffering"
+     * "status.invalid:loaded"
