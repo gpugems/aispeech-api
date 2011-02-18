@@ -21,4 +21,10 @@
     * 请查看Arthropod输出日志。
   # *如何判断是否已经连接到服务器？*
     * 检查连接回调事件，可以查看连接的状态。
+  # *如何设置麦克风？*
+    * 要使用录音功能，需要首先允许Flash访问Mic。
+    * Mic是通过Flash设置面板设置的。参考：http://www.macromedia.com/support/documentation/en/flashplayer/help/help09.html
+    * 请选择允许，并选择记住。
+    * Mic允许后，您可以调节音量大小。
+    * 在录音过程中，Flash设置面板可以不完全显示。*你可以缩小flash区域，但是为保证正常录音，flash区域至少为1像素大小*
     
