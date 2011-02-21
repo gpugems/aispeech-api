@@ -15,7 +15,7 @@
 {{{
 var aiDebug = new aispeech.AiDebug("divId");
 }}}
-   * 然后就可以使用aiDebug对象的方法了。常用的有这些方法：
+  * 然后就可以使用aiDebug对象的方法了。常用的有这些方法：
 {{{
 error,
 warn, 
@@ -26,4 +26,4 @@ setLevel,
 getLogs, 
 clear
 }}}
-   * 查看log：在页面中创建一个<div id="divId"></div>就可以显示后面打印的debug信息(divId默认为"aispeechAiDebug")。可以参考 examples/AiDebug.html。
+  * 查看log：在页面中创建一个<div id="divId"></div>就可以显示后面打印的debug信息(divId默认为"aispeechAiDebug")。可以参考 examples/AiDebug.html。
