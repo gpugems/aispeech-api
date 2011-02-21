@@ -84,7 +84,7 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
   # 现在，你已经在页面添加了一个录音机组件，接下来你要添加一些操作按钮来控制录音机。增加一个开始录音按钮。对click添加处理函数。
    * 开始录音的时候，需要指定本次录音对应的计算参数。
    * 参数 duration，录音的时间长度，单位ms。
-   * 参数 refText，本次录音对应的参考文本，可以硬编码为"ni2-hao3"。
+   * 参数 refText，本次录音对应的参考文本，可以设置为"ni2-hao3"。
    * 参数 serverParams，请求不同的语音服务内核，参数有所异同，具体请参考[ServiceList]中每个内核资源的说明。
    * 回调 onRecordIdGenerated，服务器为本次录音生成了唯一的文件id。
    * 回调 onStart， 录音开始事件。
