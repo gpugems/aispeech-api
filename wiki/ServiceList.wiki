@@ -168,10 +168,10 @@
                 "char": "present",  //评估的单词
                 "score": "D",       //单词的发音评分
                 "dur": 131,
-                "phone": [          // 此结果段尚在beta阶段，如需要使用，请联系api@aispeech.com
+                "phone": [          // 单词音素级评分。此结果段尚在beta阶段，如需要使用，请联系api@aispeech.com
                     {
-                        "char": "p",
-                        "score": "B"
+                        "char": "p", // 单词音素
+                        "score": "B" // 音素评分
                     },
                     {
                         "char": "r",
@@ -198,11 +198,11 @@
                         "score": "D"
                     }
                 ],
-                "stress": [
+                "stress": [          // 单词重音检测结果
                     {
-                        "char": "p_r_eh",
-                        "ref": "1",
-                        "score": "0"
+                        "char": "p_r_eh", //音节，由音素拼接成
+                        "ref": "1",  // 音节重音标称（0非重音/1重音）
+                        "score": "0" // 音节是否是重音
                     },
                     {
                         "char": "z_ax_n_t",
