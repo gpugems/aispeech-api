@@ -7,9 +7,9 @@
  # 调用参数：
   * scoreType, 2 | 4 | 100 , //评分分制选择。可以是2，4，100中的一个。
   * coreType, cn.word.score.v2.1 | cn.sent.score.v1.0， 表示使用哪个语音内核计算。
-  * refText, 参考文本，中文为数字拼音表示， 你好表示为 ni2-hao3。 详细参考[RefText]
+  * refText, 参考文本，中文为数字拼音表示， 你好表示为 ni2-hao3。 详细参考[RefText]。
   * userId, 用户在网站中的唯一身份标识，用于区别不同的终端用户，一般用用户的email表示。
-  * applicationId, app的标识，为appKey
+  * applicationId, app的标识，为appKey。
   * 示例：
 {{{
  serverParams: {
