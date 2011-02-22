@@ -26,8 +26,7 @@
   * 中文单词内核（coreType=cn.word.score.vxx）
 {{{
 {
-"5e5e7f39244347d48b2c27252805bce0":  //表示recordId为
-5e5e7f39244347d48b2c27252805bce0的录音评分结果。
+"5e5e7f39244347d48b2c27252805bce0":  //表示recordId 5e5e7f39244347d48b2c27252805bce0的录音评分结果。
 
  {
     "recordId": "5e5e7f39244347d48b2c27252805bce0",  // 在startRecord的时候，服务器生成的一个唯一的id，并回传给客户端
@@ -38,7 +37,7 @@
         "coreType": "cn.word.score.v2.1",
         "scoreType": "2",
         "refText": "zhang1-lao3-shi1",
-        "userId": "midfar@qq.com"
+        "userId": "user@domain.com"
     } ,
     "result": {                                     // 计算结果
     "version": "AIScore_v1.3.3",                    // 内核版本号（AIScore表示“中文字词评分内核”，v1.3.3表示：主版本号为1，次版本号为3，build号为3）  
@@ -139,7 +138,7 @@
         "coreType": "cn.word.score.v2.1",
         "scoreType": "2",
         "refText": "zhang1-lao3-shi1",
-        "userId": "midfar@qq.com"
+        "userId": "user@domain.com"
     }
 }
 }}}
@@ -205,7 +204,7 @@
         "coreType": "en.word.score.v1.0",
         "scoreType": "2",
         "refText": "hello",
-        "userId": "useremail"
+        "userId": "user@domain.com"
     } ,
     "result": {
         "version": "AIScoreEn_demo_v1.2.0",
