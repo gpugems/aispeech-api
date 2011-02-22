@@ -26,10 +26,21 @@
   * 中文单词内核（coreType=cn.word.score.vxx）
 {{{
 {
-"5e5e7f39244347d48b2c27252805bce0":  //表示recordId为5e5e7f39244347d48b2c27252805bce0的录音评分结果。
+"5e5e7f39244347d48b2c27252805bce0":  //表示recordId为
+5e5e7f39244347d48b2c27252805bce0的录音评分结果。
+
  {
     "recordId": "5e5e7f39244347d48b2c27252805bce0",  // 在startRecord的时候，服务器生成的一个唯一的id，并回传给客户端
-    "result": {
+    "ts": 1298346588291,                             // 当前时间戳（服务器时间）
+    
+    "params": {                                      // 本次计算的参数
+        "applicationId": "1295337509549",
+        "coreType": "cn.word.score.v2.1",
+        "scoreType": "2",
+        "refText": "zhang1-lao3-shi1",
+        "userId": "midfar@qq.com"
+    } ,
+    "result": {                                     // 计算结果
     "version": "AIScore_v1.3.3",                    // 内核版本号（AIScore表示“中文字词评分内核”，v1.3.3表示：主版本号为1，次版本号为3，build号为3）  
     "res": "auco_chwds_2.3",                        // 内核资源版本号              
     "rank": 100,                                    // 评分等级制为“百分制” （目前支持“百分制”“四级制”，“二级制”）              
@@ -103,6 +114,35 @@
   * 中文句子内核 (coreType=cn.sent.score.vxx)
 {{{
 }}}
+ # 错误反馈, 如果计算过程出错，getScores得到如下反馈：
+  * errID, 错误代码。参考[ErrorCode]。
+{{{
+ {
+    "recordId": "233672c5e3ce45819bc5bb1bed07ac7a", // record Id
+    "ts": 1298346588291,                            // 时间戳
+    "sessionId": "3185def8785a0abf532f324add8906c8",
+    "result": {
+        "errID": 20001,                            
+        "error": {
+            "kernelErrMsg": {
+                "wavetime": 4978,
+                "rank": 2,
+                "res": "achn_chwds_0.3",
+                "reference": "zhang1-lao3-shi1",
+                "systime": 50,
+                "version": "AIScore_v2.2.1"
+            }
+        }
+    },
+    "params": {
+        "applicationId": "1295337509549",
+        "coreType": "cn.word.score.v2.1",
+        "scoreType": "2",
+        "refText": "zhang1-lao3-shi1",
+        "userId": "midfar@qq.com"
+    }
+}
+}}}
  # 对于中文字词类服务，AISpeech API JavaScript SDK 提供了绘制拼音声调曲线的功能。 绘制曲线用到了flot。
    * 首先导入绘制曲线需要的JavaScript文件
 {{{
@@ -158,6 +198,15 @@
 "8b717908f05a4b589c76ce41e27d665e":   //表示recordId为8b717908f05a4b589c76ce41e27d665e的结果。
 {
     "sessionId": "cf2e203b494753de30138b7f74a39391",
+    "ts": 1298346588291,                             // 当前时间戳（服务器时间）
+   
+    "params": {                                      // 本次计算的参数
+        "applicationId": "1295337509549",
+        "coreType": "en.word.score.v1.0",
+        "scoreType": "2",
+        "refText": "hello",
+        "userId": "useremail"
+    } ,
     "result": {
         "version": "AIScoreEn_demo_v1.2.0",
         "res": "aeng_enwds_1.3",
