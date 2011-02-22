@@ -1,5 +1,4 @@
-
- * AISpeech API英文评分反馈结果中音素和国际音标的对应关系
+ * AISpeech API英文评分反馈结果中音素和国际音标的对应关系, 第一列是AISpeech API的反馈，第二列为国际音标。
 {{{
 b b  
 c c  
