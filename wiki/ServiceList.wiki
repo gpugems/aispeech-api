@@ -190,7 +190,7 @@
    * coreType, en.word.score.v1.0， 表示使用哪个语音内核计算。
    * refText, 参考文本，小写的英文单词。
    * userId, 用户在网站中的唯一身份标识，用于区别不同的终端用户，一般用用户的email表示。
-   * applicationId, app的标识，为appKey
+   * applicationId, app的标识，为appKey。
  # 内核计算返回值（getScores调用的返回值）
 {{{
 {
@@ -267,55 +267,5 @@
 
 }}}
  # 反馈结果中音素和国际音标映射表
-{{{
-b b  
-c c  
-d d  
-f f  
-hh h  
-y j  
-k k  
-l l  
-m m  
-n n  
-p p  
-q q  
-r r  
-s s  
-t t  
-v v  
-w w  
-z z  
-ng ŋ  
-g ɡ  
-th θ  
-dh ð  
-sh ʃ  
-zh ʒ  
-tr tr 
-dr dr  
-ch tʃ 
-jh dʒ 
-ae æ  
-oh ɒ 
-ax ə 
-eh ɛ 
-ih ɪ  
-uh ʊ  
-ah ʌ  
-iy i:  
-uw u:  
-aa ɑ:  
-ao ɔ:  
-er ɜ:  
-ay aɪ  
-aw aʊ  
-ey eɪ  
-ee eə  
-oy ɔɪ  
-ow әʊ  
-ie ɪə  
-ue ʊə  
-}}}
-
+  * 参考[Map]
  
