@@ -17,6 +17,7 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
    * 中文参考文本：你好，数字拼音表示为ni2-hao3。
    * 录音，对着Microphone说“你好”。
    * 查看结果，看看你说的“你好”是否标准。
+  # 可参考examples/getting-started.html
   # 下载SDK。
   # 解压到 $WWWROOT$/aispeechapi-js。
   # 在$WWWROOT$/aispeechapi-js目录下建立一个html页面。 
