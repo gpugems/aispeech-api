@@ -9,13 +9,13 @@
 = API = 
  # 调用方式：合成服务通过HTTP调用，返回合成的结果文件。
  # 第一步，请使用appkey和secretkey换取 sessionkey。
-  * url:   http://host:8182/api/v1.0/auth/getSessionKey/appkey/1295337509549/secretkey/391720efc00de450c56bbd7954171bc9af1b8ccf
+  * url:   http://host/api/v1.0/auth/getSessionKey/appkey/1295337509549/secretkey/391720efc00de450c56bbd7954171bc9af1b8ccf
   * method: POST
   * response:
     * 验证成功:{"timestamp":1298277313659,"app_key":"1295337509549","session_key":"be7e8adc8899ba04efa41d7b3d5b1f7dfbd36cda"}
     * 失败：  {"app_key":"xxx", "error":"auth.failed."}
  # 第二步，获取到sessionKey之后，再请求合成接口，带上sessionKey：
-  * url:  http://host:8182/api/v1.0/synth/appkey/1295337509549/sessionkey/be7e8adc8899ba04efa41d7b3d5b1f7dfbd36cda/lang/en/text/good/model/1
+  * url:  http://host/api/v1.0/synth/appkey/1295337509549/sessionkey/be7e8adc8899ba04efa41d7b3d5b1f7dfbd36cda/lang/en/text/good/model/1
   * method: GET
   * response:
     * 成功： 返回content-type =  audio/mpeg 的音频, 可以直接给播放器播放。
