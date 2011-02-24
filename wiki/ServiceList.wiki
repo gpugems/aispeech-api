@@ -207,7 +207,7 @@
         "userId": "user@domain.com"
     } ,
     "result": {
-        "version": "AIScoreEn_demo_v1.2.0",
+        "version": "AIScoreEn_v1.2.1",
         "res": "aeng_enwds_1.3",
         "rank": 4,                  //分制，此处为4分制
         "overall": "D",             //单词的总评分，包括发音，重音的综合评估，4分制中A,B,C,D四级表示
