@@ -7,7 +7,12 @@
 AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的方法调用，减小了广大开发者开发语音应用的成本。
 
 = SDK安装 = 
- * 参考[UserGuide]
+ * AISpeech API提供在线下载SDK资源。
+  *  您需要在header段包含如下：
+{{{
+<script type="text/javascript" src="http://sandbox.api.aispeech.com/aispeechapi-js/load_core.js">
+        </script>
+}}}
 
 = 环境准备 = 
   # 请先准备一个Microphone，确认Mic能录音。
@@ -21,14 +26,12 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
    * 录音，对着Microphone说“你好”。
    * 查看结果，看看你说的“你好”是否标准。
   # 可参考examples/getting-started.html
-  # 下载SDK。
-  # 解压到 $WWWROOT$/aispeechapi-js。
   # 在$WWWROOT$/aispeechapi-js目录下建立一个html页面。 
-  # html页面中导入load_core.js文件，这个文件定义了需要加载的JS资源：
- {{{
- <script type="text/javascript" src="load_core.js"></script>
+  # 安装SDK。 您需要在header段包含如下：
+{{{
+<script type="text/javascript" src="http://sandbox.api.aispeech.com/aispeechapi-js/load_core.js">
+        </script>
 }}}
-   * load_core.js中有这样一行 window.aispeech.host = aispeech.host || _"http://127.0.0.1/aispeechapi-js"_; 请确认_"http://127.0.0.1/aispeechapi-js"_和你的部署路径一致，如果不是，请修改，以保证_"http://yourpath/load_core.js"_可访问。
   # 接下来，我们想要在页面中加入一个录音机组件，以便进行语音录制。首先要新建一个div作为容器，在body中加入一个div，此div是flash录音机的容器：
   {{{
 <div id="aiRecorder1">
