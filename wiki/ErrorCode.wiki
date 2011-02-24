@@ -9,6 +9,7 @@
     * 20101 提取的所有F0特征均为0 Speech server detected no speech, please try again.
     * 20102 经过特征后处理，没有得到voiced段 Speech server detected no speech, please try again.
     * 20300 识别模块一般性错误 Speech server detected incompleted speech, please try again.
+    * 20301 当前不支持这个单词 this word is not supported right now, please skip this word.
     * 20303 切分没有结果,no token suvived Speech server cannot recognise the speech. Please try again.
     * 20302 没有识别结果, no token suvived Speech server cannot recognise the speech. Please try again.
     * 20401 信噪比过低 Speech is too weak to process, please try again.
@@ -16,7 +17,7 @@
     * 20403 语音能量过高 Speech is too laud to process, please try again.
     * 20404 出现截幅现象 Speech is too laud to process, please try again.
     * 503   计算超时， Speech Server Timeout, please try again.
-    * others  Speech server error. Please contact us to report this.
+    * others ， Speech server error. Please contact us to report this.
   # RTMP Server 错误码 (40000 - 49999)
     * 40001 AUDIO_FILE_NOTEXSIT Media server error, please try again.
     * 40002 AUDIO_FILE_OPEN_FAIL Media server error, please try again.
