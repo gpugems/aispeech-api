@@ -50,10 +50,6 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
    * 构造一个`AiRecorder`对象，
      * 参数 id， `AiRecorder`实例的id，和容器div的id相同。
      * 参数 serverList，服务器列表。
-     * 回调 onFlashLoad， Flash加载事件回调。
-     * 回调 onConnectorStatusChange，连接录音服务器的事件回调。
-     * 回调 onMicStatusChange，Microphone事件回调。
-     * 回调 onError，错误事件回调。
    * 代码：
 {{{
         
