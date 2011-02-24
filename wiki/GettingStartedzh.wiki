@@ -25,9 +25,9 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
    * 中文参考文本：你好，数字拼音表示为ni2-hao3。
    * 录音，对着Microphone说“你好”。
    * 查看结果，看看你说的“你好”是否标准。
-  # 可参考http://sandbox.api.aispeech.com/aispeechapi-js/examples/getting-started.html
-  # 在$WWWROOT$/yourapp目录下建立一个html页面。 
-  # 安装SDK，你可以使用在线的JS文件。
+ # 可参考http://sandbox.api.aispeech.com/aispeechapi-js/examples/getting-started.html
+ # 在$WWWROOT$/yourapp目录下建立一个html页面。 
+ # 安装SDK，你可以使用在线的JS文件。
    * 使用AISpeech API 录音和评分核心功能，请引入如下代码：
 {{{
 <script type="text/javascript" src="http://sandbox.api.aispeech.com/aispeechapi-js/load_core.js">
@@ -39,12 +39,12 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
         </script>
 
 }}}
-  # 接下来，我们想要在页面中加入一个录音机组件，以便进行语音录制。首先要新建一个div作为容器，在body中加入一个div，此div是flash录音机的容器：
+ # 接下来，我们想要在页面中加入一个录音机组件，以便进行语音录制。首先要新建一个div作为容器，在body中加入一个div，此div是flash录音机的容器：
   {{{
 <div id="aiRecorder">        
 </div>
 }}}
-  # 有了div容器，我们需要通过JavaScript代码在页面注入一个录音机组件。很简单，只需要新建`AiRecorder`对象：
+ # 有了div容器，我们需要通过JavaScript代码在页面注入一个录音机组件。很简单，只需要新建`AiRecorder`对象：
    * `AiRecorder`对象是`JavaScript`对Flash录音机的封装，提供了在页面注入flash，操作flash的功能。
    * 构造一个`AiRecorder`对象，
      * 参数 id， `AiRecorder`实例的id，和容器div的id相同。
@@ -80,7 +80,7 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
  }}}
    * 注意:
      * 查看页面是否成功注入了flash对应的object节点。
-  # 显示单词，你可以将单词定义为如下格式：
+ # 显示单词，你可以将单词定义为如下格式：
 {{{
  var chars = [{
 
@@ -104,7 +104,7 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
 
     }];
 }}}
-  # 现在，你已经在页面添加了一个录音机组件，接下来你要添加一些操作按钮来控制录音机。
+ # 现在，你已经在页面添加了一个录音机组件，接下来你要添加一些操作按钮来控制录音机。
    * 一个开始录音按钮。点击此按钮后开始录音。
    * 一个停止录音按钮。点击此按钮后停止录音。
    * 一个获取评分结果的按钮，点击此按钮，显示分数。
@@ -188,7 +188,7 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
 
     }
  }}}
-  # 有了上面的过程，你就可以开始录音了。当录音时间达到duration指定的时间长度后会自动停止录音。你也可以增加一个结束录音按钮，以便手动停止录音，对按钮click事件添加处理函数：
+ # 有了上面的过程，你就可以开始录音了。当录音时间达到duration指定的时间长度后会自动停止录音。你也可以增加一个结束录音按钮，以便手动停止录音，对按钮click事件添加处理函数：
 {{{
   
 
@@ -200,7 +200,7 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
 
     
 }}}
-  # 现在你已经可以控制录音机开始录音和结束录音了。接下来需要获取语音评估结果，你可以调用getScores方法，
+ # 现在你已经可以控制录音机开始录音和结束录音了。接下来需要获取语音评估结果，你可以调用getScores方法，
    * 返回值说明，参考[ServiceList]中不同语音内核的返回值。
    * 什么时候调用getScores？录音结束事件发生后可以调用getScores获取结果。
    * 代码：
@@ -251,7 +251,7 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
 
     }
 }}}
-  # 我们需要在页面显示汉字和拼音，并且可以绘制声调曲线，AISpeech API提供了绘制声调曲线的JS工具包。
+ # 我们需要在页面显示汉字和拼音，并且可以绘制声调曲线，AISpeech API提供了绘制声调曲线的JS工具包。
    * 首先在body段增加div:
 {{{
    <div id="charsContainer">
@@ -380,7 +380,7 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
     
 
 }}}
-  # 如果你在上面的步骤遇到了困难，可以开启debug功能 。具体参看[Tools]。
+ # 如果你在上面的步骤遇到了困难，可以开启debug功能 。具体参看[Tools]。
 
 = 高级功能 =
   # Mic设置
