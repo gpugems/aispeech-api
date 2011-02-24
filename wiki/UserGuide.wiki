@@ -26,6 +26,10 @@
 = 错误码 = 
  * [ErrorCode]
 
+= Flash Microphone 设置 =
+ * AISpeech API 录音类应用需要使用Flash录音机，为正常使用Flash 录音功能，需要设置Mic。
+ * 设置流程：
+  * 当Flash加载时，现实设置面板，您需要选择“允许",然后“记住”。
 = 录音类应用工作流程 =
  * http://aispeech-api.googlecode.com/files/apiflow(2).jpg
 
