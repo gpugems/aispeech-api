@@ -23,6 +23,9 @@
 
  * 声调曲线，在中文字词评分应用中，声调曲线是使用曲线绘制的拼音声调。
 
+= 详细功能演示页面 =
+ http://sandbox.api.aispeech.com/aispeechapi-js/examples/AiRecorder.html
+
 = 错误码 = 
  * [ErrorCode]
 
