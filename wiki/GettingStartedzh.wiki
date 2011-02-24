@@ -34,8 +34,7 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
 }}}
   # 接下来，我们想要在页面中加入一个录音机组件，以便进行语音录制。首先要新建一个div作为容器，在body中加入一个div，此div是flash录音机的容器：
   {{{
-<div id="aiRecorder1">
-            <a href="http://www.adobe.com/go/getflashplayer">get flash player</a>
+<div id="aiRecorder">        
 </div>
 }}}
   # 有了div容器，我们需要通过JavaScript代码在页面注入一个录音机组件。很简单，只需要新建`AiRecorder`对象：
@@ -50,108 +49,330 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
      * 回调 onError，错误事件回调。
    * 代码：
 {{{
-     var serverList =  var serverList = ["rtmp://sandbox.api.aispeech.com/aistream.cnscore.v1.0"];
-     window.recorder1 = new aispeech.AiRecorder({
-            id: "aiRecorder1",     //此处id和容器div的id相同
-            showFlash: true,    
-            flashRecorderUrl: "../airecorder/AudioRecorder4JS_developer_20110211_beta1.swf",    // flash录音机的路径。
-            expressInstallUrl: "../common/expressInstall.swf",  
-            serverList: serverList,      //录音服务器列表 
-            appKey: "1295337509549",
-            secretKey: "391720efc00de450c56bbd7954171bc9af1b8ccf",
-            onFlashLoad: function(code, message){ // flash加载完成回调
+        
 
-                aispeech.AiDebug.info("JS: onFlashLoad callback. code=" + code + ", message=" + JSON.stringify(message));
+    function initRecorder(){
 
-            },
+        var serverList = ["rtmp://sandbox.api.aispeech.com/aistream.cnscore.v1.0"];
 
-            onConnectorStatusChange: function(code, message){ //连接服务器状态回调
+        
 
-                aispeech.AiDebug.info("JS: onConnectorStatusChange callback. code=" + code + ", message=" + JSON.stringify(message));
+        window.recorder1 = new aispeech.AiRecorder({
 
-            },
+            id: "aiRecorder",
 
-            onMicStatusChange: function(code, message){   // Mic状态回调
+            serverList: serverList,
 
-                aispeech.AiDebug.info("JS: onMicStatusChange callback. code=" + code + ", message=" + JSON.stringify(message));
+            appKey: "1298426941825",
 
-            },
+            secretKey: "595fd7706b9a96bd892a0c88a2e772b0d0565316"
 
-            onError: function(code, message){      //错误回调
-
-                aispeech.AiDebug.info("JS: onError callback. code=" + code + ", message=" + JSON.stringify(message));
-
-            }
         });
+
+    }
        
  }}}
-   * 注意：
-     * 请确认swf地址正确。
+   * 注意:
      * 查看页面是否成功注入了flash对应的object节点。
-  # 现在，你已经在页面添加了一个录音机组件，接下来你要添加一些操作按钮来控制录音机。增加一个开始录音按钮。对click添加处理函数。
+  # 显示单词，你可以将单词定义为如下格式：
+{{{
+ var chars = [{
+
+        pinyin: "nǐ",
+
+        pinyinScript: "ni2",
+
+        hanzi: "你",
+
+        tone: 2
+
+    }, {
+
+        pinyin: "hǎo",
+
+        pinyinScript: "hao3",
+
+        hanzi: "好",
+
+        tone: 3
+
+    }];
+}}}
+  # 现在，你已经在页面添加了一个录音机组件，接下来你要添加一些操作按钮来控制录音机。
+   * 一个开始录音按钮。点击此按钮后开始录音。
+   * 一个停止录音按钮。点击此按钮后停止录音。
+   * 一个获取评分结果的按钮，点击此按钮，显示分数。
+   * 如下html段可以添加三个按钮:
+{{{
+      <div>
+
+            <p>
+
+                <input type="button" value="startRecord" onclick="startRecord();"/>
+
+            </p>
+
+            <p>
+
+                <input type="button" value="stopRecord" onclick="stopRecord();"/>
+
+            </p>
+
+            <p>
+
+                <input type="button" value="getScore" onclick="getScore();"/>
+
+            </p>
+
+        </div>
+}}}
+ # “开始录音”按钮的处理：
    * 开始录音的时候，需要指定本次录音对应的计算参数。
    * 参数 duration，录音的时间长度，单位ms。
-   * 参数 refText，本次录音对应的参考文本，可以设置为"ni2-hao3"。
-   * 参数 serverParams，请求不同的语音服务内核，参数有所异同，具体请参考[ServiceList]中每个内核资源的说明。
+   * 参数 serverParams，SpeechResource对象，请求不同的语音服务内核，参数有所异同，具体请参考[ServiceList]中每个内核资源的说明。
    * 回调 onRecordIdGenerated，服务器为本次录音生成了唯一的文件id。
    * 回调 onStart， 录音开始事件。
    * 回调 onStop， 录音停止事件。
 {{{
-     function onStartRecordClick {
-           var duration =  5000;  
-           var refText = "ni2-hao3";   
-            var r = recorder1.record({
-                //recordId: recordId,
-                duration: duration,       
-                serverParams: {    
-                    scoreType: 4,
-                    coreType: "cn.word.score.v2.1",
-                    refText: refText,
-                    userId: "demo@domain.com",
-                    applicationId: "firstapp"
-                },
-               onRecordIdGenerated: function(code, message){
+       function startRecord(){
 
-                    aispeech.AiDebug.info("JS: onRecordIdGenerated. code=" + code + ", message=" + JSON.stringify(message));
+        var pinyinScript = [];
 
-                   
-                },
+        for (var i = 0; i < chars.length; i++) {
 
-                onStart: function(code, message){
+            pinyinScript.push(chars[i].pinyinScript);
 
-                    aispeech.AiDebug.info("AS: recordStart callback. code=" + code + ", message=" + JSON.stringify(message));
+        }
 
-                },
+        var refText = pinyinScript.join("-");
 
-                onStop: function(code, message){
+        aispeech.SpeechResource.setScoreType("100");
 
-                    aispeech.AiDebug.info("AS: recordStop callback. code=" + code + ", message=" + JSON.stringify(message));
+        aispeech.SpeechResource.setCoreType("cnword");
 
-                }
-            });
+        aispeech.SpeechResource.setRefText(refText);
 
-}
+        recorder1.record({
+
+            duration: 3000,
+
+            playNotifyAudio: true,
+
+            serverParams: aispeech.SpeechResource.get(),
+
+            onRecordIdGenerated: function(code, message){
+
+                lastRecordId = message.recordId;
+
+            },
+
+            onStart: function(code, message){
+
+                //startRecord callback
+
+            },
+
+            onStop: function(code, message){
+
+                //stopRecord callback
+
+            }
+
+        });
+
+    }
  }}}
   # 有了上面的过程，你就可以开始录音了。当录音时间达到duration指定的时间长度后会自动停止录音。你也可以增加一个结束录音按钮，以便手动停止录音，对按钮click事件添加处理函数：
 {{{
-function onStopRecordClick{
-    
-       recorder1.stop();
   
-}
+
+    function stopRecord(){
+
+        recorder1.stop();
+
+    }
+
+    
 }}}
   # 现在你已经可以控制录音机开始录音和结束录音了。接下来需要获取语音评估结果，你可以调用getScores方法，
    * 返回值说明，参考[ServiceList]中不同语音内核的返回值。
    * 什么时候调用getScores？录音结束事件发生后可以调用getScores获取结果。
    * 代码：
 {{{
-  var lastRecordId = recorder1.getLastRecordId();  //获取最近一次的录音的ID
-  recorder1.getScores({
-                recordId: lastRecordId,            //根据recordId获取评分结果
-               success: function(data){
-                    aispeech.AiDebug.log("JS: getScores success.", data);
+     function getScore(){
+
+        var recordId = recorder1.getLastRecordId();
+
+        if (recordId != null) {
+
+            recorder1.getScores({
+
+                recordId: recordId,
+
+                success: function(data){
+
+                    try {
+
+                        if (typeof recordId === "string" && recordId != "") {
+
+                            var r = "";
+
+                            if (typeof data[recordId].result == "string") {
+
+                                r = JSON.parse(data[recordId].result);
+
+                            } else {
+
+                                r = data[recordId].result;
+
+                            }
+
+                            //window.R = r;
+
+                            showChars(r);
+  //此函数显示汉字和汉字的声调曲线
+                        }
+
+                    } catch (e) {
+
+                    }
+
                 }
+
             });
+
+        }
+
+    }
+}}}
+  # 我们需要在页面显示汉字和拼音，并且可以绘制声调曲线，AISpeech API提供了绘制声调曲线的JS工具包。
+   * 首先在body段增加div:
+{{{
+   <div id="charsContainer">
+
+        </div>
+}}}
+   * 显示单词和绘制曲线的实例代码：
+{{{
+
+ function showChars(result){
+
+        var html = '';
+
+        html += '<table width="100%" border="0" cellpadding="0" cellspacing="0">';
+
+        html += '  <tr>';
+
+        html += '    <td>';
+
+        
+
+        var toneCurveIdArr = [];
+
+        html += '<div class="chars">';
+
+        for (var i = 0; i < chars.length; i++) {
+
+            var toneCurveId = "toneCurve" + i;
+
+            toneCurveIdArr.push(toneCurveId);
+
+            html += '<div class="item">';
+
+            html += '<div id="' + toneCurveId + '" class="curve"></div>';
+
+            html += '<div class="pinyin">' + chars[i].pinyin + '</div>';
+
+            html += '<div class="hanzi">' + chars[i].hanzi + '</div>';
+
+            html += '</div>';
+
+        }
+
+        html += '<br class="clear" /></div>';
+
+        if (typeof result != "undefined" && typeof result.overall != "undefined") {
+
+            html += '<div>overall: ' + result.overall + '</div>';
+
+        }
+
+        
+
+        html += '    </td>';
+
+        html += '  </tr>';
+
+        html += '</table>';
+
+        $("#charsContainer").html(html);
+     
+        
+
+        if (typeof result != "undefined" && typeof result.overall != "undefined") {
+
+            for (var i = 0; i < chars.length; i++) {
+
+                aispeech.AiGChart.draw({
+
+                    id: toneCurveIdArr[i],
+
+                    width: 60,
+
+                    height: 60,
+
+                    stdData: {
+
+                        tone: chars[i].tone,
+
+                        color: "#00FF00"
+
+                    },
+
+                    userData: {
+
+                        confidence: result.details[i].confidence,
+
+                        color: "#0000FF",
+
+                        offset: 0
+
+                    }
+
+                });
+
+            }
+
+        } else {
+
+            for (var i = 0; i < chars.length; i++) {
+
+                aispeech.AiGChart.draw({
+
+                    id: toneCurveIdArr[i],
+
+                    width: 60,
+
+                    height: 60,
+
+                    stdData: {
+
+                        tone: chars[i].tone,
+
+                        color: "#00FF00"
+
+                    }
+
+                });
+
+            }
+
+        }
+
+    }
+
+    
+
 }}}
   # 如果你在上面的步骤遇到了困难，可以开启debug功能：
    * 在页面上包含一个log信息输出div:
