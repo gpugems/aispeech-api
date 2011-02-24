@@ -25,12 +25,19 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
    * 中文参考文本：你好，数字拼音表示为ni2-hao3。
    * 录音，对着Microphone说“你好”。
    * 查看结果，看看你说的“你好”是否标准。
-  # 可参考examples/getting-started.html
-  # 在$WWWROOT$/aispeechapi-js目录下建立一个html页面。 
-  # 安装SDK。 您需要在header段包含如下：
+  # 可参考http://sandbox.api.aispeech.com/aispeechapi-js/examples/getting-started.html
+  # 在$WWWROOT$/yourapp目录下建立一个html页面。 
+  # 安装SDK，你可以使用在线的JS文件。
+   * 使用AISpeech API 录音和评分核心功能，请引入如下代码：
 {{{
 <script type="text/javascript" src="http://sandbox.api.aispeech.com/aispeechapi-js/load_core.js">
         </script>
+}}}
+   * 使用AISpeech API 绘制汉字声调曲线功能。请引入如下代码：
+{{{
+<script type="text/javascript" src="http://sandbox.api.aispeech.com/aispeechapi-js/load_aigchart.js">
+        </script>
+
 }}}
   # 接下来，我们想要在页面中加入一个录音机组件，以便进行语音录制。首先要新建一个div作为容器，在body中加入一个div，此div是flash录音机的容器：
   {{{
