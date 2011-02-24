@@ -33,5 +33,5 @@
   # *为什么播放flv的时候有时定位不准? *
     * 请注意flv的定位精度是和压制音频时的关键帧息息相关的，我们建议使用adobe官方的Encoder来压制，Adobe Media Encoder 可以对压制时的关键帧自由设置，能够自由的控制精度。比如flv 帧率是30f/s，如果关键帧设置为每3秒一帧，那么精度就是0.1s。
   # *对我的 FlashPlayer 版本有要求吗 *
-    * 建议更新到最新的版本
+    * 建议更新到最新的版本http://get.adobe.com/cn/flashplayer/
     * 至少为 10.0.54 +
