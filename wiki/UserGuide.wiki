@@ -4,6 +4,20 @@
 
 = 变更记录 =
 
+= SDK 安装 =
+ # 本地安装SDK。
+  * 下载SDK。
+  * 解压缩，解压之后路径如下： $WWWROOT$/yourapp/aispeechapi-js.
+  * 确保路径正确，
+   * 修改load_core.js，
+{{{
+  aispeech.host = aispeech.host || "http://yourhost/yourapp/aispeechapi-js";
+}}}
+ # 使用在线的SDK资源。
+  * 在页面header段添加如下:
+{{{
+ 
+}}}
 = 名词解释 =
  * 录音服务器，Audio Server，代指AISpeech 的服务端。AISpeech API需要连接到服务器才能完成录音等请求。
 
