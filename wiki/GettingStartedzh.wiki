@@ -6,6 +6,9 @@
 = 简单介绍 =
 AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的方法调用，减小了广大开发者开发语音应用的成本。
 
+= SDK安装 = 
+ * 参考[UserGuide#SDKINSTALL]
+
 = 环境准备 = 
   # 请先准备一个Microphone
   # 浏览器： Firefox 3.5+, IE7+, Chrome 7+, Safari 5+
