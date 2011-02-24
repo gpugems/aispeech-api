@@ -380,13 +380,7 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
     
 
 }}}
-  # 如果你在上面的步骤遇到了困难，可以开启debug功能：
-   * 在页面上包含一个log信息输出div:
-{{{
-<div id="aispeechAiDebug" class="aispeechAiDebug">
-
-        </div>
-}}}
+  # 如果你在上面的步骤遇到了困难，可以开启debug功能 。具体参看：
 
 = 高级功能 =
   # Mic设置
