@@ -151,7 +151,7 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
 
         aispeech.SpeechResource.setScoreType("100");
 
-        aispeech.SpeechResource.setCoreType("cnword");
+        aispeech.SpeechResource.setCoreType("cnword");     
 
         aispeech.SpeechResource.setRefText(refText);
 
