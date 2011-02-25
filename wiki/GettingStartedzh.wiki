@@ -379,6 +379,11 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
 }}}
  # 如果你在上面的步骤遇到了困难，可以开启debug功能 。具体参看[Tools]。
 
+= 英文单词评分示例 =
+ # 主要流程和中文单词评分一致。
+ # 英文单词，是由小写字母和‘组成的单词，空格和其他标点不允许。
+ # 参考页面：http://sandbox.api.aispeech.com/aispeechapi-js/examples/getting-started-enscore.html 。
+ # coreType为enword。
 = 高级功能 =
   # Mic设置
   # 录音回放
