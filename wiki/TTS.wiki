@@ -8,7 +8,9 @@
 
 = API = 
  # 调用方式：合成服务通过HTTP调用，返回合成的结果文件。
- # 第一步，请使用appkey和secretkey换取 sessionkey。
+  * 在开始调用之前，需要通过appkey和secretkey验证app身份。
+ # 第一步，验证身份，请使用appkey和secretkey换取 sessionkey。
+  * 你需要使用服务器脚本(比如php)发送http POST请求。
   * url:   http://host/api/v1.0/auth/getSessionKey/appkey/1295337509549/secretkey/391720efc00de450c56bbd7954171bc9af1b8ccf
   * method: POST
   * response:
