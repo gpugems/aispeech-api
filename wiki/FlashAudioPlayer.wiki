@@ -6,11 +6,13 @@
  AISpeech API提供了Flash版本的播放器，能够在浏览器中播放mp3,flv音频文件。
  * AiPlayer的详细API文档参考SDK下载包中的docs/aispeech.AiPlayer.html
 = Audio Player使用手册 =
+ # 测试页面：http://sandbox.api.aispeech.com/aispeechapi-js/examples/AiPlayer.html
+ # AiPlayer API 文档。 http://sandbox.api.aispeech.com/aispeechapi-js/docs
  # 首先请加载AISpeech API的资源，加载load_core.js。
 {{{
- <script type="text/javascript" src="load_core.js"></script>
+ <script type="text/javascript" src="http://sandbox.api.aispeech.com/aispeechapi-js/load_core.js"></script>
 }}}
- # 要在html页面使用AudioPlayer，需要在html页面有一个div容器：
+ # 要在html页面使用AiPlayer，需要在html页面有一个div容器：
 {{{
  <div id="aiPlayer1">
 
@@ -20,19 +22,11 @@
 }}}
  # 页面初始化的时候，你可以新建一个AiPlayer对象，这将播放器组件注入到了html页面，构造AiPlayer对象的代码片段
 {{{
-        var flashPlayerUrl = "../aiplayer/AudioPlayer4JS_20110215_beta.swf";
-
-        var expressInstallUrl = "../common/expressInstall.swf";
-
-        
+       
 
         window.player1 = new aispeech.AiPlayer({
 
             id: "aiPlayer1",
-
-            flashPlayerUrl: flashPlayerUrl,
-
-            expressInstallUrl: expressInstallUrl,
     
             appKey: "1295337509549",
 
