@@ -30,6 +30,6 @@
     * 可选值: 1
    * rdm , 随机数字，避免IE下缓存。
  # 第三步，播放合成音。
-  * AISpeech API SDK提供了Flash 版本的 AudioPlayer。 AudioPlayer具体的使用请参考[FalshAudioPlayer]。
+  * AISpeech API SDK提供了Flash 版本的 AudioPlayer。 AudioPlayer具体的使用请参考[FlashAudioPlayer]。
   * 使用player load 第二步中的url即可。
   
