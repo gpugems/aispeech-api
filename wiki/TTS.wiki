@@ -18,6 +18,7 @@
     * 失败：  {"app_key":"xxx", "error":"auth.failed."}
   * sessionkey有效时间，如果一个sessionkey 10分钟内没有活动，则sessionkey失效。
  # 如果你使用php开发，我们提供了一个简单的获取sessionkey的例子：
+  * 在服务器安装php5-curl。
   * 请下载tts.php： http://aispeech-api.googlecode.com/files/tts.php 
  # 第二步，获取到sessionKey之后，再请求合成接口，带上sessionKey：
   * url:  http://host/api/v1.0/synth/appkey/1295337509540/sessionkey/be7e8adc8899ba04efa41d7b3d5b1f7dfbd36cda/lang/en/text/good/model/1?rdm=001
