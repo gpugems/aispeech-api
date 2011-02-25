@@ -11,13 +11,14 @@
   * 在开始调用之前，需要通过appkey和secretkey验证app身份。
  # 第一步，验证身份，请使用appkey和secretkey换取 sessionkey。
   * 你需要使用服务器脚本(比如php)发送http POST请求。
-  * url:   http://host/api/v1.0/auth/getSessionKey/appkey/1295337509549/secretkey/391720efc00de450c56bbd7954171bc9af1b8ccf
+  * url:   http://host/api/v1.0/auth/getSessionKey/appkey/1295337509540/secretkey/391720efc00de450c56bbd7954171bc9af1b8cc0
   * method: POST
   * response:
-    * 验证成功:{"timestamp":1298277313659,"app_key":"1295337509549","session_key":"be7e8adc8899ba04efa41d7b3d5b1f7dfbd36cda"}
+    * 验证成功:{"timestamp":1298277313659,"app_key":"1295337509540","session_key":"be7e8adc8899ba04efa41d7b3d5b1f7dfbd36cda"}
     * 失败：  {"app_key":"xxx", "error":"auth.failed."}
+  * sessionkey有效时间，如果一个sessionkey 10分钟内没有活动，则sessionkey失效。
  # 第二步，获取到sessionKey之后，再请求合成接口，带上sessionKey：
-  * url:  http://host/api/v1.0/synth/appkey/1295337509549/sessionkey/be7e8adc8899ba04efa41d7b3d5b1f7dfbd36cda/lang/en/text/good/model/1?rdm=001
+  * url:  http://host/api/v1.0/synth/appkey/1295337509540/sessionkey/be7e8adc8899ba04efa41d7b3d5b1f7dfbd36cda/lang/en/text/good/model/1?rdm=001
   * method: GET
   * response:
     * 成功： 返回content-type =  audio/mpeg 的音频, 可以直接给播放器播放。
@@ -30,6 +31,7 @@
     * 可选值: 1
    * rdm , 随机数字，避免IE下缓存。
  # 第三步，播放合成音。
-  * AISpeech API SDK提供了Flash 版本的 AudioPlayer。 AudioPlayer具体的使用请参考[FlashAudioPlayer]。
+  * AISpeech API SDK提供了Flash 版本的 AiPlayer。 AiPlayer具体的使用请参考[FlashAudioPlayer]。
   * 使用player load 第二步中的url即可。
+  * 如果播放失败（比如sessionkey验证失败），会通过player对象的onStop回调返回。
   
