@@ -1,0 +1,6 @@
+#使用Titanium开发基于aispeechapi的IOS应用
+
+= 开发环境和开发工具 =
+MacOS Titanium Aptana
+
+= 创建一个新的IOS应用 =
