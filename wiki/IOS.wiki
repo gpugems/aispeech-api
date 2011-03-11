@@ -4,7 +4,7 @@
 Mac OS + Titanium
 
 = 创建一个新的IOS应用 =
-打开Titanium Developer，点击 *[ New Project ]*，[ Project type ] 选择 Mobile 或者 iPad ，填入其他信息后点击*[ Create Project ]*按钮。
+打开Titanium Developer，点击 *_New Project_* ， *_Project type_* 选择 _Mobile_ 或者 _iPad_ ，填入其他信息后点击 *_Create Project_* 按钮。
 然后程序会自动在项目文件夹下生成一些文件和文件夹。打开其中的Resources 文件夹，将 aispeechapi for ios 拷贝到该文件夹中即可。
 
 = 简单例子：音频播放 =
@@ -21,13 +21,13 @@ Ti.include("../aispeech/aispeech.js");
 {{{
 var player = new aispeech.AiSound({
     onError: function(message, source, type){
-        l.text = "onError: " + message + ", " + source + "," + type;
+        Ti.API.log("onError: " + message + ", " + source + "," + type);
     },
     onInterrupted: function(source, type){
-        l.text = "onInterrupted: " + source + "," + type;
+        Ti.API.log("onInterrupted: " + source + "," + type);
     },
     onResume: function(source, type){
-        l.text = "onResume: " + source + "," + type;
+        Ti.API.log("onResume: " + source + "," + type);
     }
 });
 }}}
@@ -71,11 +71,12 @@ win.add(bb1);
 }}}
  # 绑定按钮事件
 {{{
+var hasLoadedAudio = false;
 loadButton.addEventListener("click", function(){//load
     player.load({
         url: audioUrlTextField.value,
         success: function(){
-            l.text = "audio load success.";
+            Ti.API.log("audio load success.");
             hasLoadedAudio = true;
         }
     });
@@ -90,16 +91,16 @@ bb1.addEventListener("click", function(e){
             //position: 0,
             //duration: 3000,
             onStart: function(){
-                l.text = "player start";
+                Ti.API.log("player start");
             },
             onStop: function(){
-                l.text = "player stop callback";
+                Ti.API.log("player stop callback");
             }
         });
     } else if (e.index == 1) { //stop
         player.stop({
             onStop: function(){
-                l.text = "player stop";
+                Ti.API.log("player stop");
             }
         });
     }
