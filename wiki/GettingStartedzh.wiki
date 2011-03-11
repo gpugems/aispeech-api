@@ -11,7 +11,7 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
   *  您需要在header段包含如下：
 {{{
 <script type="text/javascript" src="http://sandbox.api.aispeech.com/aispeechapi-js/load_core.js">
-        </script>
+</script>
 }}}
 
 = 环境准备 = 
@@ -32,12 +32,12 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
    * 使用AISpeech API 录音和评分核心功能，请引入如下代码：
 {{{
 <script type="text/javascript" src="http://sandbox.api.aispeech.com/aispeechapi-js/load_core.js">
-        </script>
+</script>
 }}}
    * 使用AISpeech API 绘制汉字声调曲线功能。请引入如下代码：
 {{{
 <script type="text/javascript" src="http://sandbox.api.aispeech.com/aispeechapi-js/load_aigchart.js">
-        </script>
+</script>
 
 }}}
  # 接下来，我们想要在页面中加入一个录音机组件，以便进行语音录制。首先要新建一个div作为容器，在body中加入一个div，此div是flash录音机的容器：
