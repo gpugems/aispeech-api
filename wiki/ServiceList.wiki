@@ -6,7 +6,7 @@
  # 服务url： rtmp://sandbox.api.aispeech.com/aistream.cnscore.v1.0
  # 调用参数：
   * scoreType, 2 | 4 | 100 , //评分分制选择。可以是2，4，100中的一个。
-  * coreType, cn.word.score.v2.1 | cn.sent.score.v1.0， 表示使用哪个语音内核计算。
+  * coreType, cn.word.score.v2.1  表示使用哪个语音内核计算。
   * refText, 参考文本，中文为数字拼音表示， 你好表示为 ni2-hao3。 详细参考[RefText]。
   * userId, 用户在网站中的唯一身份标识，用于区别不同的终端用户，一般用用户的email表示。
   * applicationId, app的标识，为appKey。
@@ -40,7 +40,7 @@
         "userId": "user@domain.com"
     } ,
     "result": {                                     // 计算结果
-    "version": "AIScore_v1.3.3",                    // 内核版本号（AIScore表示“中文字词评分内核”，v1.3.3表示：主版本号为1，次版本号为3，build号为3）  
+    "version": "AIScore_v2.2.2",                    // 内核版本号（AIScore表示“中文字词评分内核”，v1.3.3表示：主版本号为1，次版本号为3，build号为3）  
     "res": "auco_chwds_2.3",                        // 内核资源版本号              
     "rank": 100,                                    // 评分等级制为“百分制” （目前支持“百分制”“四级制”，“二级制”）              
     "wavetime": 3400,                               // 输入wave的时间长度，单位为毫秒(ms)
@@ -126,10 +126,10 @@
             "kernelErrMsg": {
                 "wavetime": 4978,
                 "rank": 2,
-                "res": "achn_chwds_0.3",
+                "res": "achn_chwds_2.3",
                 "reference": "zhang1-lao3-shi1",
                 "systime": 50,
-                "version": "AIScore_v2.2.1"
+                "version": "AIScore_v2.2.2"
             }
         }
     },
