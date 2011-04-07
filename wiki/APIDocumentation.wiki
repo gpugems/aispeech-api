@@ -1,5 +1,5 @@
 #labels Featured
- * [version10 AISpeech API v1.0]
+ * *AISpeech API v1.1*
   * [GettingStartedzh Getting Started]
   * [UserGuide User Guide]
   * [ServiceList Service List]
@@ -8,7 +8,7 @@
   * [FAQ FAQ]
   * [Tools Tools]
   * [TechSupport Technical Support]
- * [version11 AISpeech API v1.1]
+ * *AISpeech API v1.1*
   * [GettingStartedzhv11 Getting Started]
   * [UserGuidev11 User Guide]
   * [ServiceListv11 Service List]
