@@ -7,3 +7,5 @@
  * [FAQ FAQ]
  * [Tools Tools]
  * [TechSupport Technical Support]
+----
+ * [version11 AISpeech API v1.1]
