@@ -1,7 +1,268 @@
 #sidebar APIDocumentation
+<wiki:toc max-depth=1 />
 
-<wiki:toc max_depth="1" />
+= 中文评分 ： aistream.cnscore =
  
-= Introduction =
- AISpeech API v1.1支持的服务说明。
+ # 服务url： rtmp://sandbox.api.aispeech.com/v1.1/aistream.cnscore
+ # 调用参数：
+  * scoreType, 2 | 4 | 100 , //评分分制选择。可以是2，4，100中的一个。
+  * coreType, cn.word.score 表示中文单词评分。
+  * refText, 参考文本，中文为数字拼音表示， 你好表示为 ni2-hao3。 详细参考[RefText]。
+  * userId, 用户在网站中的唯一身份标识，用于区别不同的终端用户，一般用用户的email表示。
+  * applicationId, app的标识，为appKey。
+  * 示例：
+{{{
+ serverParams: {
+
+                    scoreType: 100,
+                    coreType: "cn.word.score",
+                    refText: "ni2-hao3",
+                    userId: "user@domain.com",
+                    applicationId: "1213178963"
+                }
+}}}
+ # 内核计算返回值（getScores调用的返回值）
+  * 中文单词内核（coreType=cn.word.score）
+{{{
+{
+"5e5e7f39244347d48b2c27252805bce0":  //表示recordId 5e5e7f39244347d48b2c27252805bce0的录音评分结果。
+
+ {
+    "recordId": "5e5e7f39244347d48b2c27252805bce0",  // 在startRecord的时候，服务器生成的一个唯一的id，并回传给客户端
+    "ts": 1298346588291,                             // 当前时间戳（服务器时间）
+    
+    "params": {                                      // 本次计算的参数
+        "applicationId": "1295337509549",
+        "coreType": "cn.word.score.v2.1",
+        "scoreType": "2",
+        "refText": "zhang1-lao3-shi1",
+        "userId": "user@domain.com"
+    } ,
+    "result": {                                     // 计算结果
+    "version": "AIScore_v2.2.2",                    // 内核版本号（AIScore表示“中文字词评分内核”，v1.3.3表示：主版本号为1，次版本号为3，build号为3）  
+    "res": "auco_chwds_2.3",                        // 内核资源版本号              
+    "rank": 100,                                    // 评分等级制为“百分制” （目前支持“百分制”“四级制”，“二级制”）              
+    "wavetime": 3400,                               // 输入wave的时间长度，单位为毫秒(ms)
+    "systime": 1149,                                // 系统计算得分消耗时间，单位为毫秒(ms)
+    "overall": 92,                                  // 词整体等级：综合考虑了 无调发音(phn)、声调(tone)                                                 
+    "pron": 92,                                     // 带调发音等级：综合考虑了 无调发音(phn)、声调(tone)                                               
+    "phn": 97,                                      // 无调发音等级：字词包含的所有无调拼音的发音整体水平                                               
+    "tone": 88,                                     // 声调等级： 字词包含的所有声调的整体水平                                                          
+    "details": [                                    // 如果是单字，details数组只包含1个元素                                                             
+        {                                           // 音节级得分                                                                                       
+            "char": "ni",                           // 无调拼音串                                                                                       
+            "score": 94,                            // 无调发音等级（与phn一样，为向下兼容）                                                            
+            "overall": 84,                          // 音节整体等级：综合考虑了该字的 无调发音(phn)、声调(tone)                                         
+            "pron": 84,                             // 带调发音等级                                                                                     
+            "phn": 94,                              // 无调发音等级                                                                                     
+            "phone": [                              // (如果是零声母，phone的数组只包括一个元素，表示韵母评分)                                          
+                {                                                                                                                                       
+                    "char": "n",                    // 第一个phone(声母,如为零声母，该项为韵母)                                                         
+                    "score": 90                     // 得分等级                                                                                         
+                },                                                                                                                                      
+                {                                                                                                                                       
+                    "char": "i",                    // 第二个phone(韵母，如声母部分为零声母，该项不存在)                                                
+                    "score": 94                     // 得分等级                                                                                         
+                }                                                                                                                                       
+            ],                                                                                                                                          
+            "tone": 2,                              // 声调：为2声                                                                                      
+            "tonescore": 75,                        // 声调得分等级                                                                                     
+            "confidence": [                         // 声调置信度百分制得分（用于声调曲线绘制）                                                         
+                2,                                  // 轻声得分                                                                                         
+                2,                                  // 1声得分                                                                                          
+                92,                                 // 2声得分                                                                  
+                2,                                  // 3声得分                                                         
+                2                                   // 4声得分                                                         
+            ] 
+        },
+        {
+            "char": "hao",
+            "score": 100,
+            "overall": 100,
+            "pron": 100,
+            "phn": 100,
+            "phone": [
+                {
+                    "char": "h",
+                    "score": 100 
+                },
+                {
+                    "char": "ao",
+                    "score": 100 
+                } 
+            ],
+            "tone": 3,
+            "tonescore": 100,
+            "confidence": [
+                0,
+                0,
+                0,
+                100,
+                0 
+            ] 
+        } 
+    ] 
+}
+,
+    "sessionId": "4d2b757c22c7580b7f46a154dfd3b0c3"  // session，同一个客户端的一个连接称之为一个session，具有一个唯一的sessionid。
+}
+}
+
+}}}
+ 
+ # 错误反馈, 如果计算过程出错，getScores得到如下反馈：
+  * errID, 错误代码。参考[ErrorCode]。
+{{{
+ {
+    "recordId": "233672c5e3ce45819bc5bb1bed07ac7a", // record Id
+    "ts": 1298346588291,                            // 时间戳
+    "sessionId": "3185def8785a0abf532f324add8906c8",
+    "result": {
+        "errID": 20001,                            
+        "error": {
+            "kernelErrMsg": {
+                "wavetime": 4978,
+                "rank": 2,
+                "res": "achn_chwds_2.3",
+                "reference": "zhang1-lao3-shi1",
+                "systime": 50,
+                "version": "AIScore_v2.2.2"
+            }
+        }
+    },
+    "params": {
+        "applicationId": "1295337509549",
+        "coreType": "cn.word.score",
+        "scoreType": "2",
+        "refText": "zhang1-lao3-shi1",
+        "userId": "user@domain.com"
+    }
+}
+}}}
+ # 对于中文字词类服务，AISpeech API JavaScript SDK 提供了绘制拼音声调曲线的功能。 绘制曲线用到了flot。
+   * 首先导入绘制曲线需要的JavaScript文件
+{{{
+ <script type="text/javascript" src="load_aiflot.js"></script>
+}}}
+   * 建立绘制曲线的容器：
+{{{
+    <div id="toneCurve1" style="width:200px; height:200px; border:1px solid #000;">
+                    </div>
+}}}
+   * 绘制标准声调曲线： 
+{{{
+            var id =  toneCurve1; // 对应html页面中div容器的id。
+            var tone =  // 声调， 0-4, 0表示轻声，1－4分别表示汉语拼音中的1声到四声。
+            var color = ＃000000 //曲线颜色值
+            aiFlot1 = aispeech.AiFlot.draw({
+                id: id,
+                stdData: {
+                    tone: tone,
+                    color: color
+                
+                }
+            }); 
+
+}}}
+   * 绘制用户发音声调曲线：
+{{{
+            var id =  // flot元素id。
+            var color =  #000000;// 曲线颜色值。
+            var confidence = [0,100,0,0,0]  // 表示用户声调的置信度。
+            aiFlot2 = aispeech.AiFlot.draw({
+                id: id,
+                userData: {
+                    confidence: confidence,
+                    color: color
+                }
+            });
+ 
+}}}
+
+
+= 英文单词评分： aistream.enscore =
+  # 服务URL： rtmp://sandbox.api.aispeech.com/v1.1/aistream.enscore
+  # 参数
+   * scoreType, 2 | 4   , //评分分制选择。可以是2，4 中的一个。
+   * coreType, en.word.score， 表示使用哪个语音内核计算。
+   * refText, 参考文本，小写的英文单词。
+   * userId, 用户在网站中的唯一身份标识，用于区别不同的终端用户，一般用用户的email表示。
+   * applicationId, app的标识，为appKey。
+ # 内核计算返回值（getScores调用的返回值）
+{{{
+{
+"8b717908f05a4b589c76ce41e27d665e":   //表示recordId为8b717908f05a4b589c76ce41e27d665e的结果。
+{
+    "sessionId": "cf2e203b494753de30138b7f74a39391",
+    "ts": 1298346588291,                             // 当前时间戳（服务器时间）
+   
+    "params": {                                      // 本次计算的参数
+        "applicationId": "1295337509549",
+        "coreType": "en.word.score",
+        "scoreType": "2",
+        "refText": "hello",
+        "userId": "user@domain.com"
+    } ,
+    "result": {
+        "version": "AIScoreEn_v1.2.1",
+        "res": "aeng_enwds_1.3",
+        "rank": 4,                  //分制，此处为4分制
+        "overall": "D",             //单词的总评分，包括发音，重音的综合评估，4分制中A,B,C,D四级表示
+        "details": [                
+            {
+                "char": "present",  //评估的单词
+                "score": "D",       //单词的发音评分
+                "dur": 131,
+                "phone": [          // 单词音素级评分。此结果段尚在beta阶段，如需要使用，请联系api@aispeech.com
+                    {
+                        "char": "p", // 单词音素
+                        "score": "B" // 音素评分
+                    },
+                    {
+                        "char": "r",
+                        "score": "D"
+                    },
+                    {
+                        "char": "eh",
+                        "score": "C"
+                    },
+                    {
+                        "char": "z",
+                        "score": "A"
+                    },
+                    {
+                        "char": "ax",
+                        "score": "D"
+                    },
+                    {
+                        "char": "n",
+                        "score": "D"
+                    },
+                    {
+                        "char": "t",
+                        "score": "D"
+                    }
+                ],
+                "stress": [          // 单词重音检测结果
+                    {
+                        "char": "p_r_eh", //音节，由音素拼接成
+                        "ref": "1",  // 音节重音标称（0非重音/1重音）
+                        "score": "0" // 音节是否是重音
+                    },
+                    {
+                        "char": "z_ax_n_t",
+                        "ref": "0",
+                        "score": "1"
+                    }
+                ] 
+            }
+        ] 
+    },
+    "recordId": "8b717908f05a4b589c76ce41e27d665e"
+}
+}
+
+}}}
+ # 反馈结果中音素和国际音标映射表
+  * 参考[Map]
  
