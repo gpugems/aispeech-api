@@ -7,5 +7,16 @@
  * SDK文件下载
  * rtmp服务地址
 
+= 从v1.0升级到v1.1 =
+ * 修改SDK下载地址，以及版本号。当前版本号v1.1。
+ * 连接AudioServer时服务器地址格式变化：
+   * 中文评分 rtmp://sandbox.api.aispeech.com:443/v1.1/aistream.cncore . 
+   * 英文评分 rtmp://sandbox.api.aispeech.com:443/v1.1/aistream.encore 
+ * TTS部分，修改http权限验证接口
+   * http://sandbox.api.aispeech.com/api/v1.1/auth/getSessionKey , post参数：
+    * applicationId：应用程序标识
+    * timestamp：客户端系统时间
+    * sig：(applicationId + timestamp + secretKey)经过SHA-1加密后的字符串
+   * 可以下载tts_v1.1.php 
+
 = 修改记录 = 
- * 修改SDK下载地址，以及版本号。当前版本号v1.1
