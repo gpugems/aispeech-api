@@ -16,15 +16,19 @@
     * sig：(applicationId + timestamp + secretkey)经过SHA-1加密后的字符串
   * 验证成功，服务器返回json格式字符串
 {{{
+{
     "timestamp": 1300328247960,
-    "session": "12953375095491300328247639391720efc00de450c56bbd7954171bc9af1b8ccf",
+    "session": "efc00de450c56bbd7954171bc9af1b8ccf",
     "applicationId": "1295337509549"
+}
 }}}
   * 验证失败，服务器返回json中包含error属性
 {{{
+{
     "timestamp": 1300328247960,
     "error": "auth.faield",
     "applicationId": "1295337509549"
+}
 }}}
   * sessionkey有效时间，如果一个sessionkey 10分钟内没有活动，则sessionkey失效。
  # 如果你使用php开发，我们提供了一个简单的获取sessionkey的例子：
