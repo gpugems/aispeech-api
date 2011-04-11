@@ -1,0 +1,3 @@
+#sidebar APIDocument
+
+[http://api.aispeech.com/aispeechapi-js/v1.1/examples/getting-started.html Simple Demo]
