@@ -5,7 +5,7 @@
  
  # 服务url： rtmp://sandbox.api.aispeech.com/v1.1/aistream.cnscore
  # 调用参数 serverParams 为aispeech.SpeechResource类型：
-  * scoreType, 2 | 4 | 100 , 评分分制选择。可以是2，4，100中的一个. 设置方式：aispeech.SpeechResource.setScoreType("100")。
+  * scoreType, 2 | 4 | 100 , 评分分制选择。 设置方式：aispeech.SpeechResource.setScoreType("100")。
   * coreType, cnword 表示中文单词评分。设置方式：aispeech.SpeechResource.setCoreType("cnword")。
   * refText, 参考文本，中文为数字拼音表示， 你好表示为 ni2-hao3。 详细参考[RefText]。设置方式：aispeech.SpeechResource.setRefText("ni2-hao3")。
   * userId, 用户在网站中的唯一身份标识，用于区别不同的终端用户，一般用用户的email表示。设置方式：aispeech.SpeechResource.setUserId("user")。
@@ -185,7 +185,7 @@
 = 英文单词评分： aistream.enscore =
   # 服务URL： rtmp://sandbox.api.aispeech.com/v1.1/aistream.enscore
   # 调用参数 serverParams 为aispeech.SpeechResource类型：
-   * scoreType, 2 | 4 | 100 , 评分分制选择。可以是2，4，100中的一个. 设置方式：aispeech.SpeechResource.setScoreType("100")。
+   * scoreType, 2 | 4 | 100 , 评分分制选择。 设置方式：aispeech.SpeechResource.setScoreType("100")。
    * coreType, enword 表示中文单词评分。设置方式：aispeech.SpeechResource.setCoreType("enword")。
    * refText, 参考文本，英文单词。设置方式：aispeech.SpeechResource.setRefText("hello")。
    * userId, 用户在网站中的唯一身份标识，用于区别不同的终端用户，一般用用户的email表示。设置方式：aispeech.SpeechResource.setUserId("user")。
