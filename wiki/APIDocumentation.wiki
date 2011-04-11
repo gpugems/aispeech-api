@@ -19,3 +19,4 @@
   * [TechSupport Technical Support]
  * [Demos Demo Gallery]
   * [cn_demo1 Simple Chinese Word Pronunciation Evaluation Demo]
+  * [en_demo1 Simple English Word Pronunciation Evaluation Demo]
