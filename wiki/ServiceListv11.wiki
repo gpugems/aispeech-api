@@ -105,6 +105,8 @@
 }
 ,
     "sessionId": "4d2b757c22c7580b7f46a154dfd3b0c3"  // session，同一个客户端的一个连接称之为一个session，具有一个唯一的sessionid。
+    "userId": "aispeechtest",
+    "applicationId": "1295337509549"
 }
 }
 
