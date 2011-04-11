@@ -11,7 +11,7 @@
  # 调用方式：合成服务通过HTTP调用，返回合成的结果文件。
   * 在开始调用之前，需要通过appkey和secretkey验证app身份。
  # 第一步，验证身份，请使用appkey和secretkey换取 sessionkey。
-  * 身份验证服务url  http://beta.api.aispeech.com/api/v1.1/auth/getSessionKey
+  * 身份验证服务url  http://sandbox.api.aispeech.com/api/v1.1/auth/getSessionKey
   * 以HTTP POST方式发送身份验证请求，调用参数如下
     * applicationId：应用程序标识
     * timestamp：客户端系统时间
@@ -35,7 +35,7 @@
   * sessionkey有效时间，如果一个sessionkey 10分钟内没有活动，则sessionkey失效。
  # 如果你使用php开发，我们提供了一个简单的获取sessionkey的例子：
   * 在服务器安装php5-curl。
-  * 请下载tts.php： http://aispeech-api.googlecode.com/files/tts.php 
+  * 请下载tts.php： http://aispeech-api.googlecode.com/files/tts-v1.1.php 
  # 第二步，获取到sessionKey之后，再请求合成接口，带上sessionKey：
   * url:  http://host/api/v1.0/synth/appkey/1295337509540/sessionkey/be7e8adc8899ba04efa41d7b3d5b1f7dfbd36cda/lang/en/text/good/model/1?rdm=001
   * method: GET
