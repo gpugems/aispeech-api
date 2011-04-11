@@ -8,30 +8,23 @@
 
 = 从v1.0升级到v1.1 =
  * 修改SDK下载地址，以及版本号。当前版本号v1.1。
+   * SDK 主文件url: http://api.aispeech.com/aispeechapi-js/v1.1/load_core.js
  * 连接AudioServer时服务器地址格式变化：
-   * 中文评分 rtmp://sandbox.api.aispeech.com:443/v1.1/aistream.cncore . 
+   * 中文评分 rtmp://sandbox.api.aispeech.com:443/v1.1/aistream.cncore 
    * 英文评分 rtmp://sandbox.api.aispeech.com:443/v1.1/aistream.encore 
  * TTS部分，修改http权限验证接口
    * http://sandbox.api.aispeech.com/api/v1.1/auth/getSessionKey , post参数：
     * applicationId：应用程序标识
     * timestamp：客户端系统时间
     * sig：(applicationId + timestamp + secretKey)经过SHA-1加密后的字符串
-   * 可以下载tts_v1.1.php 
+   * 建议下载tts_v1.1.php使用。
  
- 
-= SDK安装 = 
- * AISpeech API提供在线下载SDK资源。
-  *  您需要在header段包含如下：
-{{{
-<script type="text/javascript" src="http://api.aispeech.com/aispeechapi-js/v1.1/load_core.js">
-</script>
-}}}
 
 = 环境准备 = 
   # 开发此Demo，你需要了解html的结构和基本的javascript知识。
   # 请先准备一个Microphone，确认Mic能录音。
   # 浏览器： Firefox 3.5+, IE7+, Chrome 7+, Safari 5+
-  # 网络环境： 此SDK客户端需要连接服务器1935端口，请确认您的网络设置没有屏蔽服务器1935端口。
+  # 网络环境： 此SDK客户端需要连接服务器443端口，请确认您的网络设置没有屏蔽服务器443端口。
   # [TechSupport 申请appKey]。
 
 = 简单例子：中文单词评分 = 
@@ -39,17 +32,17 @@
    * 中文参考文本：你好，数字拼音表示为ni2-hao3。
    * 录音，对着Microphone说“你好”。
    * 查看结果，看看你说的“你好”是否标准。
- # 可参考http://sandbox.api.aispeech.com/aispeechapi-js/examples/getting-started.html
+ # 可参考http://api.aispeech.com/aispeechapi-js/v1.1/examples/getting-started.html
  # 在$WWWROOT$/yourapp目录下建立一个html页面。 
  # 安装SDK，你可以使用在线的JS文件。
    * 使用AISpeech API 录音和评分核心功能，请引入如下代码：
 {{{
-<script type="text/javascript" src="http://sandbox.api.aispeech.com/aispeechapi-js/load_core.js">
+<script type="text/javascript" src="http://api.aispeech.com/v1.1/aispeechapi-js/load_core.js">
 </script>
 }}}
    * 使用AISpeech API 绘制汉字声调曲线功能。请引入如下代码：
 {{{
-<script type="text/javascript" src="http://sandbox.api.aispeech.com/aispeechapi-js/load_aigchart.js">
+<script type="text/javascript" src="http://api.aispeech.com/v1.1/aispeechapi-js/load_aigchart.js">
 </script>
 
 }}}
@@ -69,9 +62,7 @@
 
     function initRecorder(){
 
-        var serverList = ["rtmp://sandbox.api.aispeech.com/v1.1/aistream.cnscore"];
-
-        
+        var serverList = ["rtmp://sandbox.api.aispeech.com:443/v1.1/aistream.cnscore"];  
 
         window.recorder1 = new aispeech.AiRecorder({
 
@@ -145,7 +136,7 @@
  # “开始录音”按钮的处理：
    * 开始录音的时候，需要指定本次录音对应的计算参数。
    * 参数 duration，录音的时间长度，单位ms。
-   * 参数 serverParams，SpeechResource对象，请求不同的语音服务内核，参数有所异同，具体请参考[ServiceList]中每个内核资源的说明。
+   * 参数 serverParams，SpeechResource对象，请求不同的语音服务内核，参数有所异同，具体请参考[ServiceListv11]中每个内核资源的说明。
    * 回调 onRecordIdGenerated，服务器为本次录音生成了唯一的文件id。
    * 回调 onStart， 录音开始事件。
    * 回调 onStop， 录音停止事件。
@@ -395,7 +386,7 @@
 = 英文单词评分示例 =
  # 主要流程和中文单词评分一致。
  # 英文单词，是由小写字母和‘组成的单词，空格和其他标点不允许。
- # 参考页面：http://sandbox.api.aispeech.com/aispeechapi-js/examples/getting-started-enscore.html 。
+ # 参考页面： http://api.aispeech.com/aispeechapi-js/v1.1/examples/getting-started-enscore.html 。
  # coreType为enword。
 = 高级功能 =
   # Mic设置
