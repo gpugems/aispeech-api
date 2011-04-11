@@ -5,6 +5,8 @@
 = 介绍 =
  通过AISpeech API 提供的Text-to-speech服务，您可以将任意文本转换成语音，然后播放给用户。目前，AISpeech API TTS支持英文单词的合成服务。我们即将开放更丰富的合成服务。
 
+= Demo =
+ http://api.aispeech.com/aispeechapi-js/v1.1/examples/AiPlayer-tts-v1.1.html
 = API = 
  # 调用方式：合成服务通过HTTP调用，返回合成的结果文件。
   * 在开始调用之前，需要通过appkey和secretkey验证app身份。
