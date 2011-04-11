@@ -13,7 +13,7 @@
    * 中文评分 rtmp://sandbox.api.aispeech.com:443/v1.1/aistream.cncore 
    * 英文评分 rtmp://sandbox.api.aispeech.com:443/v1.1/aistream.encore 
  * TTS部分，修改http权限验证接口
-   * http://sandbox.api.aispeech.com/api/v1.1/auth/getSessionKey , post参数：
+   * HTTP POST: http://sandbox.api.aispeech.com/api/v1.1/auth/getSessionKey , 参数：
     * applicationId：应用程序标识
     * timestamp：客户端系统时间
     * sig：(applicationId + timestamp + secretKey)经过SHA-1加密后的字符串
