@@ -1,0 +1,3 @@
+#sidebar APIDocumentation
+
+[http://api.aispeech.com/aispeechapi-js/v1.1/examples/getting-started-enscore.html Simple Demo]
