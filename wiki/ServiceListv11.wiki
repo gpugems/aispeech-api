@@ -4,25 +4,25 @@
 = 中文评分 ： aistream.cnscore =
  
  # 服务url： rtmp://sandbox.api.aispeech.com/v1.1/aistream.cnscore
- # 调用参数：
-  * scoreType, 2 | 4 | 100 , //评分分制选择。可以是2，4，100中的一个。
-  * coreType, cn.word.score 表示中文单词评分。
-  * refText, 参考文本，中文为数字拼音表示， 你好表示为 ni2-hao3。 详细参考[RefText]。
-  * userId, 用户在网站中的唯一身份标识，用于区别不同的终端用户，一般用用户的email表示。
-  * applicationId, app的标识，为appKey。
+ # 调用参数 serverParams 为aispeech.SpeechResource类型：
+  * scoreType, 2 | 4 | 100 , //评分分制选择。可以是2，4，100中的一个. 设置方式：aispeech.SpeechResource.setScoreType("100")。
+  * coreType, cn.word 表示中文单词评分。设置方式：aispeech.SpeechResource.setCoreType("cnword")。
+  * refText, 参考文本，中文为数字拼音表示， 你好表示为 ni2-hao3。 详细参考[RefText]。设置方式：aispeech.SpeechResource.setRefText("ni2-hao3")。
+  * userId, 用户在网站中的唯一身份标识，用于区别不同的终端用户，一般用用户的email表示。设置方式：aispeech.SpeechResource.setUserId("user")。
+  * applicationId, app的标识，为appKey。设置方式：aispeech.SpeechResource.setApplicationId("appId")。
   * 示例：
 {{{
- serverParams: {
-
-                    scoreType: 100,
-                    coreType: "cn.word.score",
-                    refText: "ni2-hao3",
-                    userId: "user@domain.com",
-                    applicationId: "1213178963"
-                }
+        aispeech.SpeechResource.setScoreType("100");
+        aispeech.SpeechResource.setCoreType("cnword");
+        aispeech.SpeechResource.setRefText("ni2-hao3");
+        recorder1.record({
+            duration: 3000,
+            playNotifyAudio: true,
+            serverParams: aispeech.SpeechResource.get()
+            });
 }}}
  # 内核计算返回值（getScores调用的返回值）
-  * 中文单词内核（coreType=cn.word.score）
+  * 中文单词内核（coreType=cnword）
 {{{
 {
 "5e5e7f39244347d48b2c27252805bce0":  //表示recordId 5e5e7f39244347d48b2c27252805bce0的录音评分结果。
@@ -33,7 +33,7 @@
     
     "params": {                                      // 本次计算的参数
         "applicationId": "1295337509549",
-        "coreType": "cn.word.score.v2.1",
+        "coreType": "cn.word.score",
         "scoreType": "2",
         "refText": "zhang1-lao3-shi1",
         "userId": "user@domain.com"
@@ -184,12 +184,23 @@
 
 = 英文单词评分： aistream.enscore =
   # 服务URL： rtmp://sandbox.api.aispeech.com/v1.1/aistream.enscore
-  # 参数
-   * scoreType, 2 | 4   , //评分分制选择。可以是2，4 中的一个。
-   * coreType, en.word.score， 表示使用哪个语音内核计算。
-   * refText, 参考文本，小写的英文单词。
-   * userId, 用户在网站中的唯一身份标识，用于区别不同的终端用户，一般用用户的email表示。
-   * applicationId, app的标识，为appKey。
+  # 调用参数 serverParams 为aispeech.SpeechResource类型：
+   * scoreType, 2 | 4 | 100 , //评分分制选择。可以是2，4，100中的一个. 设置方式：aispeech.SpeechResource.setScoreType("100")。
+   * coreType, enword 表示中文单词评分。设置方式：aispeech.SpeechResource.setCoreType("enword")。
+   * refText, 参考文本，英文单词。设置方式：aispeech.SpeechResource.setRefText("hello")。
+   * userId, 用户在网站中的唯一身份标识，用于区别不同的终端用户，一般用用户的email表示。设置方式：aispeech.SpeechResource.setUserId("user")。
+   * applicationId, app的标识，为appKey。设置方式：aispeech.SpeechResource.setApplicationId("appId")。
+   * 示例：
+{{{
+        aispeech.SpeechResource.setScoreType("100");
+        aispeech.SpeechResource.setCoreType("cnword");
+        aispeech.SpeechResource.setRefText("hello");
+        recorder1.record({
+            duration: 3000,
+            playNotifyAudio: true,
+            serverParams: aispeech.SpeechResource.get()
+            });
+}}}
  # 内核计算返回值（getScores调用的返回值）
 {{{
 {
