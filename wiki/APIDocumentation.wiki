@@ -18,4 +18,4 @@
   * [Tools Tools]
   * [TechSupport Technical Support]
  * [Demos Demo Gallery]
-  *[cn_demo1 Simple Chinese Word Pronunciation Evaluation Demo]
+  * [cn_demo1 Simple Chinese Word Pronunciation Evaluation Demo]
