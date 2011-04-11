@@ -193,7 +193,7 @@
    * 示例：
 {{{
         aispeech.SpeechResource.setScoreType("100");
-        aispeech.SpeechResource.setCoreType("cnword");
+        aispeech.SpeechResource.setCoreType("enword");
         aispeech.SpeechResource.setRefText("hello");
         recorder1.record({
             duration: 3000,
