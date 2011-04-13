@@ -34,8 +34,10 @@
 = Flash Microphone 设置 =
  * AISpeech API 录音类应用需要使用Flash录音机，为正常使用Flash 录音功能，需要设置Mic。
  * 设置流程：
-  * 当Flash加载时，现实设置面板，您需要选择“允许",然后“记住”。
+  * 当Flash加载时，显示设置面板，您需要选择“允许",然后“记住”。
   http://aispeech-api.googlecode.com/files/faq01.jpg
+  * 设置完成后，在onMicStatus回调函数中，如果code=50001,则表示mic已经允许，在这个回调函数中，可以将flash区域设置为1*1像素。
+  * 如果保留flash区域，可以将flash设置为透明，调用hideFlash可以设置透明，showFlash可以再次显示。
 = 录音类应用工作流程 =
  * http://aispeech-api.googlecode.com/files/apiflow(2).jpg
 
