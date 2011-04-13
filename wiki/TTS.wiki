@@ -36,5 +36,5 @@
  # 第三步，播放合成音。
   * AISpeech API SDK提供了Flash 版本的 AiPlayer。 AiPlayer具体的使用请参考[FlashAudioPlayer]。
   * 使用player load 第二步中的url即可。
-  * 如果播放失败（比如sessionkey验证失败），会通过player对象的onStop回调返回。
+  * 如果播放失败（比如sessionkey验证失败），会通过player对象的onStop回调返回,errorCode=50409， message包含验证失败的信息。
   
