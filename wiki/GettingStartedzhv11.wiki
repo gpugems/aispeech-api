@@ -4,7 +4,7 @@
  
 = 介绍 =
  AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的方法调用，减小了广大开发者开发语音应用的成本。
- 此文档介绍AISpeechAPI SDK v1.1版本。 v1.1即将发布，敬请关注。
+ 此文档介绍AISpeechAPI SDK v1.1版本。  
 
 = 从v1.0升级到v1.1 =
  * 修改SDK下载地址，以及版本号。当前版本号v1.1。
