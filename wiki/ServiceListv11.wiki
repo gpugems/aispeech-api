@@ -297,7 +297,7 @@
         serverParams = aispeech.SpeechResource.get();
         serverParams[“coreType”] = "en.sent.score";
         recorder1.record({
-            duration: 3000, // 录音时间长度，建议5000 + 450*单次数量 ms。
+            duration: 5000, // 录音时间长度，建议5000 + 450*单词数量 ms。
             playNotifyAudio: true,
             serverParams: serverParams
             });
@@ -376,7 +376,6 @@
     }
 }
 }}}
- 
  # 错误反馈, 如果计算过程出错，getScores得到如下反馈：
   * errID, 错误代码。参考[ErrorCode]。
 {{{
