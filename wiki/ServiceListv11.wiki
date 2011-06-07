@@ -305,7 +305,7 @@
  # 内核计算返回值（getScores调用的返回值）
   * 英文句子评分内核返回结果
 {{{ 
- {
+"966f7e04d195411db9e1b436df2cf827": {
     "recordId": "966f7e04d195411db9e1b436df2cf827",
     "result": {
         "systime": 1592,
