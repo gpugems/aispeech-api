@@ -278,4 +278,128 @@
 }}}
  # 反馈结果中音素和国际音标映射表
   * 参考[Map]
+
+ = 英文句子评分 =
+ 
+ # 服务url： rtmp://sandbox.api.aispeech.com/v1.1/aistream.enscore
+ # 调用参数 serverParams 为aispeech.SpeechResource类型：
+  * scoreType, 2 | 4 | 100 , 评分分制选择。 设置方式：aispeech.SpeechResource.setScoreType("100")。
+  * coreType, "en.sent.score"。
+  * refText, 参考文本，如how(s:1) are you(s:1)。 详细参考[RefTextEnSent]。设置方式：aispeech.SpeechResource.setRefText("how(s:1) are you(s:1)")。
+  * userId, 用户在网站中的唯一身份标识，用于区别不同的终端用户，一般用用户的email表示。设置方式：aispeech.SpeechResource.setUserId("user")。
+  * applicationId, app的标识，为appKey。设置方式：aispeech.SpeechResource.setApplicationId("appId")。
+  * 示例：
+{{{
+        aispeech.SpeechResource.setScoreType("100");
+        aispeech.SpeechResource.setUserId("your user id");
+        aispeech.SpeechResource.setApplicationId("your app id")
+        aispeech.SpeechResource.setRefText("how(s:1) are you(s:1)");
+        serverParams = aispeech.SpeechResource.get();
+        serverParams[“coreType”] = "en.sent.score";
+        recorder1.record({
+            duration: 3000, // 录音时间长度，建议5000 + 450*单次数量 ms。
+            playNotifyAudio: true,
+            serverParams: serverParams
+            });
+}}}
+ # 内核计算返回值（getScores调用的返回值）
+  * 英文句子评分内核返回结果
+{{{ 
+ {
+    "recordId": "966f7e04d195411db9e1b436df2cf827",
+    "result": {
+        "systime": 1592,
+        "res": "aeng_ensnt_0.5",
+        "toneref": 0,
+        "rank": 100,
+        "details": [
+            {
+                "stressref": 0,
+                "toneref": 0,
+                "stressscore": 0,
+                "dur": 27,
+                "char": "it's",
+                "tonescore": 0,
+                "fluency": 98,
+                "score": 57
+            },
+            {
+                "stressref": 0,
+                "toneref": 0,
+                "stressscore": 0,
+                "dur": 31,
+                "char": "a",
+                "tonescore": 0,
+                "fluency": 72,
+                "score": 80
+            },
+            {
+                "stressref": 0,
+                "toneref": 0,
+                "stressscore": 0,
+                "dur": 15,
+                "char": "good",
+                "tonescore": 0,
+                "fluency": 99,
+                "score": 43
+            },
+            {
+                "stressref": 0,
+                "toneref": 0,
+                "stressscore": 0,
+                "dur": 47,
+                "char": "one",
+                "tonescore": 0,
+                "fluency": 77,
+                "score": 3
+            }
+        ],
+        "wavetime": 4972,
+        "tonescore": 0,
+        "fluency": 87,
+        "overall": 0,
+        "version": "AIScoreEnSent_v1.4.0"
+    },
+    "audioUrl": "http://cnapi.records.aispeech.com/audio/v1.1/aistream.enscore/1295337509549/aispeechtest/d3bebc14c69ef54edcb9f39b4d3f9187/966f7e04d195411db9e1b436df2cf827.flv",
+    "ts": 1307436929389,
+    "sessionId": "d3bebc14c69ef54edcb9f39b4d3f9187",
+    "userId": "aispeechtest",
+    "applicationId": "1295337509549",
+    "params": {
+        "recordId": "966f7e04d195411db9e1b436df2cf827",
+        "userId": "aispeechtest",
+        "applicationId": "aispeechtest",
+        "debug": true,
+        "refText": "it's a good(s:1) one.",
+        "coreType": "en.sent.score",
+        "scoreType": "100"
+    }
+}
+}}}
+ 
+ # 错误反馈, 如果计算过程出错，getScores得到如下反馈：
+  * errID, 错误代码。参考[ErrorCode]。
+{{{
+ {
+    "recordId": "233672c5e3ce45819bc5bb1bed07ac7a", // record Id
+    "ts": 1298346588291,                            // 时间戳
+    "sessionId": "3185def8785a0abf532f324add8906c8",
+    "result": {
+        "errID": 20001,                            
+        "error": {
+            "kernelErrMsg": {
+               "msg": "err message here"
+            }
+        }
+    },
+    "params": {
+        "applicationId": "1295337509549",
+        "coreType": "en.sent.score",
+        "scoreType": "100",
+        "refText": "hello",
+        "userId": "user@domain.com"
+    }
+}
+}}}
+
  
