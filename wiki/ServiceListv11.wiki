@@ -313,15 +313,15 @@
         "toneref": 0,
         "rank": 100,
         "details": [
-            {
+            {                 //单词评分
                 "stressref": 0,
                 "toneref": 0,
                 "stressscore": 0,
                 "dur": 27,
                 "char": "it's",
                 "tonescore": 0,
-                "fluency": 98,
-                "score": 57
+                "fluency": 98, //单词流利度
+                "score": 57    // 单词评分
             },
             {
                 "stressref": 0,
@@ -343,7 +343,7 @@
                 "fluency": 99,
                 "score": 43
             },
-            {
+            { 
                 "stressref": 0,
                 "toneref": 0,
                 "stressscore": 0,
@@ -356,8 +356,8 @@
         ],
         "wavetime": 4972,
         "tonescore": 0,
-        "fluency": 87,
-        "overall": 0,
+        "fluency": 87, //流利度评分
+        "overall": 10, //总体评分
         "version": "AIScoreEnSent_v1.4.0"
     },
     "audioUrl": "http://cnapi.records.aispeech.com/audio/v1.1/aistream.enscore/1295337509549/aispeechtest/d3bebc14c69ef54edcb9f39b4d3f9187/966f7e04d195411db9e1b436df2cf827.flv",
