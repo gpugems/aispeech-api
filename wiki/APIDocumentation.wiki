@@ -18,5 +18,7 @@
   * [Tools Tools]
   * [TechSupport Technical Support]
  * [Demos Demo Gallery]
+  * [en_demo2 Chinese Word Practice]
   * [cn_demo1 Simple Chinese Word Pronunciation Evaluation Demo]
   * [en_demo1 Simple English Word Pronunciation Evaluation Demo]
+ 
