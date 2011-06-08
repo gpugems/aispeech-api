@@ -32,7 +32,7 @@
    * 中文参考文本：你好，数字拼音表示为ni2-hao3。
    * 录音，对着Microphone说“你好”。
    * 查看结果，看看你说的“你好”是否标准。
- # 可参考http://api.aispeech.com/aispeechapi-js/v1.1/examples/getting-started.html
+ # 可参考http://api.aispeech.com/aispeechapi-js/v1.1/examples/getting-started.html 和http://api.aispeech.com/aispeechapi-js/v1.1/examples/advancedguide.html
  # 在$WWWROOT$/yourapp目录下建立一个html页面。 
  # 安装SDK，你可以使用在线的JS文件。
    * 使用AISpeech API 录音和评分核心功能，请引入如下代码：
