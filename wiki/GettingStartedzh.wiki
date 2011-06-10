@@ -66,9 +66,9 @@ AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的
 
             serverList: serverList,
 
-            appKey: "1298426941825",
+            appKey: "your_app_key",
 
-            secretKey: "595fd7706b9a96bd892a0c88a2e772b0d0565316"
+            secretKey: "your_secret_key"
 
         });
 
