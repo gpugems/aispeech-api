@@ -1,6 +1,7 @@
-＝HTTP V1.1＝
 
-＝＝一、HTTP身份验证＝＝
+=HTTP V1.1=
+
+==一、HTTP身份验证==
  * url: http://{host}[:port]/api/v1.1/auth/getSessionKey
  * method: POST
  * params:
