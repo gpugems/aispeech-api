@@ -38,7 +38,7 @@
   * sysParams(JSON格式): 
 {{{
 session(必需，身份验证后取得)
-userId(必需，终端用户id)
+userId(必需，终端用户ID)
 applicationId(必需，用户应用程序注册ID)
 }}}
   * appParams(JSON格式):
