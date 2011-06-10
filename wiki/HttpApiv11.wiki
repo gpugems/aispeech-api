@@ -1,0 +1,321 @@
+＝HTTP V1.1＝
+＝＝一、HTTP身份验证＝＝
+ * url: http://{host}[:port]/api/v1.1/auth/getSessionKey
+ * method: POST
+ * params:
+  * applicationId：应用程序标识
+  * timestamp：客户端系统时间
+  * sig：(applicationId + timestamp + 用户申请applicationId时获取的密钥)经过SHA-1加密后的字符串。如"1234567890" + "1300844039801" + "abcdefg"  => "391720efc00de450c56bbd7954171bc9af1b8ccf"
+ * 返回值
+  * 验证成功，服务器返回JSON格式字符串
+{{{
+{
+    "timestamp": 1300328247960,
+    "session": "2c3d412a0be0a26effcba95d3d7730de953e512a",
+    "applicationId": "1295337509549"
+}
+}}}
+  * 验证失败，服务器返回JSON格式字符串中包含error属性
+{{{
+{
+    "timestamp": 1300328247960,
+    "error": "auth.faield",
+    "errID": 40080,
+    "applicationId": "1295337509549"
+}
+}}}
+ * 注.服务器设置session失效时间为10分钟。
+
+
+==二、HTTP英文单词/句子评分接口==
+1、应用程序在上传音频文件前必须经过身份验证，同中文单词评分。
+
+2、英文单词/句子评分请求
+ * url: http://{host}[:port]/api/v1.1/enscore
+ * method: POST
+ * params:
+  * audio(必须)  音频文件二进制内容
+  * sysParams(JSON格式): 
+{{{
+session(必需，身份验证后取得)
+userId(必需，终端用户id)
+applicationId(必需，用户应用程序注册ID)
+}}}
+  * appParams(JSON格式):
+{{{
+refText(必需)  参考文本(1024个单词以内, 如good-luck, hello-world, how(s:1) are you(s:1)? )
+	       对于英文句子:
+		 单词之间使用空格，允许标点：,.'-?
+		 重音和升降调标注： s:1表示重音，t:1表示升调。 如hello(s:1)表示重音，hello(s:1,t:1)表示升调。 
+coreType(必需)  语音内核版本，英文单词评分为 en.word.score；英文句子评分为 en.sent.score
+scoreType(必需)  评分分制
+audioType(必需）  音频文件类型,可选值为[wav|mp3|flv]
+}}}
+
+ * 返回值说明
+  * 可参考http://code.google.com/p/aispeech-api/wiki/ServiceListv11
+
+ * 示例：
+  * 英文单词评分 参数:
+{{{
+sysParams:
+{"session":"2c3d412a0be0a26effcba95d3d7730de953e512a","userId":"jin.shen@aispeech.com","applicationId":"1301304913748"}
+appParams:
+{
+    "applicationId": "1301304913748",
+    "refText": "hello",
+    "coreType": "en.word.score",
+    "scoreType": "100",
+    "audioType": "wav"
+}
+audio: 音频文件二进制流(16bit wav,flv,mp3)
+}}}
+  * 返回结果:
+{{{
+{
+        "recordId": "6f4798355e8b435dbf4254d1cf725b21",
+        "result": {
+            "systime": 4059,
+            "res": "aeng_enwds_1.5",
+            "rank": 100,
+            "details": [
+                {
+                    "phone": [
+                        {
+                            "char": "hh",
+                            "score": 100
+                        },
+                        {
+                            "char": "eh",
+                            "score": 77
+                        },
+                        {
+                            "char": "l",
+                            "score": 0
+                        },
+                        {
+                            "char": "ow",
+                            "score": 0
+                        }
+                    ],
+                    "dur": 74,
+                    "char": "hello",
+                    "stress": [],
+                    "score": 67
+                }
+            ],
+            "wavetime": 10000,
+            "overall": 67,
+            "version": "AIScoreEn_v1.4.1"
+        },
+        "audioUrl": "http://dev.api.aispeech.com/audio/v1.1/http.enscore/1301304913748/jin.shen@aispeech.com/2c3d412a0be0a26effcba95d3d7730de953e512a/6f4798355e8b435dbf4254d1cf725b21.wav",
+        "app": "v1.1/http.enscore",
+        "ts": 1307587517288,
+        "params": {
+            "applicationId": "1301304913748",
+            "refText": "hello",
+            "coreType": "en.word.score",
+            "scoreType": "100",
+            "audioType": "wav"
+        },
+       "applicationId": "1301304913748",
+       "sessionId": "2c3d412a0be0a26effcba95d3d7730de953e512a",	
+       "userId": "jin.shen@aispeech.com"
+    }
+}}}
+  * 英文句子评分 参数:
+{{{
+sysParams:
+{"session":"2c3d412a0be0a26effcba95d3d7730de953e512a","userId":"jin.shen@aispeech.com","applicationId":"1301304913748"}
+appParams:
+{
+    "applicationId": "1301304913748",
+    "refText": "I don't know how to tell the boys I meet that I want it wild",
+    "coreType": "en.sent.score",
+    "audioType": "mp3",
+    "scoreType": "100"
+}
+audio: 音频文件二进制流(16bit wav,flv,mp3)
+}}}
+  * 返回结果:
+{{{
+{
+        "recordId": "1016c94d231e4193885600f941c837e2",
+        "result": {
+            "systime": 2104,
+            "res": "aeng_ensnt_0.5",
+            "toneref": 0,
+            "rank": 100,
+            "details": [
+                {				// 单词评分
+                    "stressref": 0,
+                    "toneref": 0,
+                    "stressscore": 0,
+                    "dur": 24,
+                    "char": "i",
+                    "tonescore": 0,
+                    "fluency": 92,		// 单词流利度
+                    "score": 100		// 单词评分
+                },
+                {
+                    "stressref": 0,
+                    "toneref": 0,
+                    "stressscore": 1,
+                    "dur": 41,
+                    "char": "don't",
+                    "tonescore": 0,
+                    "fluency": 99,
+                    "score": 100
+                },
+                {
+                    "stressref": 0,
+                    "toneref": 0,
+                    "stressscore": 0,
+                    "dur": 25,
+                    "char": "know",
+                    "tonescore": 0,
+                    "fluency": 99,
+                    "score": 100
+                },
+                {
+                    "stressref": 0,
+                    "toneref": 0,
+                    "stressscore": 0,
+                    "dur": 31,
+                    "char": "how",
+                    "tonescore": 0,
+                    "fluency": 99,
+                    "score": 100
+                },
+                {
+                    "stressref": 0,
+                    "toneref": 0,
+                    "stressscore": 0,
+                    "dur": 17,
+                    "char": "to",
+                    "tonescore": 0,
+                    "fluency": 99,
+                    "score": 89
+                },
+                {
+                    "stressref": 0,
+                    "toneref": 0,
+                    "stressscore": 0,
+                    "dur": 37,
+                    "char": "tell",
+                    "tonescore": 0,
+                    "fluency": 92,
+                    "score": 94
+                },
+                {
+                    "stressref": 0,
+                    "toneref": 0,
+                    "stressscore": 0,
+                    "dur": 18,
+                    "char": "the",
+                    "tonescore": 0,
+                    "fluency": 95,
+                    "score": 100
+                },
+                {
+                    "stressref": 0,
+                    "toneref": 0,
+                    "stressscore": 0,
+                    "dur": 36,
+                    "char": "boys",
+                    "tonescore": 0,
+                    "fluency": 99,
+                    "score": 100
+                },
+                {
+                    "stressref": 0,
+                    "toneref": 0,
+                    "stressscore": 0,
+                    "dur": 16,
+                    "char": "i",
+                    "tonescore": 0,
+                    "fluency": 99,
+                    "score": 100
+                },
+                {
+                    "stressref": 0,
+                    "toneref": 0,
+                    "stressscore": 0,
+                    "dur": 36,
+                    "char": "meet",
+                    "tonescore": 0,
+                    "fluency": 99,
+                    "score": 100
+                },
+                {
+                    "stressref": 0,
+                    "toneref": 0,
+                    "stressscore": 0,
+                    "dur": 44,
+                    "char": "that",
+                    "tonescore": 0,
+                    "fluency": 71,
+                    "score": 100
+                },
+                {
+                    "stressref": 0,
+                    "toneref": 0,
+                    "stressscore": 0,
+                    "dur": 12,
+                    "char": "i",
+                    "tonescore": 0,
+                    "fluency": 97,
+                    "score": 100
+                },
+                {
+                    "stressref": 0,
+                    "toneref": 0,
+                    "stressscore": 0,
+                    "dur": 52,
+                    "char": "want",
+                    "tonescore": 0,
+                    "fluency": 99,
+                    "score": 93
+                },
+                {
+                    "stressref": 0,
+                    "toneref": 0,
+                    "stressscore": 0,
+                    "dur": 18,
+                    "char": "it",
+                    "tonescore": 0,
+                    "fluency": 99,
+                    "score": 100
+                },
+                {
+                    "stressref": 0,
+                    "toneref": 0,
+                    "stressscore": 0,
+                    "dur": 49,
+                    "char": "wild",
+                    "tonescore": 0,
+                    "fluency": 99,
+                    "score": 97
+                }
+            ],
+            "wavetime": 5220,
+            "tonescore": 0,
+            "fluency": 96,				// 流利度评分
+            "overall": 99,				// 总体评分
+            "version": "AIScoreEnSent_v1.4.0"
+        },
+        "audioUrl": "http://dev.api.aispeech.com/audio/v1.1/http.enscore/1301304913748/jin.shen@aispeech.com/2c3d412a0be0a26effcba95d3d7730de953e512a/1016c94d231e4193885600f941c837e2.mp3",
+        "app": "v1.1/http.enscore",
+        "ts": 1307587521521,
+        "params": {
+            "applicationId": "1301304913748",
+            "refText": "I don't know how to tell the boys I meet that I want it wild",
+            "coreType": "en.sent.score",
+            "scoreType": "100",
+            "audioType": "mp3"
+        },
+       "applicationId": "1301304913748",
+       "sessionId": "2c3d412a0be0a26effcba95d3d7730de953e512a",	
+       "userId": "jin.shen@aispeech.com"
+    }
+}}}
