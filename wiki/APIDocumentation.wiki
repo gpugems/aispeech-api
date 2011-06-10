@@ -1,5 +1,5 @@
 #labels Featured
- * [v10 AISpeech API v1.0]
+ * [v10 AISpeech API v1.0(deprecated)]
   * [GettingStartedzh Getting Started]
   * [UserGuide User Guide]
   * [ServiceList Service List]
