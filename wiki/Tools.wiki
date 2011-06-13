@@ -4,7 +4,7 @@
  * !FireBug，建议您在!FireFox下使用!FireBug调试。
  * Arthropod，Flash日志查看工具：
   * 安装Arthropod. 地址：http://arthropod.stopp.se/
-  * 打开安装好的Arthropod，在settings中输入Connection Password： CDC309AF。
+  * 打开安装好的Arthropod，在settings中输入Connection Password： aispeech0512。
   * 当Flash开始运行的时候，Flash日志会输出到Arthropod。
  * SDK测试页面。
   * AISpeech 在SDK包中提供了example/!AiRecorder.html页面，可以测试详细的SDK使用。
