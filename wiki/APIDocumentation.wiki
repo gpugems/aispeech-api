@@ -17,6 +17,7 @@
   * [FAQ FAQ]
   * [Tools Tools]
   * [TechSupport Technical Support]
+  * [HttpApiv11 HTTP 接入接口]
  * [Demos Demo Gallery]
   * [en_demo2 Chinese Word Practice]
   * [cn_demo1 Simple Chinese Word Pronunciation Evaluation Demo]
