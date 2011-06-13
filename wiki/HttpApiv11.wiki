@@ -54,7 +54,7 @@ refText(必需)  参考文本(1024个单词以内, 如good-luck, hello-world, ho
 		 单词之间使用空格，允许标点：,.'-?
 		 重音和升降调标注： s:1表示重音，t:1表示升调。 如hello(s:1)表示重音，hello(s:1,t:1)表示升调。 
 coreType(必需)  语音内核版本，英文单词评分为 en.word.score；英文句子评分为 en.sent.score
-scoreType(必需)  评分分制
+scoreType(必需)  评分分制,2|4|100
 audioType(必需）  音频文件类型,可选值为[wav|mp3|flv]
 }}}
 
@@ -339,3 +339,179 @@ audio: 音频文件二进制流(16bit wav,flv,mp3)
 ==支持的内核版本(coreType)==
  * en.word.score    : 英文单词评分
  * en.sent.socre    : 英文句子评分
+
+== 示例客户端 ==
+{{{
+import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.aispeech.api.http.MessageEncrypt;
+
+public class TestHttpInteface {
+
+	public static void main(String[] args) {
+
+		TestHttpInteface testClient = new TestHttpInteface();
+		JSONObject authResult = testClient.auth("xxx",
+				"xxx");
+
+		JSONObject sysParam = new JSONObject();
+		try {
+			sysParam.put("userId", "aispeechtest");
+			sysParam.put("applicationId", "1298426941825");
+			sysParam.put("session", authResult.getString("session"));
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		JSONObject appParam = new JSONObject();
+		try {
+			appParam.put("coreType", "cn.word.score");
+			appParam.put("scoreType", 100);
+			appParam.put("refText", "ni2-hao3");
+			appParam.put("audioType", "flv");
+
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		File audioFile = new File("streams/3/ni2-hao3.flv");
+
+		JSONObject requestResult = testClient.requestCnWordScore(sysParam,
+				appParam, audioFile);
+
+		System.out.println(requestResult.toString());
+
+	}
+
+	public JSONObject auth(String appId, String secretKey) {
+		HttpClient httpClient = new DefaultHttpClient();
+
+		String url = "http://10.12.7.191:9999/api/auth/getSessionKey";
+		HttpPost request = new HttpPost(url);
+
+		String timeStamp = System.currentTimeMillis() + "";
+		List<NameValuePair> formParams = new ArrayList<NameValuePair>();
+
+		formParams.add(new BasicNameValuePair("applicationId", appId));
+		formParams.add(new BasicNameValuePair("timestamp", timeStamp));
+		formParams.add(new BasicNameValuePair("sig", MessageEncrypt.Encrypt(
+				appId + timeStamp + secretKey, "SHA-1")));
+
+		try {
+			request.setEntity(new UrlEncodedFormEntity(formParams, "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		try {
+			HttpResponse response = httpClient.execute(request);
+			HttpEntity resEntity = response.getEntity();
+
+			String jsonString = EntityUtils.toString(resEntity);
+
+			JSONObject authResult = new JSONObject();
+			try {
+				authResult = new JSONObject(jsonString);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			System.out.println(authResult.toString());
+			return authResult;
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return null;
+		// httpClient.ex
+	}
+
+	/**
+	 * 
+	 * sysParams: { "session":
+	 * "12953375095491300327340529391720efc00de450c56bbd7954171bc9af1b8ccf",
+	 * "userId": "jin.shen@aispeech.com", "applicationId": "1295337509549" }
+	 * appParams: { "debug": true, "refText": "ni2-hao3", "coreType":
+	 * "cn.word.score.v2.1", "scoreType": 100, "audioType": wav, "resource":
+	 * "achn_chwds_ntv" } audio: 音频文件二进制流(wav,flv,mp3需要指定audioType)
+	 * 
+	 * @return
+	 */
+	public JSONObject requestCnWordScore(JSONObject sysParams,
+			JSONObject appParams, File audioFile) {
+
+		HttpClient httpClient = new DefaultHttpClient();
+
+		String url = "http://10.12.7.191:9999/api/v1.1/cnscore";
+
+		HttpPost httpPost = new HttpPost(url);
+
+		try {
+			StringBody sysParamsStr = new StringBody(sysParams.toString());
+			StringBody appParamsStr = new StringBody(appParams.toString());
+
+			MultipartEntity reqEntity = new MultipartEntity();
+
+			FileBody sbWav = new FileBody(audioFile);
+			reqEntity.addPart("audio", sbWav);
+			reqEntity.addPart("sysParams", sysParamsStr);
+			reqEntity.addPart("appParams", appParamsStr);
+
+			httpPost.setEntity(reqEntity);
+
+			HttpResponse response = httpClient.execute(httpPost);
+
+			HttpEntity resEntity = response.getEntity();
+
+			String jsonString = EntityUtils.toString(resEntity);
+
+			JSONObject authResult = new JSONObject();
+			try {
+				authResult = new JSONObject(jsonString);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			return authResult;
+
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+
+		return null;
+	}
+
+}
+}}}
