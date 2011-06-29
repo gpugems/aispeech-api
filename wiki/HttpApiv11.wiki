@@ -163,6 +163,26 @@ appParams:
 audio: 音频文件二进制流(16bit wav,flv,mp3)
 }}}
   * 返回结果:
+  * 结果是JSON结构。
+  * result字段：对本次请求的评分结果。
+  * app字段：连接的服务接口地址。
+  * audioUrl字段： 本次请求的录音文件。
+  * userId, applicationId：调用者设置的userId和applicationId。
+  * params, 调用者设置的请求参数。
+  * result.rank, 本次评分的分制。
+  * result.overall, 词整体等级。
+  * result.fluency, 句子流利度评分。
+  * result.tonescore，暂时保留。
+  * result.details, 句子中每个单词评分细节。
+  * result.details[0].char，单词文本。
+  * result.details[0].score ，单词的评分。
+  * result.details[0].fluency, 单词的流利度评分。
+  * result.details[0].stressref, 是否需要重音的标识，1表示重音，和参数中s:1标注对应。
+  * result.details[0].stressscore, 重音评分， stressscore=stressref 表示重音发音和标注符合。
+  * result.details[0].toneref,是否需要升调的标识，1表示升调，和参数中t:1对应。
+  * result.details[0].tonescore, 语调评分， tonescore=toneref 表示语调发音和标注符合。
+  * result.details[0].dur, 单词语音帧长度。
+  * result.details[0].phone中音素的表示与国际音标具有一一对应的关系: [Map 国际音标和AISpeech API反馈映射表]
 {{{
 {
         "recordId": "1016c94d231e4193885600f941c837e2",
