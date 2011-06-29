@@ -77,6 +77,25 @@ appParams:
 audio: 音频文件二进制流(16bit wav,flv,mp3)
 }}}
   * 返回结果:
+  * 结果是JSON结构。
+  * result字段：对本次请求的评分结果。
+  * app字段：连接的服务接口地址。
+  * audioUrl字段： 本次请求的录音文件。
+  * userId, applicationId：调用者设置的userId和applicationId。
+  * params, 调用者设置的请求参数。
+  * result.overall,  词整体等级。
+  * result.rank, 本次评分的分制。
+  * result.details[0], 单词评分细节。
+  * result.details[0].char，单词文本。
+  * result.details[0].score ，单词的评分。
+  * result.details[0].phone, 单词中每个音素的评分结果，是一个数组，数组中元素的顺序和音素顺序一致。
+  * result.details[0].phone[0].char, 第一个音素的表示文本。
+  * result.details[0].phone[0].score, 第一个音素的评分。
+  * result.details[0].stress, 暂时保留。
+  * result.details[0].dur, 单词语音帧长度。
+  * result.details[0].phone中音素的表示与国际音标具有一一对应的关系:  
+  * 国际音标和AISpeech API反馈结果对照表：[Map 国际音标和反馈映射表]
+  * result sample:
 {{{
 {
         "recordId": "6f4798355e8b435dbf4254d1cf725b21",
