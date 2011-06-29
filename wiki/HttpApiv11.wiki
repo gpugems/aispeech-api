@@ -85,15 +85,15 @@ audio: 音频文件二进制流(16bit wav,flv,mp3)
   * params, 调用者设置的请求参数。
   * result.overall,  词整体等级。
   * result.rank, 本次评分的分制。
-  * result.details[0], 单词评分细节。
-  * result.details[0].char，单词文本。
-  * result.details[0].score ，单词的评分。
-  * result.details[0].phone, 单词中每个音素的评分结果，是一个数组，数组中元素的顺序和音素顺序一致。
-  * result.details[0].phone[0].char, 第一个音素的表示文本。
-  * result.details[0].phone[0].score, 第一个音素的评分。
-  * result.details[0].stress, 暂时保留。
-  * result.details[0].dur, 单词语音帧长度。
-  * result.details[0].phone中音素的表示与国际音标具有一一对应的关系:  
+  * `result.details[0]`, 单词评分细节。
+  * `result.details[0].char`，单词文本。
+  * `result.details[0].score` ，单词的评分。
+  * `result.details[0].phone`, 单词中每个音素的评分结果，是一个数组，数组中元素的顺序和音素顺序一致。
+  * `result.details[0].phone[0].char`, 第一个音素的表示文本。
+  * `result.details[0].phone[0].score`, 第一个音素的评分。
+  * `result.details[0].stress`, 暂时保留。
+  * `result.details[0].dur`, 单词语音帧长度。
+  * `result.details[0].phone`中音素的表示与国际音标具有一一对应的关系:  
   * 国际音标和AISpeech API反馈结果对照表：[Map 国际音标和反馈映射表]
   * result sample:
 {{{
@@ -174,15 +174,15 @@ audio: 音频文件二进制流(16bit wav,flv,mp3)
   * result.fluency, 句子流利度评分。
   * result.tonescore，暂时保留。
   * result.details, 句子中每个单词评分细节。
-  * result.details[0].char，单词文本。
-  * result.details[0].score ，单词的评分。
-  * result.details[0].fluency, 单词的流利度评分。
-  * result.details[0].stressref, 是否需要重音的标识，1表示重音，和参数中s:1标注对应。
-  * result.details[0].stressscore, 重音评分， stressscore=stressref 表示重音发音和标注符合。
-  * result.details[0].toneref,是否需要升调的标识，1表示升调，和参数中t:1对应。
-  * result.details[0].tonescore, 语调评分， tonescore=toneref 表示语调发音和标注符合。
-  * result.details[0].dur, 单词语音帧长度。
-  * result.details[0].phone中音素的表示与国际音标具有一一对应的关系: [Map 国际音标和AISpeech API反馈映射表]
+  * `result.details[0].char`，单词文本。
+  * `result.details[0].score` ，单词的评分。
+  * `result.details[0].fluency`, 单词的流利度评分。
+  * `result.details[0].stressref`, 是否需要重音的标识，1表示重音，和参数中s:1标注对应。
+  * `result.details[0].stressscore`, 重音评分， stressscore=stressref 表示重音发音和标注符合。
+  * `result.details[0].toneref`,是否需要升调的标识，1表示升调，和参数中t:1对应。
+  * `result.details[0].tonescore`, 语调评分， tonescore=toneref 表示语调发音和标注符合。
+  * `result.details[0].dur`, 单词语音帧长度。
+  * `result.details[0].phone`中音素的表示与国际音标具有一一对应的关系: [Map 国际音标和AISpeech API反馈映射表]
 {{{
 {
         "recordId": "1016c94d231e4193885600f941c837e2",
