@@ -27,6 +27,7 @@
   # 网络环境： 此SDK客户端需要连接服务器443端口，请确认您的网络设置没有屏蔽服务器443端口。
   # [TechSupport 申请appKey]。
 
+
 = 简单例子：中文单词评分 = 
   在这个例子中，我们开发一个中文单词评分的Demo。
    * 中文参考文本：你好，数字拼音表示为ni2-hao3。
@@ -388,6 +389,10 @@
  # 英文单词，是由小写字母和‘组成的单词，空格和其他标点不允许。
  # 参考页面： http://api.aispeech.com/aispeechapi-js/v1.1/examples/getting-started-enscore.html 。
  # coreType为enword。
+
+= 包含全部功能的语音面板 =
+ # AISpeech API 提供了一个包含播放／录音／回放，组件设置等功能的语音面板，开发者可以直接使用此语音面板进行开发。
+ # 访问地址：http://api.aispeech.com/aispeechapi-js/v1.1.932/ui/panel.html
 = 高级功能 =
   # Mic设置
   # 录音回放
