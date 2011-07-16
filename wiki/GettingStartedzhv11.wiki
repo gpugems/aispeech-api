@@ -38,12 +38,12 @@
  # 安装SDK，你可以使用在线的JS文件。
    * 使用AISpeech API 录音和评分核心功能，请引入如下代码：
 {{{
-<script type="text/javascript" src="http://api.aispeech.com/v1.1/aispeechapi-js/load_core.js">
+<script type="text/javascript" src="http://api.aispeech.com/aispeechapi-js/v1.1/load_core.js">
 </script>
 }}}
    * 使用AISpeech API 绘制汉字声调曲线功能。请引入如下代码：
 {{{
-<script type="text/javascript" src="http://api.aispeech.com/v1.1/aispeechapi-js/load_aigchart.js">
+<script type="text/javascript" src="http://api.aispeech.com/aispeechapi-js/v1.1/load_aigchart.js">
 </script>
 
 }}}
