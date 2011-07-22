@@ -367,6 +367,111 @@ audio: 音频文件二进制流(16bit wav,flv,mp3)
 
 
 
+=三,HTTP英文句子识别接口=
+ * 应用程序在上传音频文件前必须经过身份验证。
+
+ * 英文句子识别请求
+  * HTTP url:  http://sandbox.api.aispeech.com/api/v1.1/enscore
+  * HTTP method: POST
+  * params:
+   * audio(必须)  音频文件二进制内容
+   * sysParams(JSON格式): 
+{{{
+session(必需，身份验证后取得)
+userId(必需，终端用户id)
+applicationId(必需，用户应用程序注册ID)
+}}}
+  * appParams(JSON格式)，此参数是调用识别服务的必须参数
+{{{
+grammar(必需)    识别需要的选项表示。
+coreType(必需)   语音内核版本,英文识别为en.sent.rec; 
+audioType(必需） 音频文件类型,可选值为[wav|mp3|flv]
+language(必需)   语言，英文为english
+}}}
+ * 参数详细说明
+  *  grammar, 必选，识别语法，使用|分隔的选项序列，目前支持英文单词以及"'","-"这两个连接符号，其他字与标点将被系统过滤。每个选项表示一种正确的说法。 例如 $word=good | hello ;(sil $word sil)。 其中$word= , ;(sil $word sil)是固定的语法标注，开发者只需要补充多个选项，用|连接。
+  * coreType, 必选，识别服务类型，可以为en.sent.rec ， en.sent.rec对应英文识别服务。
+  *  language,必选， 识别语言类型，可以为english， 和coreType对应，需要设置语言类型，当coreType=en.sent.rec时，此参数只能为english。
+  * userId, 用户在应用中的标识。 对每一个终端用户设定唯一的userId，能够区分不同用户的数据，AISpeech API提供的反馈增值依赖此字段进行统计。
+  * applicationId, appKey，应用标识。当language=english时，grammar仅支持英文单词输入，单词之间以空格分开，不带标点符号。 
+
+  * 英文识别结果参考：
+   * 结果是JSON结构。
+   * result字段：对本次请求的评分结果。
+   * app字段：连接的服务接口地址。
+   * audioUrl字段： 本次请求的录音文件。
+   * userId, applicationId：调用者设置的userId和applicationId。
+   * params, 调用者设置的请求参数。
+   * result.rec, 本次识别结果。
+   * result.conf, 对识别结果的置信度。
+   * result sample:
+{{{
+
+{
+    "recordId": "58baa66d01934688be0b8fb692c64f3e",
+    "app" : "v1.1/aistream.enscore",
+    "result": {
+        "endtime": 2470,
+        "systime": 520,
+        "res": "res_engrec_0.2",
+        "rec": "hello",                 // 识别结果
+        "starttime": 1500,
+        "wavetime": 2973,
+        "conf": 46,                     // 识别结果置信度
+        "version": "AIRec_v0.4.0"
+    },
+    "audioUrl": "http://dev.api.aispeec.com/audio/v1.1/aistream.enscore/1295337509549/aispeechtest/e2ad5f7881c3e63254bae4ee0095657d/58baa66d01934688be0b8fb692c64f3e.flv",
+    "ts": 1308733310283,
+    "sessionId": "e2ad5f7881c3e63254bae4ee0095657d",
+    "userId": "aispeechtest",
+    "applicationId": "1295337509549",
+    "params": {
+        "recordId": "58baa66d01934688be0b8fb692c64f3e",
+        "userId": "aispeechtest",
+        "applicationId": "1295337509549",
+        "language": "english",
+        "coreType": "en.sent.rec",
+        "scoreType": "100",
+        "grammar": "$word = hello | good ; (sil $word sil)"
+    }
+}
+
+}}}
+ * 识别结果处理
+  * rec，表示识别结果，对应用户传递的grammar中的一项。
+  * conf，置信系数，表示此识别结果的可信度，不同的应用可以设定不同的门限，用于判断某个识别结果是否可信。
+  * 如果返回错误码20001, 表示没有检测到用户录音，应用可以做noinput处理。
+  * 如果返回错误码20302等，或者conf小于设定的门限，做nomatch处理。
+  * conf表示置信度，conf值越大表示识别结果的可信度越高。开发者可以设置门限T，当conf<T时，舍弃识别结果，判定为nomatch。
+  * rec是识别结果，也就是此前设置的grammer中的分支之一。开发者可以根据此结果做后续处理。
+  * 对于noinput或者nomatch，应用开发者可以自行决定如何处理：比如可以播放提示音，或者让用户重读一次。
+  * 如果识别结果中包含errID，则表示此语音无法识别，开发者需要注意：
+   * 20302表示grammar中设置的语法包含有单词在AISpeech API的字典中不存在。 对这种情况，请开发者检查grammar的写法是否规范，是否有规定之外的字符，如果仍然有问题，请记录此问题并反馈。
+   * AISpeech API 识别服务目前包含11w字的字典，能够满足绝大多数应用，但是仍然可能存在部分生僻词，人名，地名，缩写等不在字典中，所以建议避免使用个性化的人名，地名。或者开发阶段跟AISpeech协调预先补充字典。
+   * AISpeech API 目前能够离线添加字典，随着字典更新，此类问题会很快解决。
+
+ * 示例：
+  * 英文句子识别参数示例:
+{{{
+sysParams:
+ {
+"session":"2c3d412a0be0a26effcba95d3d7730de953e512a",
+"userId":"test@aispeech.com",
+"applicationId":"1301304913748"
+}
+appParams:
+{
+    "applicationId": "1301304913748",
+    "language": "english",
+    "coreType": "en.sent.rec",
+    "audioType": "wav",
+    "grammar": "$word=good | hello ;(sil $word sil)"
+}
+audio: 音频文件二进制流(16bit wav,flv,mp3)
+}}}
+  
+
+
 = 备注 =
 ==错误码定义==
  * 40031 参数错误(没有或者格式不对)
@@ -378,6 +483,7 @@ audio: 音频文件二进制流(16bit wav,flv,mp3)
 ==支持的内核版本(coreType)==
  * en.word.score    : 英文单词评分
  * en.sent.socre    : 英文句子评分
+ * en.sent.rec      : 英文识别
 
 == 示例客户端 ==
 {{{
