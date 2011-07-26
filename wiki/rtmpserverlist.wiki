@@ -13,12 +13,12 @@
   * 返回结果说明:[CoreResult]
 
 = 英文单词评分 =
-  * RTMP服务器连接地址 URL: rtmp://{host}:443/v1.1/aistream.cnscore， 注意添加端口号443
+  * RTMP服务器连接地址 URL: rtmp://{host}:443/v1.1/aistream.enscore， 注意添加端口号443
   * 参数说明：[ServiceListv11]
   * 返回结果说明:[CoreResult]
 
 = 英文句子评分 =
-RTMP服务器连接地址 URL: rtmp://{host}:443/v1.1/aistream.cnscore， 注意添加端口号443
+RTMP服务器连接地址 URL: rtmp://{host}:443/v1.1/aistream.enscore， 注意添加端口号443
   * 参数说明：[ServiceListv11]
   * 返回结果说明:[CoreResult]
 
@@ -28,8 +28,6 @@ RTMP服务器连接地址 URL: rtmp://{host}:443/v1.1/aistream.cnscore， 注意
   * 返回结果说明:[CoreResult]
 
 = 英文有限分支识别 =
-RTMP服务器连接地址 URL: rtmp://{host}:443/v1.1/aistream.cnscore， 注意添加端口号443
+RTMP服务器连接地址 URL: rtmp://{host}:443/v1.1/aistream.enscore， 注意添加端口号443
   * 参数说明：[ServiceListv11]
   * 返回结果说明:[CoreResult]
-
-
