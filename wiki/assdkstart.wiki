@@ -155,7 +155,8 @@ playerLib.addEventListener(AudioIOEvent.PLAY_STOP, function(e:AudioIOEvent){
  * 录音机
 {{{
 	SERVER_CONNECTED：服务器连接成功。
-	EXCEPTION_SERVER_CONNECT_CLOSE:服务器连接断开异常。	   EXCEPTION_SERVER_CONNECT_FAILED:服务器连接失败。
+	EXCEPTION_SERVER_CONNECT_CLOSE:服务器连接断开异常。	
+        EXCEPTION_SERVER_CONNECT_FAILED:服务器连接失败。
 	EXCEPTION_SERVER_CONNECT_REJECTED:连接被拒绝。
 	EXCEPTION_HOST_NET_CHANGE:客户端网络发生变化。
 	PUBLISH_START:录音开始（服务器返回的事件，表明服务器开始接受录音）。
