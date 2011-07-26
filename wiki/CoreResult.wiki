@@ -1,0 +1,552 @@
+#sidebar APIDocumentation
+
+<wiki:toc max_depth="1" />
+
+= 中文单词评分返回结果及解释  =
+ * 结果是JSON结构。
+ * result字段：对本次请求的评分结果。
+ * app字段：连接的服务接口地址。
+ * audioUrl字段： 本次请求的录音文件。
+ * userId, applicationId：调用者设置的userId和applicationId。
+ * params, 调用者设置的请求参数。
+ * result.overall,  词整体等级：综合考虑了 无调发音(phn)、声调(tone)  。
+ * result.pron,  带调发音等级：综合考虑了 无调发音(phn)、声调(tone)， 同overall。
+ * result.phn, 无调发音等级：字词包含的所有无调拼音的发音整体水平,即声母，韵母发音的综合评分。
+ * result.tone, 声调等级： 字词包含的所有声调的整体水平。
+ * result.rank, 本次评分的分制。
+ * result.details, 单词中每个音节（单字）的评分结果，是一个数组，数组中元素的顺序和单词中单字出现的顺序一致。
+ * result.details[0].char, 音节的无调拼音串
+ * result.details[0].tone, 音节的数字声调表示
+ * result.details[0].overall, 音节整体等级：综合考虑了该字的 无调发音(phn)、声调(tone)  
+ * result.details[0].phn, 音节的无调发音评分
+ * result.details[0].pron，音节整体等级：综合考虑了该字的 无调发音(phn)、声调(tone)
+ * result.details[0].tonescore, 音节的声调评分。
+ * result.details[0].score 同result.details[0].phn，向下兼容。
+ * result.details[0].phone，此字段是一个数字，表示此单字的声母，韵母序列。
+  * 如果result.details[0].phone有两个元素，则result.details[0].phone[0]表示声母，result.details[0].phone[1]表示韵母。
+  * 如果result.details[0].phone只有一个元素，则result.details[0].phone[0]表示韵母，此音节位零声母。
+ * result.details[0].phone[0].char，第一个音素的文本。
+ * result.details[0].phone[0].score, 第一个音素的评分。
+ * result.details[0].confidence,此数组包含了5个整数，分表表示轻声，1-4声的置信系数。根据此系数，使用AISpeech API提供的声调曲线绘制功能可以绘制用户声调曲线。
+
+{{{
+
+{
+    "recordId": "5e5e7f39244347d48b2c27252805bce0",  // 在startRecord的时候，服务器生成的一个唯一的id，并回传给客户端
+    "app": "v1.1/aistream.cnscore",
+    "result": {
+    "version": "AIScore_v2.2.2",                    // 内核版本号（AIScore表示“中文字词评分内核”）  
+    "res": "auco_chwds_2.3",                        // 内核资源版本号              
+    "rank": 100,                                    // 评分等级制为“百分制” （目前支持“百分制”“四级制”，“二级制”）              
+    "wavetime": 3400,                               // 输入wave的时间长度，单位为毫秒(ms)
+    "systime": 1149,                                // 系统计算得分消耗时间，单位为毫秒(ms)
+    "overall": 92,                                  // 词整体等级：综合考虑了 无调发音(phn)、声调(tone)                                                 
+    "pron": 92,                                     // 带调发音等级：综合考虑了 无调发音(phn)、声调(tone)                                               
+    "phn": 97,                                      // 无调发音等级：字词包含的所有无调拼音的发音整体水平                                               
+    "tone": 88,                                     // 声调等级： 字词包含的所有声调的整体水平                                                          
+    "details": [                                    // 如果是单字，details数组只包含1个元素                                                             
+        {                                           // 音节级得分                                                                                       
+            "char": "ni",                           // 无调拼音串                                                                                       
+            "score": 94,                            // 无调发音等级（与phn一样，为向下兼容）                                                            
+            "overall": 84,                          // 音节整体等级：综合考虑了该字的 无调发音(phn)、声调(tone)                                         
+            "pron": 84,                             // 带调发音等级                                                                                     
+            "phn": 94,                              // 无调发音等级                                                                                     
+            "phone": [                              // (如果是零声母，phone的数组只包括一个元素，表示韵母评分)                                          
+                {                                                                                                                                       
+                    "char": "n",                    // 第一个phone(声母,如为零声母，该项为韵母)                                                         
+                    "score": 90                     // 得分等级                                                                                         
+                },                                                                                                                                      
+                {                                                                                                                                       
+                    "char": "i",                    // 第二个phone(韵母，如声母部分为零声母，该项不存在)                                                
+                    "score": 94                     // 得分等级                                                                                         
+                }                                                                                                                                       
+            ],                                                                                                                                          
+            "tone": 2,                              // 声调：为2声                                                                                      
+            "tonescore": 75,                        // 声调得分等级                                                                                     
+            "confidence": [                         // 声调置信度百分制得分（用于声调曲线绘制）                                                         
+                2,                                  // 轻声得分                                                                                         
+                2,                                  // 1声得分                                                                                          
+                92,                                 // 2声得分                                                                  
+                2,                                  // 3声得分                                                         
+                2                                   // 4声得分                                                         
+            ] 
+        },
+        {                                           // 单字评分，每个字段含义同上相应解释
+            "char": "hao",
+            "score": 100,
+            "overall": 100,
+            "pron": 100,
+            "phn": 100,
+            "phone": [
+                {
+                    "char": "h",
+                    "score": 100 
+                },
+                {
+                    "char": "ao",
+                    "score": 100 
+                } 
+            ],
+            "tone": 3,
+            "tonescore": 100,
+            "confidence": [
+                0,
+                0,
+                0,
+                100,
+                0 
+            ] 
+        } 
+    ] 
+}
+,
+    "ts": 1301041532217,                                   // 服务器时间
+    "audioUrl": "http://host/audio/v1.1/aistream.cnscore/1295337509549/aispeechtest/c10fcc747d0d305ce11243c26ff8110f/cd7e06be87de45f7b1c3019c9b424c1d.flv", // 本次录音文件URL。
+    "sessionId": "4d2b757c22c7580b7f46a154dfd3b0c3",       // session，同一个客户端的一个连接称之为一个session，具有一个唯一的sessionid。
+    "userId": "aispeechtest",
+    "applicationId": "1295337509549",
+    "params": {                                            // 调用者设置的评分参数（部分参数经过了过滤处理）
+        "userId": "aispeechtest",
+        "applicationId": "1295337509549",
+        "refText": "ni2-hao3",
+        "coreType": "cn.word.score",
+        "scoreType": "100" 
+    }
+    
+}
+ 
+}}}
+ * 结果解析
+   * 每个单字的phone数组，正常情况下包含声母，韵母信息，对于零声母（比如“我”），phone数组只有一个元素，为韵母评分，应用开发者需要在用到声母，韵母评分的地方处理此种情况。
+   * 反馈结果中tone,phn分别表示升调（不考虑发音），发音（不考虑声调）的评分。 overall和pron表示tone和phn的综合评分，使用者需要区分。
+   * confidence表示用户升调的特征，配合AISpeech API提供的升调曲线绘制功能，可以图示反映用户的升调曲线 。
+
+= 中文句子评分返回结果及解释 =
+ * 结果是JSON结构。
+ * result字段：对本次请求的评分结果。
+ * app字段：连接的服务接口地址。
+ * audioUrl字段： 本次请求的录音文件。
+ * userId, applicationId：调用者设置的userId和applicationId。
+ * params, 调用者设置的请求参数。
+ * result.overall,  词整体等级：综合考虑了 无调发音(phn)、声调(tone)  。
+ * result.pron,  带调发音等级：综合考虑了 无调发音(phn)、声调(tone)， 同overall。
+ * result.phn, 无调发音等级：字词包含的所有无调拼音的发音整体水平,即声母，韵母发音的综合评分。
+ * result.tone, 声调等级： 字词包含的所有声调的整体水平。
+ * result.fluency， 句子的流利度评分。
+ * result.rank, 本次评分的分制。
+ * result.details, 单词中每个音节（单字）的评分结果，是一个数组，数组中元素的顺序和单词中单字出现的顺序一致。
+ * result.details[0].char, 音节的无调拼音串
+ * result.details[0].tone, 音节的数字声调表示
+ * result.details[0].overall, 音节整体等级：综合考虑了该字的 无调发音(phn)、声调(tone)  
+ * result.details[0].phn, 音节的无调发音评分
+ * result.details[0].pron，音节整体等级：综合考虑了该字的 无调发音(phn)、声调(tone)
+ * result.details[0].tonescore, 音节的声调评分。
+ * result.details[0].score 同result.details[0].phn，向下兼容。
+ * result.details[0].phone，此字段是一个数字，表示此单字的声母，韵母序列。
+  * 如果result.details[0].phone有两个元素，则result.details[0].phone[0]表示声母，result.details[0].phone[1]表示韵母。
+  * 如果result.details[0].phone只有一个元素，则result.details[0].phone[0]表示韵母，此音节位零声母。
+ * result.details[0].phone[0].char，第一个音素的文本。
+ * result.details[0].phone[0].score, 第一个音素的评分。
+ * result.details[0].confidence,此数组包含了5个整数，分表表示轻声，1-4声的置信系数。根据此系数，使用AISpeech API提供的声调曲线绘制功能可以绘制用户声调曲线。
+{{{
+{
+    "recordId": "0ae06934b82a4df7968c8b5ee405f2e0",  // 录音Id
+    "app": "v1.1/aistream.cnscore",
+    "result": {                                      // 评分结果
+        "systime": 140,
+        "version": "AIScoreSent_v2.1.0",
+        "res": "achn_chsnt_gnr_0.2.1",
+        "wavetime": 2926,
+        "fluency": 97,                               // 流利度评分:  主要反映发音存在：长时间停顿、插入其他语音、只说了一句话的前面部分，这些现象的程度    
+        "phn": 93,                                   // 发音（不带升调）评分
+        "pron": 85,                                  // 发音和声调综合评分，同overall
+        "overall": 85,                               // 总体评分
+        "tone": 69,                                  // 声调评分
+        "rank": 100,                                 // 分制
+        "details": [                                 // 单字评分结果
+            {
+                "tone": 2,                           // 单字的标准声调，即refText中设置的声调，比如ni2这个字，tone为2
+                "phone": [                           // 音素及评分，此JSON数组中包含声母，韵母的评分，对于零声母的情况，此JSON数组只有一个元素
+                    {
+                        "char": "n",                 // 声母
+                        "score": 2                   // 声母评分
+                    },
+                    {
+                        "char": "i",                 // 韵母
+                        "score": 100                 // 韵母评分
+                    }
+                ],
+                "char": "ni",                        // 单字的拼音
+                "tonescore": 80,                     // 单字的声调评分
+                "score": 98,                         // 同phn，为向下兼容
+                "phn": 98,                           // 单字的发音（不带升调）评分
+                "pron": 92,                          // 带调发音等级：综合考虑了这个字的 无调发音(phn)、声调(tone)
+                "overall": 92,                       // 带调发音等级：综合考虑了这个字的 无调发音(phn)、声调(tone)
+                "confidence": [                      // 声调的置信系数，表示了用户的声调的特征，用于绘制声调曲线
+                    2,                               // 轻声的置信系数
+                    2,                               // 1声的置信系数
+                    93,                              // 2声的置信系数
+                    2,                               // 3声的置信系数
+                    2                                // 4声的置信系数
+                ]
+              
+            },
+            {
+                "tone": 3,
+                "phone": [
+                    {
+                        "char": "h",
+                        "score": 40
+                    },
+                    {
+                        "char": "ao",
+                        "score": 100
+                    }
+                ],
+                "char": "hao",
+                "tonescore": 77,
+                "score": 96,
+                "phn": 96,
+                "pron": 90,
+                "confidence": [
+                    2,
+                    2,
+                    2,
+                    92,
+                    2
+                ],
+                "overall": 90
+            }
+        ]
+    },
+    "audioUrl": "http://dev.api.aispeech.com/audio/v1.1/aistream.cnscore/1295337509549/aispeechtest/41d99afae3682c160ac77cfc3f43648e/0ae06934b82a4df7968c8b5ee405f2e0.flv",
+    "ts": 1308632553725,
+    "sessionId": "41d99afae3682c160ac77cfc3f43648e",
+    "userId": "aispeechtest",
+    "applicationId": "1295337509549",
+    "params": {
+        "recordId": "0ae06934b82a4df7968c8b5ee405f2e0",
+        "userId": "aispeechtest",
+        "applicationId": "aispeechtest",
+        "debug": true,
+        "refText": "ni2-hao3",
+        "coreType": "cn.sent.score",
+        "scoreType": "100"
+    }
+}
+}}}
+ * 结果解析
+   * 每个单字的phone数组，正常情况下包含声母，韵母信息，对于零声母（比如“我”），phone数组只有一个元素，为韵母评分，应用开发者需要在用到声母，韵母评分的地方处理此种情况。
+   * 反馈结果中tone,phn分别表示升调（不考虑发音），发音（不考虑声调）的评分。 overall和pron表示tone和phn的综合评分，使用者需要区分。
+   * confidence表示用户升调的特征，配合AISpeech API提供的升调曲线绘制功能，可以图示反映用户的升调曲线。如图示。
+
+
+= 英文单词评分结果及解释 =
+ * 结果是JSON结构。
+ * result字段：对本次请求的评分结果。
+ * app字段：连接的服务接口地址。
+ * audioUrl字段： 本次请求的录音文件。
+ * userId, applicationId：调用者设置的userId和applicationId。
+ * params, 调用者设置的请求参数。
+ * result.overall,  词整体等级。
+ * result.rank, 本次评分的分制。
+ * result.details[0], 单词评分细节。
+ * result.details[0].char，单词文本。
+ * result.details[0].score ，单词的评分。
+ * result.details[0].phone, 单词中每个音素的评分结果，是一个数组，数组中元素的顺序和音素顺序一致。
+ * result.details[0].phone[0].char, 第一个音素的表示文本。
+ * result.details[0].phone[0].score, 第一个音素的评分。
+ * result.details[0].stress, 暂时保留。
+ * result.details[0].dur, 单词语音帧长度。
+ * result.details[0].phone中音素的表示与国际音标具有一一对应的关系:  * [wiki:dev_v1.1_enphonemap 英文评分结果与国际音标的对应关系]
+ * result sample:
+ {{{
+
+  {
+    "recordId": "b91e871f0cc445fca7160d03492e92c1",
+    "app": "v1.1/aistream.enscore",
+    "result": {
+        "systime": 1160,
+        "res": "aeng_enwds_1.5",
+        "rank": 100,
+        "details": [                              //单词评分细节，音素级评分
+            {
+                "phone": [
+                    {
+                        "char": "m",              // 音素文本
+                        "score": 79               // 音素对应的评分
+                    },
+                    {
+                        "char": "eh",
+                        "score": 1
+                    },
+                    {
+                        "char": "s",
+                        "score": 7
+                    },
+                    {
+                        "char": "ih",
+                        "score": 46
+                    },
+                    {
+                        "char": "jh",
+                        "score": 0
+                    }
+                ],
+                "dur": 40,
+                "char": "message",     // 单词文本
+                "stress": [],
+                "score": 7             // 单词的评分
+            }
+        ],
+        "wavetime": 5017,
+        "overall": 7,                   // 单词总体评分
+        "version": "AIScoreEn_v1.4.1"
+    },
+    "audioUrl": "http://dev.api.aispeec.com/audio/v1.1/aistream.enscore/1295337509549/aispeechtest/6cf81a7cc3feecdb7ba567d8e9217cb6/b91e871f0cc445fca7160d03492e92c1.flv",
+    "ts": 1308643247784,
+    "sessionId": "6cf81a7cc3feecdb7ba567d8e9217cb6",
+    "userId": "aispeechtest",
+    "applicationId": "1295337509549",
+    "params": {
+        "recordId": "b91e871f0cc445fca7160d03492e92c1",
+        "userId": "aispeechtest",
+        "applicationId": "aispeechtest",
+        "debug": true,
+        "refText": "message",
+        "coreType": "en.word.score",
+        "scoreType": "100"
+    }
+}
+
+}}}
+ * 结果解析。
+ 
+
+= 英文句子评分结果及解析 =
+ * 结果是JSON结构。
+ * result字段：对本次请求的评分结果。
+ * app字段：连接的服务接口地址。
+ * audioUrl字段： 本次请求的录音文件。
+ * userId, applicationId：调用者设置的userId和applicationId。
+ * params, 调用者设置的请求参数。
+ * result.rank, 本次评分的分制。
+ * result.overall, 词整体等级。
+ * result.fluency, 句子流利度评分。
+ * result.tonescore，暂时保留。
+ * result.details, 句子中每个单词评分细节。
+ * result.details[0].char，单词文本。
+ * result.details[0].score ，单词的评分。
+ * result.details[0].fluency, 单词的流利度评分。
+ * result.details[0].stressref, 是否需要重音的标识，1表示重音，和参数中s:1标注对应。
+ * result.details[0].stressscore, 重音评分， stressscore=stressref 表示重音发音和标注符合。
+ * result.details[0].toneref,是否需要升调的标识，1表示升调，和参数中t:1对应。
+ * result.details[0].tonescore, 语调评分， tonescore=toneref 表示语调发音和标注符合。
+ * result.details[0].dur, 单词语音帧长度。
+ * result.details[0].phone中音素的表示与国际音标具有一一对应的关系:  * [wiki:dev_v1.1_enphonemap 英文评分结果与国际音标的对应关系]
+ * result sample:
+{{{
+
+{
+    "recordId": "b726d3260dfb4d4a87254f0ba84205ec", //音频Id
+    "audioUrl": "http://dev.api.aispeec.com/audio/v1.1/aistream.enscore/1295337509549/aispeechtest/5a0aabeef100a42c46c89544ae72ac21/b726d3260dfb4d4a87254f0ba84205ec.flv", //音频地址
+    "app": "v1.1/aistream.enscore",
+    "result": {
+        "systime": 1258,
+        "res": "aeng_ensnt_0.5",
+        "toneref": 0,
+        "rank": 100,
+        "details": [
+            {                     //每个单词的成绩
+                "stressref": 0,   // 是否需要重音的标识，1表示重音，和参数中s对应
+                "toneref": 0,     //是否需要升调的标识，1表示升调，和参数中t对应
+                "stressscore": 0, // 重音评分， stressscore=stressref 表示重音发音和标注符合
+                "dur": 44,
+                "char": "thank", // 单词文本
+                "tonescore": 0,  // 升调评分， tonescore=toneref 表示升降调发音和标注符合
+                "fluency": 99,   // 单词流利度
+                "score": 45      // 单词评分
+            },
+            {
+                "stressref": 0,
+                "toneref": 0,
+                "stressscore": 0,
+                "dur": 9,
+                "char": "you",
+                "tonescore": 0,
+                "fluency": 94,
+                "score": 21
+            },
+            {
+                "stressref": 0,
+                "toneref": 0,
+                "stressscore": 0,
+                "dur": 26,
+                "char": "very",
+                "tonescore": 0,
+                "fluency": 97,
+                "score": 47
+            },
+            {
+                "stressref": 0,
+                "toneref": 0,
+                "stressscore": 0,
+                "dur": 34,
+                "char": "much",
+                "tonescore": 0,
+                "fluency": 99,
+                "score": 34
+            }
+        ],
+        "wavetime": 5018,
+        "tonescore": 0,  // 未使用
+        "fluency": 50,  // 句子流利度
+        "overall": 2,   // 句子总分
+        "version": "AIScoreEnSent_v1.4.0"
+    },
+    "ts":  1305697902942,
+    "sessionId": "5a0aabeef100a42c46c89544ae72ac21",
+    "userId": "aispeechtest",
+    "applicationId": "1295337509549",
+    "params": {       // 用户设置的参数
+        "userId": "aispeechtest",
+        "applicationId": "aichinese",
+        "refText": "thank you very much",
+        "coreType": "en.sent.score",
+        "scoreType": "100"
+    }
+}
+
+}}}
+
+= 中文识别服务返回结果 =
+ * 结果是JSON结构。
+ * result字段：对本次请求的评分结果。
+ * app字段：连接的服务接口地址。
+ * audioUrl字段： 本次请求的录音文件。
+ * userId, applicationId：调用者设置的userId和applicationId。
+ * params, 调用者设置的请求参数。
+ * result.rec, 本次识别结果。
+ * result.conf, 对识别结果的置信度。
+ * result sample:
+{{{
+
+{
+    "recordId": "58baa66d01934688be0b8fb692c64f3e",
+    "app" : "v1.1/aistream.cnscore",
+    "result": {
+        "endtime": 2470,
+        "systime": 520,
+        "res": "res_engrec_0.2",
+        "rec": "你好",                 // 识别结果
+        "starttime": 1500,
+        "wavetime": 2973,
+        "conf": 46,                     // 识别结果置信度
+        "version": "AIRec_v0.4.0"
+    },
+    "audioUrl": "http://dev.api.aispeec.com/audio/v1.1/aistream.enscore/1295337509549/aispeechtest/e2ad5f7881c3e63254bae4ee0095657d/58baa66d01934688be0b8fb692c64f3e.flv",
+    "ts": 1308733310283,
+    "sessionId": "e2ad5f7881c3e63254bae4ee0095657d",
+    "userId": "aispeechtest",
+    "applicationId": "1295337509549",
+    "params": {
+        "recordId": "58baa66d01934688be0b8fb692c64f3e",
+        "userId": "aispeechtest",
+        "applicationId": "1295337509549",
+        "language": "english",
+        "coreType": "en.sent.rec",
+        "scoreType": "100",
+        "grammar": "$word = 你好| 我们; (sil $word sil)"
+    }
+}
+
+}}}
+ * 识别结果处理
+  * rec，表示识别结果，对应用户传递的grammar中的一项。
+  * conf，置信系数，表示此识别结果的可信度，不同的应用可以设定不同的门限，用于判断某个识别结果是否可信。
+  * 如果返回错误码20001, 表示没有检测到用户录音，应用可以做noinput处理。
+  * 如果返回错误码20302等，或者conf小于设定的门限，做nomatch处理。
+  * conf表示置信度，conf值越大表示识别结果的可信度越高。开发者可以设置门限T，当conf<T时，舍弃识别结果，判定为nomatch。
+  * rec是识别结果，也就是此前设置的grammer中的分支之一。开发者可以根据此结果做后续处理。
+  * 对于noinput或者nomatch，应用开发者可以自行决定如何处理：比如可以播放提示音，或者让用户重读一次。
+  * 如果识别结果中包含errID，则表示此语音无法识别，开发者需要注意：
+   * 20302表示grammar中设置的语法包含有单词在AISpeech API的字典中不存在。 对这种情况，请开发者检查grammar的写法是否规范，是否有规定之外的字符，如果仍然有问题，请记录此问题并反馈。
+   * AISpeech API 识别服务目前包含11w字的字典，能够满足绝大多数应用，但是仍然可能存在部分生僻词，人名，地名，缩写等不在字典中，所以建议避免使用个性化的人名，地名。或者开发阶段跟AISpeech协调预先补充字典。
+   * AISpeech API 目前能够离线添加字典，随着字典更新，此类问题会很快解决。
+ 
+=  英文识别服务返回结果  =
+ * 结果是JSON结构。
+ * result字段：对本次请求的评分结果。
+ * app字段：连接的服务接口地址。
+ * audioUrl字段： 本次请求的录音文件。
+ * userId, applicationId：调用者设置的userId和applicationId。
+ * params, 调用者设置的请求参数。
+ * result.rec, 本次识别结果。
+ * result.conf, 对识别结果的置信度。
+ * result sample:
+{{{
+
+{
+    "recordId": "58baa66d01934688be0b8fb692c64f3e",
+    "app" : "v1.1/aistream.enscore",
+    "result": {
+        "endtime": 2470,
+        "systime": 520,
+        "res": "res_engrec_0.2",
+        "rec": "hello",                 // 识别结果
+        "starttime": 1500,
+        "wavetime": 2973,
+        "conf": 46,                     // 识别结果置信度
+        "version": "AIRec_v0.4.0"
+    },
+    "audioUrl": "http://dev.api.aispeec.com/audio/v1.1/aistream.enscore/1295337509549/aispeechtest/e2ad5f7881c3e63254bae4ee0095657d/58baa66d01934688be0b8fb692c64f3e.flv",
+    "ts": 1308733310283,
+    "sessionId": "e2ad5f7881c3e63254bae4ee0095657d",
+    "userId": "aispeechtest",
+    "applicationId": "1295337509549",
+    "params": {
+        "recordId": "58baa66d01934688be0b8fb692c64f3e",
+        "userId": "aispeechtest",
+        "applicationId": "1295337509549",
+        "language": "english",
+        "coreType": "en.sent.rec",
+        "scoreType": "100",
+        "grammar": "$word = hello | good ; (sil $word sil)"
+    }
+}
+
+}}}
+ * 识别结果处理
+  * rec，表示识别结果，对应用户传递的grammar中的一项。
+  * conf，置信系数，表示此识别结果的可信度，不同的应用可以设定不同的门限，用于判断某个识别结果是否可信。
+  * 如果返回错误码20001, 表示没有检测到用户录音，应用可以做noinput处理。
+  * 如果返回错误码20302等，或者conf小于设定的门限，做nomatch处理。
+  * conf表示置信度，conf值越大表示识别结果的可信度越高。开发者可以设置门限T，当conf<T时，舍弃识别结果，判定为nomatch。
+  * rec是识别结果，也就是此前设置的grammer中的分支之一。开发者可以根据此结果做后续处理。
+  * 对于noinput或者nomatch，应用开发者可以自行决定如何处理：比如可以播放提示音，或者让用户重读一次。
+  * 如果识别结果中包含errID，则表示此语音无法识别，开发者需要注意：
+   * 20302表示grammar中设置的语法包含有单词在AISpeech API的字典中不存在。 对这种情况，请开发者检查grammar的写法是否规范，是否有规定之外的字符，如果仍然有问题，请记录此问题并反馈。
+   * AISpeech API 识别服务目前包含11w字的字典，能够满足绝大多数应用，但是仍然可能存在部分生僻词，人名，地名，缩写等不在字典中，所以建议避免使用个性化的人名，地名。或者开发阶段跟AISpeech协调预先补充字典。
+   * AISpeech API 目前能够离线添加字典，随着字典更新，此类问题会很快解决。
+ 
+= 错误反馈格式 =
+ * 在身份验证，录音请求等过程中需要做好错误处理，错误反馈格式:
+ * result.errID, 错误码，请参考错误码列表处理。
+ * result.error, 错误详细信息。
+ * sample：
+{{{
+ {
+    "recordId": "9a654351d0ea4d6fa5a30bf53464f12f",
+    "result": {
+        "error": {
+            "message": "error message",
+            "errNo": 40081,
+            "details": "",
+            "type": "PARAM"
+        },
+        "errID": 40081  
+    },
+    "app": "v1.1/http.cnscore",
+    "ts": 1300782277522
+}
+}}}
