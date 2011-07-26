@@ -9,7 +9,7 @@
   * RecorderLib
   * PlayerLib
 
-= RecorderLib =
+=RecorderLib =
  * RecorderLib 提供5项主要功能
   * 开始录音
   * 结束录音
@@ -75,7 +75,7 @@ serverParam:serverParam
 recorderLib.startRecord( param );
 }}}
   * 参数说明
-   * recordLength： 录音长度（单位 ms）, 计算公式可以采用如下， recordLength = 2500 + charNumber * 450 , charNumber 指的是汉字数目
+   * recordLength： 录音长度（单位 ms）, 计算公式可以采用如下， recordLength = 2500 + charNumber `* `450 , charNumber 指的是汉字数目
    * serverParam：服务器参数， 总共有 5 个 子 参数
     * refText 字段：识别文本段
     * userId 字段：用户id，表示用户在应用中的标识。
@@ -120,7 +120,7 @@ If( resultObj.result.error ) {
  * 超时事件 AudioIOEvent.CORE_TIMEOUT_EVENT，说明服务器并没有反馈， 此事件是在录音结束后，超过规定时间后还没拿到结果反馈时触发的；此时，我们也认为此次语音处理失败。
 
 
-= PlayerLib =
+=PlayerLib=
  AISpeech API 提供了播放器组件，能够播放mp3。播放器使用示例：
  * 新建播放器
 {{{
