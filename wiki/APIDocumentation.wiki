@@ -17,6 +17,7 @@
   * [FAQ FAQ]
   * [Tools Tools]
   * [TechSupport Technical Support]
+  * [rtmpserverlist RTMP ServerList]
   * [HttpApiv11 HTTP 接入接口 (NEW)]
  * [assdk ActionScript 3.0 SDK]
   * [assdkstart Getting Started]
