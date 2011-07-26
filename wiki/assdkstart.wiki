@@ -82,7 +82,7 @@ recorderLib.startRecord( param );
     * applicationId：应用id
     * scoreType：内核反馈值评分形式 ， 有3个可选字段 “2”， “4”， “100”
     * coreType：所使用的内核服务。
-    * 不同服务对应的详细参数参考[ServiceList11]
+    * 不同服务对应的详细参数参考[ServiceListv11]
 
  * 结束录音,录音结束有两种方式：
   * 录音时间到，自动停止录音。
