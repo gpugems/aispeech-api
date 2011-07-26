@@ -27,12 +27,12 @@
 recorderLib.init({
 	appKey: "xxx", 
 	secretKey: "xxx",
-	serverList: "rtmp://cn.api.aispeech.com:443/v1.1/aistream.cnscore" 
+	serverList: "rtmp://{host}:443/v1.1/aistream.cnscore" 
 });
 }}}
   * 参数：appKey 字段：应用授权码， 请使用您从AI Speech申请的appKey。
   * 参数：secretKey 字段：appKey对应的密钥。
-  * 参数：serverList 字段： 服务器列表，格式为”rtmp://xxxxx,rtmp://xxxxx,rtmp://xxxxx”
+  * 参数：serverList 字段： 服务器列表，格式为”rtmp://xxxxx,rtmp://xxxxx,rtmp://xxxxx”，参考[rtmpserverlist]
 	
  * 将录音机组件添加到UIComponent组件中, 可以将录音机的设置界面显示在UI中:
 {{{
