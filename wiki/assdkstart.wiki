@@ -1,0 +1,192 @@
+#summary One-sentence summary of this page.
+
+= AS SDK介绍 =
+   本文档，我们提供 AISpeech API ActionScript3.0 SDK（以下简称AS SDK） 使用说明。
+   ActionScript3.0 SDK 提供开发文档、SWC开发库文件，本AS SDK包含两个组件：
+  * RecorderLib
+  * PlayerLib
+
+= RecorderLib =
+ * RecorderLib 提供5项主要功能
+  * 开始录音
+  * 结束录音
+  * 开始回放
+  * 结束回放
+  * 语音结果反馈
+
+ * 新建一个录音机对象RecorderLib
+{{{	
+        var aispeechLib:RecorderLib;
+	aispeechLib = new RecorderLib();
+}}}
+ * 初始化录音机
+{{{
+recorderLib.init({
+	appKey: "xxx", 
+	secretKey: "xxx",
+	serverList: "rtmp://cn.api.aispeech.com:443/v1.1/aistream.cnscore" 
+});
+}}}
+  * 参数：appKey 字段：应用授权码， 请使用您从AI Speech申请的appKey。
+  * 参数：secretKey 字段：appKey对应的密钥。
+  * 参数：serverList 字段： 服务器列表，格式为”rtmp://xxxxx,rtmp://xxxxx,rtmp://xxxxx”
+	
+ * 将录音机组件添加到UIComponent组件中, 可以将录音机的设置界面显示在UI中:
+{{{
+	  var uiComponent:UIComponent = new UIComponent();
+	  uiComponent.addChild( recorderLib );
+}}}	
+ * 添加录音机组件的事件监听：（必须）
+{{{
+	with( recorderLib ) {
+		addEventListener(AudioIOEvent.SERVER_CONNECTED, recorderEventHandler);
+addEventListener(AudioIOEvent.SERVER_OUT_OF_TIME, recorderEventHandler);
+addEventListener(AudioIOEvent.PUBLISH_START, recorderEventHandler);
+addEventListener(AudioIOEvent.RECORD_STOP, recorderEventHandler);
+addEventListener(AudioIOEvent.SERVER_CALL_CLIENT_EVENT, recorderEventHandler);
+addEventListener(AudioIOEvent.CORE_TIMEOUT_EVENT, recorderEventHandler);
+	}
+}}}
+  * AudioIOEvent.SERVER_CONNECTED ，服务器连上后触发， 您需要在连接上服务器前，做一些处理，录音机所有的操作在连上服务器前是无法进行的。如：录音、回放。
+  * AudioIOEvent.SERVER_OUT_OF_TIME，连接服务器超时， 这个说明您需要检查网络， 此时您可以让用户重新刷新页面。 RecordLib 自己也提供一个函数 reconnect() ，次函数仅在服务器连接超时后，重连使用
+  * AudioIOEvent.PUBLISH_START，此事件表示客户端拿到了此次录音的 录音 id， 此时您可以通过， recordLib.getRecordId() 这个 get 函数来获取录音id , 录音 id 用于回放用户录音时使用。 但是，您可以在回放时直接调用 recordLib.getRecordId() 来获取录音 id 用于回放。
+  * AudioIOEvent.SERVER_CALL_CLIENT_EVENT，此事件触发时，您获取到了录音结果。您可以使用函数 recordLib.getResult() 来获取评分反馈，反馈结果是一个Object类型。
+  * AudioIOEvent.CORE_TIMEOUT_EVENT，此事件触发时， 表示获取评分超时，失败。
+				 
+ * 开始录音
+ 设置完成后可以开始录音。
+{{{
+var serverParam:Object = 
+{
+refText: "ni2-hao3", 
+userId: "xxx", 
+applicationId: "xxx", 
+scoreType: "100", 
+coreType: "cn.word.score" 
+};
+var param:Object ={
+recordLength:2500, 
+serverParam:serverParam
+};
+
+recorderLib.startRecord( param );
+}}}
+  * 参数说明
+   * recordLength： 录音长度（单位 ms）, 计算公式可以采用如下， recordLength = 2500 + charNumber * 450 , charNumber 指的是汉字数目
+   * serverParam：服务器参数， 总共有 5 个 子 参数
+    * refText 字段：识别文本段
+    * userId 字段：用户id，表示用户在应用中的标识。
+    * applicationId：应用id
+    * scoreType：内核反馈值评分形式 ， 有3个可选字段 “2”， “4”， “100”
+    * coreType：所使用的内核服务。
+
+ * 结束录音,录音结束有两种方式：
+  * 录音时间到，自动停止录音。
+  * 调用recorderLib.stopRecord()。
+  * 录音结束时，服务器会自动开始识别计算。
+
+ * 开始回放
+  * 您需要注册一个侦听器 ，用来侦听回放的结束事件：
+{{{
+	addEventListener( AudioIOEvent.REPLAY_STOP, recorderEventHandler )
+	
+}}}
+  * 调用 recorderLib.startReplay( {recordId: recordId} );   开始回放用户录音
+    * recordId 参数：录音id， 可以通过 一个  get函数 recordId 来获取， 如：
+	
+{{{
+var recordId:String = recorderLib.getRecordId();
+}}}
+ * 结束回放，回放结束有两种方式
+   * 回放完音频后，自动停止
+   * 调用 recorderLib.stopReplay() 停止回放
+
+ * 结果处理说明
+ 如果您要获取语音反馈结果，需要对 recordLib侦听事件 AudioIOEvent. SERVER_CALL_CLIENT_EVENT 和 事件 AudioIOEvent.CORE_TIMEOUT_EVENT 。
+  * AudioIOEvent. SERVER_CALL_CLIENT_EVENT，如果服务器有返回，将触发此事件， 并且返回结果在 event 的 message 属性（是一个 json String）上， 不过您不用自己去解析， 可以调用方法 recorderLib.getResult() 获取一个Object， 此Object 对象即是解析后的数据。
+  *　获取结果:
+{{{
+var resultObj:Object = recorderLib.getResult();
+}}}
+　* 接着，我们需要判断结果中的信息，如果有error 信息，那么说明此次语音处理失败。我们可以用如下语句来做判断：
+If( resultObj.result.error ) {
+    // you can tell user failed or do other things 
+}else {
+    // get the data you want
+}
+ * 超时事件 AudioIOEvent.CORE_TIMEOUT_EVENT，说明服务器并没有反馈， 此事件是在录音结束后，超过规定时间后还没拿到结果反馈时触发的；此时，我们也认为此次语音处理失败。
+
+
+= PlayerLib =
+ AISpeech API 提供了播放器组件，能够播放mp3。播放器使用示例：
+ * 新建播放器
+{{{
+var playerLib = new PlayerLib();
+侦听播放器事件（必须）
+playerLib.addEventListener(AudioIOEvent.LOAD_AUDIO_FROM_HTTP_SUCCESSFUL, function(e:AudioIOEvent) {
+					playerLib.startAudioPlay();
+				});
+playerLib.addEventListener(AudioIOEvent.PLAY_STOP, function(e:AudioIOEvent){
+	// DO some thing on Play Stop Event
+				});
+}}}
+ * 初始化播放器
+{{{
+	playerLib.init({});
+}}}
+ * 开始播放
+{{{
+	playerLib. loadAudioFromURL ( audioURL:String );
+	这只是load 音频开始。我们看 4.1 中侦听了两个事件，其中的 AudioIOEvent.LOAD_AUDIO_FROM_HTTP_SUCCESSFUL  表示了加载完成，然后可以开始播放mp3 。播放mp3 我们使用函数：
+	playerLib.startAudioPlay();
+}}}
+ * 结束播放,播放器结束播放有两种形式：
+   * 在播放完音频后自动停止
+   * 调用：playerLib.stopAudioPlay();
+
+
+ = 完整的事件列表 =
+
+ *录音机
+{{{
+	SERVER_CONNECTED：服务器连接成功。
+	EXCEPTION_SERVER_CONNECT_CLOSE:服务器连接断开异常。	   EXCEPTION_SERVER_CONNECT_FAILED:服务器连接失败。
+	EXCEPTION_SERVER_CONNECT_REJECTED:连接被拒绝。
+	EXCEPTION_HOST_NET_CHANGE:客户端网络发生变化。
+	PUBLISH_START:录音开始（服务器返回的事件，表明服务器开始接受录音）。
+	RECORD_STOP:客户端录音结束事件。
+	RECORD_START:客户端录音开始事件。
+	EXCEPTION_FLASHVARS_PARAMETER_ERROR: Flash初始化参数异常。
+	EXCEPTION_STARTRECORD_PARAMETER_ERROR: 录音参数异常。
+	EXCEPTION_STARTREPLAY_PARAMETER_ERROR: 回放参数异常。	
+
+}}}
+ * 播放器
+{{{	
+	LOAD_AUDIO_FROM_HTTP_SUCCESSFUL: 加载音频成功。
+	PLAY_STOP:播放停止。
+	PLAY_START:播放开始。
+	PLAY_PAUSE:播放暂停。
+	PLAY_RESUME:播放恢复。
+	PLAY_BUFFERING:播放缓冲。
+	PLAY_CONTINUE:缓冲结束，继续播放。
+	PLAY_SEEK_SUCCESSFUL:Seek操作成功。
+	PLAY_SEEK_FAILED:Seek操作失败。
+	PLAY_FILE_NOT_FOUND:音频文件不存在。
+	PLAY_SERVER_ERROR:从服务器加载音频失败。
+	PLAY_FAILED:播放失败。
+	PLAY_NETSTREAM_INSUFFICIENT_BW:带宽不足。
+	PLAYER_SERVER_FMS_CONNECT_FAILED: 连接服务器失败，针对rtmp播放模式。
+	PLAYER_SERVER_FMS_CONNECT_REJECTED:连接服务器失败，针对rtmp播放模式。
+}}}	 
+ * 麦克风事件和网络事件
+{{{
+	MIC_GETTED: 获取到mic。
+	MIC_ALLOWED：允许mic录音。当用户选择了设置面板的"Allow"之后触发。
+	EXCEPTION_MIC_NOT_FOUND:没有Mic。
+	EXCEPTION_MIC_NOT_ALLOWED:Mic未被允许。
+	EXCEPTION_SERVER_NOT_CONNECTED:未连接服务器。
+	SERVER_OUT_OF_TIME: 连接服务器超时。
+	CORE_TIMEOUT_EVENT: 调用服务超时。
+	NO_AVAILABLE_SERVER: 无可用服务器。 
+}}}
