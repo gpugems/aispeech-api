@@ -118,7 +118,7 @@ if( resultObj.result.error ) {
     // get the data you want
 }
 }}}
- * 详细结果,参考[ServiceList]中不同语音内核的返回值。
+ * 详细结果,参考[ServiceList11]中不同语音内核的返回值。
  * 超时事件 AudioIOEvent.CORE_TIMEOUT_EVENT，说明服务器并没有反馈， 此事件是在录音结束后，超过规定时间后还没拿到结果反馈时触发的；此时，我们也认为此次语音处理失败。
 
 
