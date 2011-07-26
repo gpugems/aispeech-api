@@ -106,7 +106,7 @@ var recordId:String = recorderLib.getRecordId();
  * 结果处理说明
  如果您要获取语音反馈结果，需要对 recordLib侦听事件 AudioIOEvent. SERVER_CALL_CLIENT_EVENT 和 事件 AudioIOEvent.CORE_TIMEOUT_EVENT 。
   * AudioIOEvent. SERVER_CALL_CLIENT_EVENT，如果服务器有返回，将触发此事件， 并且返回结果在 event 的 message 属性（是一个 json String）上， 不过您不用自己去解析， 可以调用方法 recorderLib.getResult() 获取一个Object， 此Object 对象即是解析后的数据。
-  *　获取结果:
+  * 获取结果:
 {{{
 var resultObj:Object = recorderLib.getResult();
 }}}
@@ -152,7 +152,7 @@ playerLib.addEventListener(AudioIOEvent.PLAY_STOP, function(e:AudioIOEvent){
 
  = 完整的事件列表 =
 
- *录音机
+ * 录音机
 {{{
 	SERVER_CONNECTED：服务器连接成功。
 	EXCEPTION_SERVER_CONNECT_CLOSE:服务器连接断开异常。	   EXCEPTION_SERVER_CONNECT_FAILED:服务器连接失败。
