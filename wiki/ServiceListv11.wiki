@@ -1,404 +1,171 @@
 #sidebar APIDocumentation
 <wiki:toc max-depth=1 />
-
-= 中文评分 ： aistream.cnscore =
  
- # 服务url： rtmp://sandbox.api.aispeech.com/v1.1/aistream.cnscore
- # 调用参数 serverParams 为aispeech.SpeechResource类型：
-  * scoreType, 2 | 4 | 100 , 评分分制选择。 设置方式：aispeech.SpeechResource.setScoreType("100")。
-  * coreType, cnword 表示中文单词评分。设置方式：aispeech.SpeechResource.setCoreType("cnword")。
-  * refText, 参考文本，中文为数字拼音表示， 你好表示为 ni2-hao3。 详细参考[RefText]。设置方式：aispeech.SpeechResource.setRefText("ni2-hao3")。
-  * userId, 用户在网站中的唯一身份标识，用于区别不同的终端用户，一般用用户的email表示。设置方式：aispeech.SpeechResource.setUserId("user")。
-  * applicationId, app的标识，为appKey。设置方式：aispeech.SpeechResource.setApplicationId("appId")。
-  * 示例：
-{{{
-        aispeech.SpeechResource.setScoreType("100");
-        aispeech.SpeechResource.setCoreType("cnword");
-        aispeech.SpeechResource.setRefText("ni2-hao3");
-        recorder1.record({
-            duration: 3000,
-            playNotifyAudio: true,
-            serverParams: aispeech.SpeechResource.get()
-            });
-}}}
- # 内核计算返回值（getScores调用的返回值）
-  * 中文单词内核（coreType=cnword）
-{{{
-{
-"5e5e7f39244347d48b2c27252805bce0":  //表示recordId 5e5e7f39244347d48b2c27252805bce0的录音评分结果。
+本文包含了不同服务的输入参数说明。
 
- {
-    "recordId": "5e5e7f39244347d48b2c27252805bce0",  // 在startRecord的时候，服务器生成的一个唯一的id，并回传给客户端
-    "ts": 1298346588291,                             // 当前时间戳（服务器时间）
-    
-    "params": {                                      // 本次计算的参数
-        "applicationId": "1295337509549",
-        "coreType": "cn.word.score",
-        "scoreType": "2",
-        "refText": "zhang1-lao3-shi1",
-        "userId": "user@domain.com"
-    } ,
-    "result": {                                     // 计算结果
-    "version": "AIScore_v2.2.2",                    // 内核版本号（AIScore表示“中文字词评分内核”，v1.3.3表示：主版本号为1，次版本号为3，build号为3）  
-    "res": "auco_chwds_2.3",                        // 内核资源版本号              
-    "rank": 100,                                    // 评分等级制为“百分制” （目前支持“百分制”“四级制”，“二级制”）              
-    "wavetime": 3400,                               // 输入wave的时间长度，单位为毫秒(ms)
-    "systime": 1149,                                // 系统计算得分消耗时间，单位为毫秒(ms)
-    "overall": 92,                                  // 词整体等级：综合考虑了 无调发音(phn)、声调(tone)                                                 
-    "pron": 92,                                     // 带调发音等级：综合考虑了 无调发音(phn)、声调(tone)                                               
-    "phn": 97,                                      // 无调发音等级：字词包含的所有无调拼音的发音整体水平                                               
-    "tone": 88,                                     // 声调等级： 字词包含的所有声调的整体水平                                                          
-    "details": [                                    // 如果是单字，details数组只包含1个元素                                                             
-        {                                           // 音节级得分                                                                                       
-            "char": "ni",                           // 无调拼音串                                                                                       
-            "score": 94,                            // 无调发音等级（与phn一样，为向下兼容）                                                            
-            "overall": 84,                          // 音节整体等级：综合考虑了该字的 无调发音(phn)、声调(tone)                                         
-            "pron": 84,                             // 带调发音等级                                                                                     
-            "phn": 94,                              // 无调发音等级                                                                                     
-            "phone": [                              // (如果是零声母，phone的数组只包括一个元素，表示韵母评分)                                          
-                {                                                                                                                                       
-                    "char": "n",                    // 第一个phone(声母,如为零声母，该项为韵母)                                                         
-                    "score": 90                     // 得分等级                                                                                         
-                },                                                                                                                                      
-                {                                                                                                                                       
-                    "char": "i",                    // 第二个phone(韵母，如声母部分为零声母，该项不存在)                                                
-                    "score": 94                     // 得分等级                                                                                         
-                }                                                                                                                                       
-            ],                                                                                                                                          
-            "tone": 2,                              // 声调：为2声                                                                                      
-            "tonescore": 75,                        // 声调得分等级                                                                                     
-            "confidence": [                         // 声调置信度百分制得分（用于声调曲线绘制）                                                         
-                2,                                  // 轻声得分                                                                                         
-                2,                                  // 1声得分                                                                                          
-                92,                                 // 2声得分                                                                  
-                2,                                  // 3声得分                                                         
-                2                                   // 4声得分                                                         
-            ] 
-        },
-        {
-            "char": "hao",
-            "score": 100,
-            "overall": 100,
-            "pron": 100,
-            "phn": 100,
-            "phone": [
-                {
-                    "char": "h",
-                    "score": 100 
-                },
-                {
-                    "char": "ao",
-                    "score": 100 
-                } 
-            ],
-            "tone": 3,
-            "tonescore": 100,
-            "confidence": [
-                0,
-                0,
-                0,
-                100,
-                0 
-            ] 
-        } 
-    ] 
-}
-,
-    "sessionId": "4d2b757c22c7580b7f46a154dfd3b0c3",  // session，同一个客户端的一个连接称之为一个session，具有一个唯一的sessionid。
-    "userId": "aispeechtest",
-    "applicationId": "1295337509549"
-}
-}
+= 中文单词和句子评分 =
+ * 中文单词评测功能说明
+  * 中文评测，能对用户的中文发音进行评测，反馈结果包含单词级别和声母，韵母，声调的反馈。
+  * 儿化音处理：暂时不支持儿化音。  
+  * 7个字以内可以采用中文单词评分
+ * 中文句子评测功能说明
+   * 支持句子总体，单词，声母，韵母，声调的反馈。
+   * 支持中文句子2-50个字
+   * 反馈结果中包含流利度
+ * 服务调用参数
+   * userId，  指用户在开发者应用中的标识
+   * coreType ，选择服务类型， 中文单词为cn.word.score， 中文句子为cn.sent.score
+   * resource，当coreType=cn.word.score的时候，可以选择resource类型，表示选择资源类型。不同的资源之间的区别：针对不同人群的语音模型，适合不同的受众人群。
+     * achn_chwds_ntv， native 模型，适合汉语为母语用户群。
+     * chn_chwds_fgr， 非native模型，适合汉语不是母语的用户群。
+     * achn_chwds_gnr， 通用模型，适合各类用户群。
+     * 默认为achn_chwds_gnr
+   * refText，参考文本，参考文本采用数字拼音的方式，不合法的参考文本标注将导致评测失败。正确标注如： ni3-jiao4-shen2-me0
+    * 数字拼音标注规则： 声母＋韵母＋升调。 0表示轻声。1，2，3，4分别对应1，2，3，4声调。数字拼音标注应表示拼音的实际发音。
+    * 韵母u:用v标注，比如“女”标注为nv3。
+    * 儿化韵，暂时不支持，需要过滤儿化的标注，比如“花儿”标注为"hua1"。
+    * 变调： 变调需要在refText中标出，服务器不具有自动检测变调的功能。比如“你好”标注为"ni2-hao3"。
+    * 多个字的数字拼音之间采用'-'连接。
+    * 单词支持1－7个字。
+    * 句子支持2－50个字。
+   * scoreType ， 分制，可选 2 | 4 | 100
+   * audioType，当使用HTTP接口调用时，此参数为必选(可以是flv, mp3或wav)。使用RTMP接入时，此值可选（服务器会忽略此设置）且只能为"flv"。
+   * mode， 可选， record-only ，如果本次请求仅录音，而不进行计算，需要设置mode="record-only"。
 
-}}}
+ * 中文单词评分结果
+   * [CoreResult]
  
- # 错误反馈, 如果计算过程出错，getScores得到如下反馈：
-  * errID, 错误代码。参考[ErrorCode]。
-{{{
- {
-    "recordId": "233672c5e3ce45819bc5bb1bed07ac7a", // record Id
-    "ts": 1298346588291,                            // 时间戳
-    "sessionId": "3185def8785a0abf532f324add8906c8",
-    "result": {
-        "errID": 20001,                            
-        "error": {
-            "kernelErrMsg": {
-                "wavetime": 4978,
-                "rank": 2,
-                "res": "achn_chwds_2.3",
-                "reference": "zhang1-lao3-shi1",
-                "systime": 50,
-                "version": "AIScore_v2.2.2"
-            }
-        }
-    },
-    "params": {
-        "applicationId": "1295337509549",
-        "coreType": "cn.word.score",
-        "scoreType": "2",
-        "refText": "zhang1-lao3-shi1",
-        "userId": "user@domain.com"
-    }
-}
-}}}
- # 对于中文字词类服务，AISpeech API JavaScript SDK 提供了绘制拼音声调曲线的功能。 绘制曲线用到了flot。
-   * 首先导入绘制曲线需要的JavaScript文件
-{{{
- <script type="text/javascript" src="load_aiflot.js"></script>
-}}}
-   * 建立绘制曲线的容器：
-{{{
-    <div id="toneCurve1" style="width:200px; height:200px; border:1px solid #000;">
-                    </div>
-}}}
-   * 绘制标准声调曲线： 
-{{{
-            var id =  toneCurve1; // 对应html页面中div容器的id。
-            var tone =  // 声调， 0-4, 0表示轻声，1－4分别表示汉语拼音中的1声到四声。
-            var color = ＃000000 //曲线颜色值
-            aiFlot1 = aispeech.AiFlot.draw({
-                id: id,
-                stdData: {
-                    tone: tone,
-                    color: color
-                
-                }
-            }); 
+ * 中文句子评分返回的结果
+  * [CoreResult]
 
+
+= 英文单词评分 =
+ * 支持的功能说明
+  * 对英文单词评分
+ * 服务调用参数： 
+ {{{
+  {
+ "refText":   “xxx”    
+ "scoreType": “xxx",
+ "coreType":  "xxx",
+ "userId":  "xxx",   
+ "applicationId":"appkey" 
+ }
 }}}
-   * 绘制用户发音声调曲线：
-{{{
-            var id =  // flot元素id。
-            var color =  #000000;// 曲线颜色值。
-            var confidence = [0,100,0,0,0]  // 表示用户声调的置信度。
-            aiFlot2 = aispeech.AiFlot.draw({
-                id: id,
-                userData: {
-                    confidence: confidence,
-                    color: color
-                }
-            });
+ * 参数说明：
+  * refText,必选， 评分的参考文本，单词评分仅支持单词，不带任何标点，以空格连接多个单词, 如"good morning"。
+  * coreType, 必选，"en.word.score" ,表示英文单词评分。
+  * scoreType, 必选， 分制 2或4或100。
+  * userId, 必选， 用户在应用中的标识。
+  * applicationId, 必选， 应用标识，同appKey。
+  * mode， 可选， record-only ，如果本次请求仅录音，而不进行计算，需要设置mode="record-only"。
+
+ * 英文单词评分反馈结果说明
+  * [CoreResult]
  
+
+= 英文句子评分 =
+ * 支持的功能说明：
+  * 英文句子评分
+  * 带重音标注的英文句子评分，需要输入参数中有重音发音的标注。
+  * 带升降调标注的英文句子评分，需要输入参数中有升降调的标注。
+  * 流利度评测：句子中标点符号处的停顿，语速快慢等流利度因素。
+ * 服务调用的参数： 
+ {{{
+  {
+ "refText":   “xxx”    
+ "scoreType": “xxx",
+ "coreType":  "xxx",
+ "userId":  "xxx",   
+ "applicationId":"appkey" 
+ }
 }}}
-
-
-= 英文单词评分： aistream.enscore =
-  # 服务URL： rtmp://sandbox.api.aispeech.com/v1.1/aistream.enscore
-  # 调用参数 serverParams 为aispeech.SpeechResource类型：
-   * scoreType, 2 | 4 | 100 , 评分分制选择。 设置方式：aispeech.SpeechResource.setScoreType("100")。
-   * coreType, enword 表示中文单词评分。设置方式：aispeech.SpeechResource.setCoreType("enword")。
-   * refText, 参考文本，英文单词。设置方式：aispeech.SpeechResource.setRefText("hello")。
-   * userId, 用户在网站中的唯一身份标识，用于区别不同的终端用户，一般用用户的email表示。设置方式：aispeech.SpeechResource.setUserId("user")。
-   * applicationId, app的标识，为appKey。设置方式：aispeech.SpeechResource.setApplicationId("appId")。
-   * 示例：
+ * 参数说明
+  * refText, 必选， 评分的参考文本，规则说明：
 {{{
-        aispeech.SpeechResource.setScoreType("100");
-        aispeech.SpeechResource.setCoreType("enword");
-        aispeech.SpeechResource.setRefText("hello");
-        recorder1.record({
-            duration: 3000,
-            playNotifyAudio: true,
-            serverParams: aispeech.SpeechResource.get()
-            });
+  '(单引号) ,(逗号） :(冒号) ；(分号)  .(句号)  ?(问号)  !(叹号)  -(连字符)
+   其中只能作为标点符号的是:  ,(逗号)  ;(分号)  ?(问号)      
+   其中只能作为单词内字符的是：  -(连字符)  '(单引号)     
+   既可能是标点符号又可能是单词内字符的是:    :(冒号)  .(句号)  !(叹号)         
+   符号字符作为标点符号时候，后面必须接空格。
+   保留必要的标点符号，标点是流利度评分的依据。
 }}}
- # 内核计算返回值（getScores调用的返回值）
 {{{
-{
-"8b717908f05a4b589c76ce41e27d665e":   //表示recordId为8b717908f05a4b589c76ce41e27d665e的结果。
-{
-    "sessionId": "cf2e203b494753de30138b7f74a39391",
-    "ts": 1298346588291,                             // 当前时间戳（服务器时间）
-   
-    "params": {                                      // 本次计算的参数
-        "applicationId": "1295337509549",
-        "coreType": "en.word.score",
-        "scoreType": "2",
-        "refText": "hello",
-        "userId": "user@domain.com"
-    } ,
-    "result": {
-        "version": "AIScoreEn_v1.2.1",
-        "res": "aeng_enwds_1.3",
-        "rank": 4,                  //分制，此处为4分制
-        "overall": "D",             //单词的总评分，包括发音，重音的综合评估，4分制中A,B,C,D四级表示
-        "details": [                
-            {
-                "char": "present",  //评估的单词
-                "score": "D",       //单词的发音评分
-                "dur": 131,
-                "phone": [          // 单词音素级评分。此结果段尚在beta阶段，如需要使用，请联系api@aispeech.com
-                    {
-                        "char": "p", // 单词音素
-                        "score": "B" // 音素评分
-                    },
-                    {
-                        "char": "r",
-                        "score": "D"
-                    },
-                    {
-                        "char": "eh",
-                        "score": "C"
-                    },
-                    {
-                        "char": "z",
-                        "score": "A"
-                    },
-                    {
-                        "char": "ax",
-                        "score": "D"
-                    },
-                    {
-                        "char": "n",
-                        "score": "D"
-                    },
-                    {
-                        "char": "t",
-                        "score": "D"
-                    }
-                ],
-                "stress": [          // 单词重音检测结果
-                    {
-                        "char": "p_r_eh", //音节，由音素拼接成
-                        "ref": "1",  // 音节重音标称（0非重音/1重音）
-                        "score": "0" // 音节是否是重音
-                    },
-                    {
-                        "char": "z_ax_n_t",
-                        "ref": "0",
-                        "score": "1"
-                    }
-                ] 
-            }
-        ] 
-    },
-    "recordId": "8b717908f05a4b589c76ce41e27d665e"
-}
-}
-
+   如果需要服务对重音，升降调进行反馈，需要在传入的refText参数中加上相应标注，标注方式：
+   s:1,表示重音， 比如 hello(s:1) world.  如果有标点，（s:1)在标点之前，比如hello world(s:1).
+   t:1,表示升调，比如 are you ok(t:1)?
+   可以同时标注重音和升调，比如，are you ok(s:1,t:1). s:1和t:1之间用‘,’连接。
 }}}
- # 反馈结果中音素和国际音标映射表
-  * 参考[Map]
+  * coreType, 必选，en.sent.score，表示英文句子评分。
+  * scoreType, 必选， 分制 2或4或100。
+  * userId, 必选， 用户在应用中的标识。
+  * applicationId, 必选， 应用标识，同appKey。
+  * mode， 可选， record-only ，如果本次请求仅录音，而不进行计算，需要设置mode="record-only"。
 
- = 英文句子评分 =
+ * 返回值：
+  * [CoreResult]
+
  
- # 服务url： rtmp://sandbox.api.aispeech.com/v1.1/aistream.enscore
- # 调用参数 serverParams 为aispeech.SpeechResource类型：
-  * scoreType, 2 | 4 | 100 , 评分分制选择。 设置方式：aispeech.SpeechResource.setScoreType("100")。
-  * coreType, "en.sent.score"。
-  * refText, 参考文本，如how(s:1) are you(s:1)。 详细参考[RefTextEnSent]。设置方式：aispeech.SpeechResource.setRefText("how(s:1) are you(s:1)")。
-  * userId, 用户在网站中的唯一身份标识，用于区别不同的终端用户，一般用用户的email表示。设置方式：aispeech.SpeechResource.setUserId("user")。
-  * applicationId, app的标识，为appKey。设置方式：aispeech.SpeechResource.setApplicationId("appId")。
-  * 示例：
+= 英文识别服务 =
+ * 功能说明
+  * 对英文单词，句子识别
+  * 识别是限定分支的，也就是需要调用者设定若干个分支的语法，识别服务会识别出用户的语音跟哪个分支最相符。
+  * 语速，连读等不会明显影响识别结果。
+  * 对于噪声，胡说等情况能够检测。
+  * 对于集外（用户的发音不符合任何一个分支）的情况能够检测。
+ * 服务调用的参数：
 {{{
-        aispeech.SpeechResource.setScoreType("100");
-        aispeech.SpeechResource.setUserId("your user id");
-        aispeech.SpeechResource.setApplicationId("your app id")
-        aispeech.SpeechResource.setRefText("how(s:1) are you(s:1)");
-        serverParams = aispeech.SpeechResource.get();
-        serverParams[“coreType”] = "en.sent.score";
-        recorder1.record({
-            duration: 5000, // 录音时间长度，建议5000 + 450*单词数量 ms。
-            playNotifyAudio: true,
-            serverParams: serverParams
-            });
+  {
+ "grammar":"hello | good ",   //多个语法之间用｜连接， 只允许小写字母和"'","－"作为连字符
+ "coreType":"en.sent.rec",
+ "language":"english",
+ "userId":xxx,
+ "applicationId":"appkey"
+ }
 }}}
- # 内核计算返回值（getScores调用的返回值）
-  * 英文句子评分内核返回结果
-{{{ 
-"966f7e04d195411db9e1b436df2cf827": {
-    "recordId": "966f7e04d195411db9e1b436df2cf827",
-    "result": {
-        "systime": 1592,
-        "res": "aeng_ensnt_0.5",
-        "toneref": 0,
-        "rank": 100,
-        "details": [
-            {                 //单词评分
-                "stressref": 0,
-                "toneref": 0,
-                "stressscore": 0,
-                "dur": 27,
-                "char": "it's",
-                "tonescore": 0,
-                "fluency": 98, //单词流利度
-                "score": 57    // 单词评分
-            },
-            {
-                "stressref": 0,
-                "toneref": 0,
-                "stressscore": 0,
-                "dur": 31,
-                "char": "a",
-                "tonescore": 0,
-                "fluency": 72,
-                "score": 80
-            },
-            {
-                "stressref": 0,
-                "toneref": 0,
-                "stressscore": 0,
-                "dur": 15,
-                "char": "good",
-                "tonescore": 0,
-                "fluency": 99,
-                "score": 43
-            },
-            { 
-                "stressref": 0,
-                "toneref": 0,
-                "stressscore": 0,
-                "dur": 47,
-                "char": "one",
-                "tonescore": 0,
-                "fluency": 77,
-                "score": 3
-            }
-        ],
-        "wavetime": 4972,
-        "tonescore": 0,
-        "fluency": 87, //流利度评分
-        "overall": 10, //总体评分
-        "version": "AIScoreEnSent_v1.4.0"
-    },
-    "audioUrl": "http://cnapi.records.aispeech.com/audio/v1.1/aistream.enscore/1295337509549/aispeechtest/d3bebc14c69ef54edcb9f39b4d3f9187/966f7e04d195411db9e1b436df2cf827.flv",
-    "ts": 1307436929389,
-    "sessionId": "d3bebc14c69ef54edcb9f39b4d3f9187",
-    "userId": "aispeechtest",
-    "applicationId": "1295337509549",
-    "params": {
-        "recordId": "966f7e04d195411db9e1b436df2cf827",
-        "userId": "aispeechtest",
-        "applicationId": "aispeechtest",
-        "debug": true,
-        "refText": "it's a good(s:1) one.",
-        "coreType": "en.sent.score",
-        "scoreType": "100"
-    }
-}
-}}}
- # 错误反馈, 如果计算过程出错，getScores得到如下反馈：
-  * errID, 错误代码。参考[ErrorCode]。
+ * 参数说明
+  * grammar, 必选，识别语法，使用|分隔的选项序列，目前支持英文单词以及"'","-"这两个连接符号，其他字与标点将被系统过滤。每个选项表示一种正确的说法。 例如 hello | good boy | nice ｜ cann't。
+  * coreType, 必选，识别服务类型，可以为en.sent.rec ， en.sent.rec对应英文识别服务。
+  * language,必选， 识别语言类型，可以为english,chinese， 和coreType对应，需要设置语言类型，当coreType=en.sent.rec时，此参数只能为english。
+  * userId, 用户在应用中的标识。 对每一个终端用户设定唯一的userId，能够区分不同用户的数据，AISpeech API提供的反馈增值依赖此字段进行统计。
+  * applicationId, appKey，应用标识。
+  * 当language=english时，grammar仅支持英文单词输入，单词之间以空格分开，不带标点符号。
+ * 识别结果说明
+   * [CoreResult]
+ * 目前的限制：
+  * grammar不支持非英语单词，不允许出现数字。
+  * 存在部分不能识别的生僻词，人名，地名。 可以离线添加字典解决。
+
+= 中文识别服务 =
+ * 功能说明
+  * 对中文单词，句子识别
+  * 识别是限定分支的，也就是需要调用者设定若干个分支的语法，识别服务会识别出用户的语音跟哪个分支最相符。
+  * 语速不会明显影响识别结果。
+  * 对于噪声，胡说等情况能够检测。
+  * 对于集外（用户的发音不符合任何一个分支）的情况能够检测。
+ * 服务调用的参数：
 {{{
- {
-    "recordId": "233672c5e3ce45819bc5bb1bed07ac7a", // record Id
-    "ts": 1298346588291,                            // 时间戳
-    "sessionId": "3185def8785a0abf532f324add8906c8",
-    "result": {
-        "errID": 20001,                            
-        "error": {
-            "kernelErrMsg": {
-               "msg": "err message here"
-            }
-        }
-    },
-    "params": {
-        "applicationId": "1295337509549",
-        "coreType": "en.sent.score",
-        "scoreType": "100",
-        "refText": "hello",
-        "userId": "user@domain.com"
-    }
-}
+  {
+ "grammar":"你好 | 我们 ",     //多个语法之间用｜连接，  
+ "coreType":"cn.sent.rec",
+ "language":"chinese",
+ "userId":xxx,
+ "applicationId":"appkey"
+ }
 }}}
+ * 参数说明
+  * grammar, 必选，识别语法，使用|分隔的选项序列，目前只支持中文字的识别，英文、数字和标点将被系统过滤。每个选项表示一种正确的说法。 例如 你好 | 我们 | 他们 。
+  * coreType, 必选，识别服务类型，cn.sent.rec 对应中文识别服务。
+  * language,必选， 识别语言类型，chinese 表示中文识别。
+  * userId, 用户在应用中的标识。 对每一个终端用户设定唯一的userId，能够区分不同用户的数据，AISpeech API提供的反馈增值统计功能依赖此字段进行统计。
+  * applicationId, appKey，应用标识。
+  * 当language=chinese时，grammar仅支持中文输入，字之间空格分开，不带标点。
+  * 参数grammar包含中文，请使用UTF-8编码。
+ * 识别结果说明
+  * [CoreResult]
+
+ * 目前的限制：
+  * grammar不支持非汉语，不允许出现数字。
+  * 存在部分不能识别的生僻词，人名，地名。 可以离线添加字典解决。
 
  
