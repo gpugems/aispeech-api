@@ -603,7 +603,7 @@ public class TestHttpInteface {
 	 * 
 	 * sysParams: { "session":
 	 * "12953375095491300327340529391720efc00de450c56bbd7954171bc9af1b8ccf",
-	 * "userId": "jin.shen@aispeech.com", "applicationId": "1295337509549" }
+	 * "userId": "xx@aispeech.com", "applicationId": "1295337509549" }
 	 * appParams: { "debug": true, "refText": "ni2-hao3", "coreType":
 	 * "cn.word.score.v2.1", "scoreType": 100, "audioType": wav, "resource":
 	 * "achn_chwds_ntv" } audio: 音频文件二进制流(wav,flv,mp3需要指定audioType)
