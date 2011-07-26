@@ -9,7 +9,7 @@
   * RecorderLib
   * PlayerLib
 
-= 录音组件：RecorderLib  =
+= 录音组件：`RecorderLib`  =
  * RecorderLib 提供5项主要功能
   * 开始录音
   * 结束录音
@@ -117,10 +117,11 @@ If( resultObj.result.error ) {
 }else {
     // get the data you want
 }
+ * 详细结果,参考[ServiceList]中不同语音内核的返回值。
  * 超时事件 AudioIOEvent.CORE_TIMEOUT_EVENT，说明服务器并没有反馈， 此事件是在录音结束后，超过规定时间后还没拿到结果反馈时触发的；此时，我们也认为此次语音处理失败。
 
 
-=播放组件：PlayerLib=
+=播放组件：`PlayerLib` =
  AISpeech API 提供了播放器组件，能够播放mp3。播放器使用示例：
  * 新建播放器
 {{{
