@@ -198,4 +198,5 @@ playerLib.addEventListener(AudioIOEvent.PLAY_STOP, function(e:AudioIOEvent){
 }}}
 
 = SWC 下载 = 
+  [http://aispeech-api.googlecode.com/files/AISpeechLib-v1.1.1131-201107222.swc]
  
