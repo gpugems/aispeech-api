@@ -95,8 +95,7 @@ recorderLib.startRecord( param );
 	
 }}}
   * 调用 recorderLib.startReplay( {recordId: recordId} );   开始回放用户录音
-    * recordId 参数：录音id， 可以通过 一个  get函数 recordId 来获取， 如：
-	
+    * recordId 参数：录音id， 可以通过 一个  get函数 recordId 来获取， 如：	
 {{{
 var recordId:String = recorderLib.getRecordId();
 }}}
@@ -111,12 +110,14 @@ var recordId:String = recorderLib.getRecordId();
 {{{
 var resultObj:Object = recorderLib.getResult();
 }}}
-　* 接着，我们需要判断结果中的信息，如果有error 信息，那么说明此次语音处理失败。我们可以用如下语句来做判断：
-If( resultObj.result.error ) {
+  * 接着，我们需要判断结果中的信息，如果有error 信息，那么说明此次语音处理失败。我们可以用如下语句来做判断：
+{{{
+if( resultObj.result.error ) {
     // you can tell user failed or do other things 
 }else {
     // get the data you want
 }
+}}}
  * 详细结果,参考[ServiceList]中不同语音内核的返回值。
  * 超时事件 AudioIOEvent.CORE_TIMEOUT_EVENT，说明服务器并没有反馈， 此事件是在录音结束后，超过规定时间后还没拿到结果反馈时触发的；此时，我们也认为此次语音处理失败。
 
