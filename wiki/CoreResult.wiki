@@ -324,100 +324,145 @@
  
 
 = 英文句子评分结果及解析 =
- * 结果是JSON结构。
- * result字段：对本次请求的评分结果。
- * app字段：连接的服务接口地址。
- * audioUrl字段： 本次请求的录音文件。
- * userId, applicationId：调用者设置的userId和applicationId。
- * params, 调用者设置的请求参数。
- * result.rank, 本次评分的分制。
- * result.overall, 词整体等级。
- * result.fluency, 句子流利度评分。
- * result.tonescore，暂时保留。
- * result.details, 句子中每个单词评分细节。
- * result.details[0].char，单词文本。
- * result.details[0].score ，单词的评分。
- * result.details[0].fluency, 单词的流利度评分。
- * result.details[0].stressref, 是否需要重音的标识，1表示重音，和参数中s:1标注对应。
- * result.details[0].stressscore, 重音评分， stressscore=stressref 表示重音发音和标注符合。
- * result.details[0].toneref,是否需要升调的标识，1表示升调，和参数中t:1对应。
- * result.details[0].tonescore, 语调评分， tonescore=toneref 表示语调发音和标注符合。
- * result.details[0].dur, 单词语音帧长度。
- * result.details[0].phone中音素的表示与国际音标具有一一对应的关系: [Map]
- * result sample:
+  * 对于v1.5.5以上版本内核，调整了反馈结果，增加了更多字段。
+  * 结果是JSON结构。
+  * result字段：对本次请求的评分结果。
+  * app字段：连接的服务接口地址。
+  * audioUrl字段： 本次请求的录音文件。
+  * userId, applicationId：调用者设置的userId和applicationId。
+  * params, 调用者设置的请求参数。
+  * result.rank, 本次评分的分制。
+  * result.overall, 词整体等级，一般情况下建议直接采用此分数。
+  * result.fluency, 句子流利度部分
+  * result.fluency.overall, 句子流利度评分
+  * result.pron, 发音评分（此项为兼容1.5.5以前版本的overall评分）。
+  * result.integrity, 完整度评分。
+  * result.rhythm, 韵律性评分结果。
+  * result.rhythm.overall, 韵律性的总评分。
+  * result.accuracy, 准确度评分。
+  * result.details, 句子中每个单词评分细节。
+  * result.details[0].char，单词文本。
+  * result.details[0].score ，单词的评分。
+  * result.details[0].fluency, 单词的流利度评分。
+  * result.details[0].stressref, 是否需要重音的标识，1表示重音，和参数中s:1标注对应。
+  * result.details[0].stressscore, 重音评分， stressscore=stressref 表示重音发音和标注符合。
+  * result.details[0].toneref,是否需要升调的标识，1表示升调，和参数中t:1对应。
+  * result.details[0].tonescore, 语调评分， tonescore=toneref 表示语调发音和标注符合。
+  * result.details[0].dur, 单词语音帧长度。
+  * result.statics,  音素级别发音统计。统计每个音素出现的次数和平均评分。
 {{{
-
 {
-    "recordId": "b726d3260dfb4d4a87254f0ba84205ec", //音频Id
-    "audioUrl": "http://dev.api.aispeec.com/audio/v1.1/aistream.enscore/1295337509549/aispeechtest/5a0aabeef100a42c46c89544ae72ac21/b726d3260dfb4d4a87254f0ba84205ec.flv", //音频地址
-    "app": "v1.1/aistream.enscore",
+    "recordId": "8f4b5463570641e19ee339d5c4a9e416",
     "result": {
-        "systime": 1258,
-        "res": "aeng_ensnt_0.5",
-        "toneref": 0,
+        "systime": 1380,
+        "res": "aeng_ensnt_gnr_0.2",
+        "wavetime": 4876,
+        "integrity": 100,
+        "fluency": {
+            "pause": 1,
+            "speed": 100,
+            "overall": 63
+        },
+        "pron": 0,
+        "rhythm": {
+            "tone": 0,
+            "stress": 67,
+            "sense": 0,
+            "overall": 17
+        },
+        "overall": 84,
+        "accuracy": 50,
+        "version": "AIScoreEnSent_v1.5.5",
         "rank": 100,
         "details": [
-            {                     //每个单词的成绩
-                "stressref": 0,   // 是否需要重音的标识，1表示重音，和参数中s对应
-                "toneref": 0,     //是否需要升调的标识，1表示升调，和参数中t对应
-                "stressscore": 0, // 重音评分， stressscore=stressref 表示重音发音和标注符合
-                "dur": 44,
-                "char": "thank", // 单词文本
-                "tonescore": 0,  // 升调评分， tonescore=toneref 表示升降调发音和标注符合
-                "fluency": 99,   // 单词流利度
-                "score": 45      // 单词评分
+            {
+                "stressref": 0,
+                "toneref": 0,
+                "sensescore": 0,
+                "stressscore": 0,
+                "dur": 98,
+                "senseref": 0,
+                "char": "a",
+                "tonescore": 0,
+                "fluency": 0,
+                "score": 58
+            },
+            {
+                "stressref": 1,
+                "toneref": 0,
+                "sensescore": 0,
+                "stressscore": 0,
+                "dur": 16,
+                "senseref": 0,
+                "char": "good",
+                "tonescore": 0,
+                "fluency": 100,
+                "score": 37
             },
             {
                 "stressref": 0,
                 "toneref": 0,
+                "sensescore": 1,
                 "stressscore": 0,
-                "dur": 9,
-                "char": "you",
-                "tonescore": 0,
-                "fluency": 94,
-                "score": 21
-            },
-            {
-                "stressref": 0,
-                "toneref": 0,
-                "stressscore": 0,
-                "dur": 26,
-                "char": "very",
-                "tonescore": 0,
-                "fluency": 97,
-                "score": 47
-            },
-            {
-                "stressref": 0,
-                "toneref": 0,
-                "stressscore": 0,
-                "dur": 34,
-                "char": "much",
-                "tonescore": 0,
-                "fluency": 99,
-                "score": 34
+                "dur": 47,
+                "senseref": 0,
+                "char": "one",
+                "tonescore": 1,
+                "fluency": 89,
+                "score": 2
             }
         ],
-        "wavetime": 5018,
-        "tonescore": 0,  // 未使用
-        "fluency": 50,  // 句子流利度
-        "overall": 2,   // 句子总分
-        "version": "AIScoreEnSent_v1.4.0"
+       
+        "statics": [
+            {
+                "count": 1,
+                "char": "ah",
+                "score": 3
+            },
+            {
+                "count": 1,
+                "char": "ax",
+                "score": 58
+            },
+            {
+                "count": 1,
+                "char": "g",
+                "score": 67
+            },
+            {
+                "count": 1,
+                "char": "n",
+                "score": 66
+            },
+            {
+                "count": 1,
+                "char": "uh",
+                "score": 7
+            },
+            {
+                "count": 1,
+                "char": "w",
+                "score": 0
+            }
+        ]
     },
-    "ts":  1305697902942,
-    "sessionId": "5a0aabeef100a42c46c89544ae72ac21",
+    "audioUrl": "http://cnapi.reocords.aispeech.com/audio/audio/v1.1/aistream.enscore/1295337509549/aispeechtest/811b04112286246e3c2feb1706dc9477/8f4b5463570641e19ee339d5c4a9e416.flv",
+    "ts": "2011-08-07 14:52:03",
+    "sessionId": "811b04112286246e3c2feb1706dc9477",
     "userId": "aispeechtest",
     "applicationId": "1295337509549",
-    "params": {       // 用户设置的参数
+    "params": {
+        "recordId": "8f4b5463570641e19ee339d5c4a9e416",
         "userId": "aispeechtest",
-        "applicationId": "aichinese",
-        "refText": "thank you very much",
+        "applicationId": "aispeechtest",
+        "debug": "true",
+        "refText": "a good(s:1) one.",
         "coreType": "en.sent.score",
         "scoreType": "100"
     }
 }
-
 }}}
+
 
 = 中文识别服务返回结果 =
  * 结果是JSON结构。
