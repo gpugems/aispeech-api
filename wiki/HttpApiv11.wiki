@@ -484,7 +484,7 @@ session(必需，身份验证后取得)
 userId(必需，终端用户id)
 applicationId(必需，用户应用程序注册ID)
 }}}
-  * appParams(JSON格式)，此参数是调用识别服务的必须参数
+   * appParams(JSON格式)，此参数是调用识别服务的必须参数
 {{{
 grammar(必需)    识别需要的选项表示。
 coreType(必需)   语音内核版本,英文识别为cn.sent.rec; 
@@ -524,7 +524,7 @@ audio: 音频文件二进制流(16bit wav,flv,mp3)
   * 当language=chinese时，grammar仅支持中文输入，字之间空格分开，不带标点。
   * 参数grammar包含中文，请使用UTF-8编码。
  * 识别结果说明
-  * [CoreResult#中文句子评分返回结果及解释]
+  * [CoreResut]
 
 
 = 备注 =
