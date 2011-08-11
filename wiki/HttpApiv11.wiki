@@ -524,7 +524,7 @@ audio: 音频文件二进制流(16bit wav,flv,mp3)
   * 当language=chinese时，grammar仅支持中文输入，字之间空格分开，不带标点。
   * 参数grammar包含中文，请使用UTF-8编码。
  * 识别结果说明
-  * [CoreResut]
+  * [CoreResult]
 
 
 = 备注 =
