@@ -446,7 +446,7 @@ language(必需)   语言，英文为english
   * rec是识别结果，也就是此前设置的grammer中的分支之一。开发者可以根据此结果做后续处理。
   * 对于noinput或者nomatch，应用开发者可以自行决定如何处理：比如可以播放提示音，或者让用户重读一次。
   * 如果识别结果中包含errID，则表示此语音无法识别，开发者需要注意：
-   * 20302表示grammar中设置的语法包含有单词在AISpeech API的字典中不存在。 对这种情况，请开发者检查grammar的写法是否规范，是否有规定之外的字符，如果仍然有问题，请记录此问题并反馈。
+   * 20301表示grammar中设置的语法包含有单词在AISpeech API的字典中不存在。 对这种情况，请开发者检查grammar的写法是否规范，是否有规定之外的字符，如果仍然有问题，请记录此问题并反馈。
    * AISpeech API 识别服务目前包含11w字的字典，能够满足绝大多数应用，但是仍然可能存在部分生僻词，人名，地名，缩写等不在字典中，所以建议避免使用个性化的人名，地名。或者开发阶段跟AISpeech协调预先补充字典。
    * AISpeech API 目前能够离线添加字典，随着字典更新，此类问题会很快解决。
 
@@ -470,6 +470,61 @@ appParams:
 audio: 音频文件二进制流(16bit wav,flv,mp3)
 }}}
   
+
+=四、HTTP中文句子识别接口=
+ * 应用程序在上传音频文件前必须经过身份验证。
+ * 英文句子识别请求
+  * HTTP url:  http://sandbox.api.aispeech.com/api/v1.1/rec
+  * HTTP method: POST
+  * params:
+   * audio(必须)  音频文件二进制内容
+   * sysParams(JSON格式): 
+{{{
+session(必需，身份验证后取得)
+userId(必需，终端用户id)
+applicationId(必需，用户应用程序注册ID)
+}}}
+  * appParams(JSON格式)，此参数是调用识别服务的必须参数
+{{{
+grammar(必需)    识别需要的选项表示。
+coreType(必需)   语音内核版本,英文识别为cn.sent.rec; 
+audioType(必需） 音频文件类型,可选值为[wav|mp3|flv]
+language(必需)   语言，中文为chinese
+}}}
+ * 功能说明
+  * 对中文单词，句子识别
+  * 识别是限定分支的，也就是需要调用者设定若干个分支的语法，识别服务会识别出用户的语音跟哪个分支最相符。
+  * 语速不会明显影响识别结果。
+  * 对于噪声，胡说等情况能够检测。
+  * 对于集外（用户的发音不符合任何一个分支）的情况能够检测。
+ * 服务调用的参数：
+{{{
+ sysParams: 
+{
+"session":"2c3d412a0be0a26effcba95d3d7730de953e512a",
+"userId":"test@aispeech.com",
+"applicationId":"1301304913748"
+}
+appParams: 
+{
+    "applicationId": "1301304913748",
+    "language": "chinese",
+    "coreType": "cn.sent.rec",
+    "audioType": "wav",
+    "grammar": "今 天 是 你 的 生 日|我 的 中 国"
+}
+audio: 音频文件二进制流(16bit wav,flv,mp3)
+}}}
+ * 参数说明
+  * grammar, 必选，识别语法，使用|分隔的选项序列，目前只支持中文字的识别，英文、数字和标点将被系统过滤。每个选项表示一种正确的说法。 例如 你好 | 我们 | 他们 。
+  * coreType, 必选，识别服务类型，cn.sent.rec 对应中文识别服务。
+  * language,必选， 识别语言类型，chinese 表示中文识别。
+  * userId, 用户在应用中的标识。 对每一个终端用户设定唯一的userId，能够区分不同用户的数据，AISpeech API提供的反馈增值统计功能依赖此字段进行统计。
+  * applicationId, appKey，应用标识。
+  * 当language=chinese时，grammar仅支持中文输入，字之间空格分开，不带标点。
+  * 参数grammar包含中文，请使用UTF-8编码。
+ * 识别结果说明
+  * [CoreResult#中文句子评分返回结果及解释]
 
 
 = 备注 =
