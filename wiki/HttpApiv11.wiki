@@ -474,7 +474,7 @@ audio: 音频文件二进制流(16bit wav,flv,mp3)
 =四、HTTP中文句子识别接口=
  * 应用程序在上传音频文件前必须经过身份验证。
  * 英文句子识别请求
-  * HTTP url:  http://sandbox.api.aispeech.com/api/v1.1/rec
+  * HTTP url:  http://sandbox.api.aispeech.com/api/v1.1/cnscore
   * HTTP method: POST
   * params:
    * audio(必须)  音频文件二进制内容
