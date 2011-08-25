@@ -6,8 +6,8 @@
  AISpeech API提供了Flash版本的播放器，能够在浏览器中播放mp3,flv音频文件。
  * AiPlayer的详细API文档参考SDK下载包中的docs/aispeech.AiPlayer.html
 = Audio Player使用手册 =
- # 测试页面：http://api.aispeech.com/aispeechapi-js/v1.1/examples/AiPlayer.html
- # AiPlayer API 文档。 http://api.aispeech.com/aispeechapi-js/v1.1/docs
+ # 测试页面：http://api.aispeech.com/aispeechapi-js/v1.1/Examples/AiPlayer.html
+ # AiPlayer API 文档。 http://api.aispeech.com/aispeechapi-js/v1.1/Docs
  # 首先请加载AISpeech API的资源，加载load_core.js。
 {{{
  <script type="text/javascript" src="http://api.aispeech.com/v1.1/aispeechapi-js/load_core.js"></script>
