@@ -13,6 +13,7 @@
   * 在服务器安装php5-curl。
   * 请下载tts.php： http://aispeech-api.googlecode.com/files/tts-v1.1.php 
  # 使用JS SDK中AiPlayer的synth方法即可合成音频。其中applicationId 为应用程序ID，ttsUrl 为这个php文件地址。详细参数请参考 http://api.aispeech.com/aispeechapi-js/v1.1/Docs/jsdoc/symbols/aispeech.AiPlayer.html#synth
+ # 注意：synth方法依赖于jquery插件，用户需要手动引入。
 
 = 语音合成详细流程 = 
  # 合成服务通过HTTP调用，返回合成的结果文件。
