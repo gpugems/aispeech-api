@@ -10,8 +10,8 @@
  * 修改SDK下载地址，以及版本号。当前版本号v1.1。
    * SDK 主文件url: http://api.aispeech.com/aispeechapi-js/v1.1/load_core.js
  * 连接AudioServer时服务器地址格式变化：
-   * 中文评分 rtmp://sandbox.api.aispeech.com:443/v1.1/aistream.cncore 
-   * 英文评分 rtmp://sandbox.api.aispeech.com:443/v1.1/aistream.encore 
+   * 中文评分 rtmp://sandbox.api.aispeech.com:443/v1.1/aistream.cnscore 
+   * 英文评分 rtmp://sandbox.api.aispeech.com:443/v1.1/aistream.enscore 
 
 
 = 环境准备 = 
