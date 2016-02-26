@@ -1,0 +1,8 @@
+# 开发咨询 #
+  * 请发送信息到 api@aispeech.com。
+
+# 反馈 #
+  * 需求反馈，Bug反馈, 请提交至 api@aispeech.com
+
+# appKey 申请 #
+  * 如果您需要生产环境appkey，请发送申请邮件到 api@aispeech.com 申请。包含如下信息： 应用描述，应用的URL，开发者联系方式，开发者所在公司。

@@ -1,0 +1,58 @@
+
+
+# 介绍 #
+> 通过AISpeech API 提供的Text-to-speech服务，您可以将任意文本转换成语音，然后播放给用户。目前，AISpeech API TTS支持英文单词的合成服务。我们即将开放更丰富的合成服务。
+
+# Demo #
+> http://api.aispeech.com/aispeechapi-js/v1.1/Examples/AiPlayer-tts-v1.1.html
+
+# API调用(php) #
+  1. 如果你使用php开发，我们提供了一个获取sessionkey的php文件：
+    * 在服务器安装php5-curl。
+    * 请下载tts.php： http://aispeech-api.googlecode.com/files/tts-v1.1.php
+  1. 使用JS SDK中AiPlayer的synth方法即可合成音频。其中applicationId 为应用程序ID，ttsUrl 为这个php文件地址。详细参数请参考 http://api.aispeech.com/aispeechapi-js/v1.1/Docs/jsdoc/symbols/aispeech.AiPlayer.html#synth
+  1. 注意：synth方法依赖于jquery插件，用户需要手动引入。
+
+# 语音合成详细流程 #
+  1. 合成服务通过HTTP调用，返回合成的结果文件。
+    * 在开始调用之前，需要通过appkey和secretkey验证app身份。
+  1. 第一步，验证身份，请使用appkey和secretkey换取 sessionkey。
+    * 身份验证服务url  http://sandbox.api.aispeech.com/api/v1.1/auth/getSessionKey
+    * 以HTTP POST方式发送身份验证请求，调用参数如下
+      * applicationId：应用程序标识
+      * timestamp：客户端系统时间
+      * sig：(applicationId + timestamp + secretkey)经过SHA-1加密后的字符串
+    * 验证成功，服务器返回json格式字符串
+```
+{
+    "timestamp": 1300328247960,
+    "session": "efc00de450c56bbd7954171bc9af1b8ccf",
+    "applicationId": "1295337509549"
+}
+```
+    * 验证失败，服务器返回json中包含error属性
+```
+{
+    "timestamp": 1300328247960,
+    "error": "auth.faield",
+    "applicationId": "1295337509549"
+}
+```
+    * sessionkey有效时间，如果一个sessionkey 10分钟内没有活动，则sessionkey失效。
+  1. 第二步，获取到sessionKey之后，再请求合成接口，带上sessionKey：
+    * url:  http://host/api/v1.0/synth/appkey/1295337509540/sessionkey/be7e8adc8899ba04efa41d7b3d5b1f7dfbd36cda/lang/en/text/good/model/1?rdm=001
+    * method: GET
+    * response:
+      * 成功： 返回content-type =  audio/mpeg 的音频, 可以直接给播放器播放。
+      * 失败：{"error":"sessionkey.invalid", "session\_key":"xxx"}，
+    * 参数说明
+      * appkey, app key。
+      * lang, 合成的语言类型，当前支持en。
+      * text, 要合成的文本，现在支持英文单词，使用urlencode编码。
+      * model, 声音模型。
+        * 可选值: 1
+      * rdm , 随机数字，避免IE下缓存。
+  1. 第三步，播放合成音。
+    * AISpeech API SDK提供了Flash 版本的 AiPlayer。 AiPlayer具体的使用请参考[FlashAudioPlayer](FlashAudioPlayer.md)。
+    * 使用player load 第二步中的url即可。
+    * 如果播放失败（比如sessionkey验证失败），会通过player对象的onStop回调返回。

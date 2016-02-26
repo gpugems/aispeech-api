@@ -1,0 +1,27 @@
+# 调试工具 #
+  * FireBug，建议您在FireFox下使用FireBug调试。
+  * Arthropod，Flash日志查看工具：
+    * 安装Arthropod. 地址：http://arthropod.stopp.se/
+    * 打开安装好的Arthropod，在settings中输入Connection Password： aispeech0512。
+    * 当Flash开始运行的时候，Flash日志会输出到Arthropod。
+  * SDK测试页面。
+    * AISpeech 在SDK包中提供了example/AiRecorder.html页面，可以测试详细的SDK使用。
+
+# AiDebug #
+  1. AiDebug组件怎么用的？
+    * 首先创建一个对象：
+```
+var aiDebug = new aispeech.AiDebug("divId");
+```
+    * 然后就可以使用aiDebug对象的方法了。常用的有这些方法：
+```
+error,
+warn, 
+info, 
+debug,
+log, 
+setLevel, 
+getLogs, 
+clear
+```
+    * 查看log：在页面中创建一个<div></div>就可以显示后面打印的debug信息(divId默认为"aispeechAiDebug")。可以参考 examples/AiDebug.html。

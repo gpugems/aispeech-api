@@ -1,0 +1,36 @@
+
+
+# 介绍 #
+> 通过AISpeech API 提供的Text-to-speech服务，您可以将任意文本转换成语音，然后播放给用户。目前，AISpeech API TTS支持英文单词的合成服务。我们即将开放更丰富的合成服务。
+
+# API #
+  1. 调用方式：合成服务通过HTTP调用，返回合成的结果文件。
+    * 在开始调用之前，需要通过appkey和secretkey验证app身份。
+  1. 第一步，验证身份，请使用appkey和secretkey换取 sessionkey。
+    * 你需要使用服务器脚本(比如php)发送http POST请求。
+    * url:   http://host/api/v1.0/auth/getSessionKey/appkey/1295337509540/secretkey/391720efc00de450c56bbd7954171bc9af1b8cc0
+    * method: POST
+    * response:
+      * 验证成功:{"timestamp":1298277313659,"app\_key":"1295337509540","session\_key":"be7e8adc8899ba04efa41d7b3d5b1f7dfbd36cda"}
+      * 失败：  {"app\_key":"xxx", "error":"auth.failed."}
+    * sessionkey有效时间，如果一个sessionkey 10分钟内没有活动，则sessionkey失效。
+  1. 如果你使用php开发，我们提供了一个简单的获取sessionkey的例子：
+    * 在服务器安装php5-curl。
+    * 请下载tts.php： http://aispeech-api.googlecode.com/files/tts.php
+  1. 第二步，获取到sessionKey之后，再请求合成接口，带上sessionKey：
+    * url:  http://host/api/v1.0/synth/appkey/1295337509540/sessionkey/be7e8adc8899ba04efa41d7b3d5b1f7dfbd36cda/lang/en/text/good/model/1?rdm=001
+    * method: GET
+    * response:
+      * 成功： 返回content-type =  audio/mpeg 的音频, 可以直接给播放器播放。
+      * 失败：{"error":"sessionkey.invalid", "session\_key":"xxx"}，
+    * 参数说明
+      * appkey, app key。
+      * lang, 合成的语言类型，当前支持en。
+      * text, 要合成的文本，现在支持英文单词，使用urlencode编码。
+      * model, 声音模型。
+        * 可选值: 1
+      * rdm , 随机数字，避免IE下缓存。
+  1. 第三步，播放合成音。
+    * AISpeech API SDK提供了Flash 版本的 AiPlayer。 AiPlayer具体的使用请参考[FlashAudioPlayer](FlashAudioPlayer.md)。
+    * 使用player load 第二步中的url即可。
+    * 如果播放失败（比如sessionkey验证失败），会通过player对象的onStop回调返回,errorCode=50409， message包含验证失败的信息。

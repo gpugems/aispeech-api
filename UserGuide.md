@@ -1,0 +1,50 @@
+
+
+# 变更记录 #
+
+# 名词解释 #
+  * 录音服务器，Audio Server，代指AISpeech 的服务端。AISpeech API需要连接到服务器才能完成录音等请求。
+
+  * 录音机，AudioRecorder， 是一个Flash组件，功能有：麦克风设置，连接录音服务器，录音，发送录音评分请求。
+
+  * 播放器，AudioPlayer，是一个Flash组件，功能有：播放音频。
+
+  * 录音评分，也叫语音评估，是AISpeech服务端对一段录音做出的智能评估。
+
+  * 参考文本，RefText，一次录音对应的文本内容。
+
+  * 评分等级，ScoreType，语音评估的粒度，可以是4分制，也可以是100分制。
+    * 4分制返回1,2,3,4
+    * 百分制返回 0 - 100 之间的整数。
+
+  * 内核，coreType，代指AISpeech服务器端进行智能语音评估的程序。
+    * cnword，表示使用中文单词评分服务。
+    * enword，表示使用英文单词评分服务。
+
+  * 声调曲线，在中文字词评分应用中，声调曲线是使用曲线绘制的拼音声调。
+
+
+# 错误码 #
+  * [ErrorCode](ErrorCode.md)
+
+# Flash Microphone 设置 #
+  * AISpeech API 录音类应用需要使用Flash录音机，为正常使用Flash 录音功能，需要设置Mic。
+  * 设置流程：
+    * 当Flash加载时，显示设置面板，您需要选择“允许",然后“记住”。
+> > ![http://aispeech-api.googlecode.com/files/faq01.jpg](http://aispeech-api.googlecode.com/files/faq01.jpg)
+    * 设置完成后，在onMicStatus回调函数中，如果code=50001,则表示mic已经允许，在这个回调函数中，可以将flash区域设置为1\*1像素。
+    * 如果保留flash区域，可以将flash设置为透明，调用hideFlash可以设置透明，showFlash可以再次显示。
+# 录音类应用工作流程 #
+  * ![http://aispeech-api.googlecode.com/files/apiflow(2).jpg](http://aispeech-api.googlecode.com/files/apiflow(2).jpg)
+
+# API #
+  1. App权限
+> > 连接录音服务器之前，服务器需要验证客户端app的身份，使用appKey+secretKey的方式验证。
+    * 初始化的时候设置appKey和secretKey参数。关于appKey的申请，请向api@aispeech.com申请。
+    * 连接错误信息反馈，通过ConnectorStatus反馈Auth.Failed。
+  1. AudioRecorder对象
+    * 参看docs。http://sandbox.api.aispeech.com/aispeechapi-js/docs/jsdoc/
+  1. AudioPlayer对象
+    * 参看docs。 http://sandbox.api.aispeech.com/aispeechapi-js/docs/jsdoc/
+  1. AiDebug对象
+    * 参看docs。 http://sandbox.api.aispeech.com/aispeechapi-js/docs/jsdoc/

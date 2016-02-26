@@ -1,0 +1,715 @@
+
+
+# 介绍 #
+> 将您的音频文件与评估参数发送至AISpeech API提供的基于HTTP协议的语音评估云服务，AISpeech API HTTP云服务将对您的语言音频进行评估并返回评估结果。目前，AISpeech API HTTP服务支持英文单词/句子的语音评估,识别服务。我们即将开放更多语言的语音评估服务。
+
+# 一、HTTP身份验证 #
+  * url: http://sandbox.api.aispeech.com/api/v1.1/auth/getSessionKey
+  * method: POST
+  * params:
+    * applicationId：应用程序标识
+    * timestamp：客户端系统时间
+    * sig：(applicationId + timestamp + 用户申请applicationId时获取的密钥)经过SHA-1加密后的字符串。如"1234567890" + "1300844039801" + "abcdefg"  => "391720efc00de450c56bbd7954171bc9af1b8ccf"
+  * 返回值
+    * 验证成功，服务器返回JSON格式字符串
+```
+{
+    "timestamp": 1300328247960,
+    "session": "2c3d412a0be0a26effcba95d3d7730de953e512a",
+    "applicationId": "1295337509549"
+}
+```
+    * 验证失败，服务器返回JSON格式字符串中包含error属性
+```
+{
+    "timestamp": 1300328247960,
+    "error": "auth.faield",
+    "errID": 40080,
+    "applicationId": "1295337509549"
+}
+```
+  * 注.服务器设置session失效时间为10分钟。
+
+
+# 二、HTTP英文单词/句子评分接口 #
+1、应用程序在上传音频文件前必须经过身份验证，同中文单词评分。
+
+2、英文单词/句子评分请求
+  * url: http://sandbox.api.aispeech.com/api/v1.1/enscore
+  * method: POST
+  * params:
+    * audio(必须)  音频文件二进制内容
+    * sysParams(JSON格式):
+```
+session(必需，身份验证后取得)
+userId(必需，终端用户ID)
+applicationId(必需，用户应用程序注册ID)
+```
+    * appParams(JSON格式):
+```
+refText(必需)  参考文本(1024个单词以内, 如good-luck, hello-world, how(s:1) are you(s:1)? )
+	       对于英文句子:
+		 单词之间使用空格，允许标点：,.'-?
+		 重音和升降调标注： s:1表示重音，t:1表示升调。 如hello(s:1)表示重音，hello(s:1,t:1)表示升调。 
+coreType(必需)  语音内核版本，英文单词评分为 en.word.score；英文句子评分为 en.sent.score
+scoreType(必需)  评分分制,2|4|100
+audioType(必需）  音频文件类型,可选值为[wav|mp3|flv]
+```
+
+  * 返回值说明
+    * 可参考http://code.google.com/p/aispeech-api/wiki/ServiceListv11
+
+  * 示例：
+    * 英文单词评分 参数:
+```
+sysParams:
+{"session":"2c3d412a0be0a26effcba95d3d7730de953e512a","userId":"jin.shen@aispeech.com","applicationId":"1301304913748"}
+appParams:
+{
+    "applicationId": "1301304913748",
+    "refText": "hello",
+    "coreType": "en.word.score",
+    "scoreType": "100",
+    "audioType": "wav"
+}
+audio: 音频文件二进制流(16bit wav,flv,mp3)
+```
+    * 返回结果:
+    * 结果是JSON结构。
+    * result字段：对本次请求的评分结果。
+    * app字段：连接的服务接口地址。
+    * audioUrl字段： 本次请求的录音文件。
+    * userId, applicationId：调用者设置的userId和applicationId。
+    * params, 调用者设置的请求参数。
+    * result.overall,  词整体等级。
+    * result.rank, 本次评分的分制。
+    * `result.details[0]`, 单词评分细节。
+    * `result.details[0].char`，单词文本。
+    * `result.details[0].score` ，单词的评分。
+    * `result.details[0].phone`, 单词中每个音素的评分结果，是一个数组，数组中元素的顺序和音素顺序一致。
+    * `result.details[0].phone[0].char`, 第一个音素的表示文本。
+    * `result.details[0].phone[0].score`, 第一个音素的评分。
+    * `result.details[0].stress`, 暂时保留。
+    * `result.details[0].dur`, 单词语音帧长度。
+    * `result.details[0].phone`中音素的表示与国际音标具有一一对应的关系:
+    * 国际音标和AISpeech API反馈结果对照表：[国际音标和反馈映射表](Map.md)
+    * result sample:
+```
+{
+        "recordId": "6f4798355e8b435dbf4254d1cf725b21",
+        "result": {
+            "systime": 4059,
+            "res": "aeng_enwds_1.5",
+            "rank": 100,
+            "details": [
+                {
+                    "phone": [
+                        {
+                            "char": "hh",
+                            "score": 100
+                        },
+                        {
+                            "char": "eh",
+                            "score": 77
+                        },
+                        {
+                            "char": "l",
+                            "score": 0
+                        },
+                        {
+                            "char": "ow",
+                            "score": 0
+                        }
+                    ],
+                    "dur": 74,
+                    "char": "hello",
+                    "stress": [],
+                    "score": 67
+                }
+            ],
+            "wavetime": 10000,
+            "overall": 67,
+            "version": "AIScoreEn_v1.4.1"
+        },
+        "audioUrl": "http://dev.api.aispeech.com/audio/v1.1/http.enscore/1301304913748/jin.shen@aispeech.com/2c3d412a0be0a26effcba95d3d7730de953e512a/6f4798355e8b435dbf4254d1cf725b21.wav",
+        "app": "v1.1/http.enscore",
+        "ts": 1307587517288,
+        "params": {
+            "applicationId": "1301304913748",
+            "refText": "hello",
+            "coreType": "en.word.score",
+            "scoreType": "100",
+            "audioType": "wav"
+        },
+       "applicationId": "1301304913748",
+       "sessionId": "2c3d412a0be0a26effcba95d3d7730de953e512a",	
+       "userId": "jin.shen@aispeech.com"
+    }
+```
+    * 英文句子评分 参数:
+```
+sysParams:
+{"session":"2c3d412a0be0a26effcba95d3d7730de953e512a","userId":"jin.shen@aispeech.com","applicationId":"1301304913748"}
+appParams:
+{
+    "applicationId": "1301304913748",
+    "refText": "I don't know how to tell the boys I meet that I want it wild",
+    "coreType": "en.sent.score",
+    "audioType": "mp3",
+    "scoreType": "100"
+}
+audio: 音频文件二进制流(16bit wav,flv,mp3)
+```
+    * 返回结果:
+    * 结果是JSON结构。
+    * result字段：对本次请求的评分结果。
+    * app字段：连接的服务接口地址。
+    * audioUrl字段： 本次请求的录音文件。
+    * userId, applicationId：调用者设置的userId和applicationId。
+    * params, 调用者设置的请求参数。
+    * result.rank, 本次评分的分制。
+    * result.overall, 词整体等级。
+    * result.fluency, 句子流利度评分。
+    * result.tonescore，暂时保留。
+    * result.details, 句子中每个单词评分细节。
+    * `result.details[0].char`，单词文本。
+    * `result.details[0].score` ，单词的评分。
+    * `result.details[0].fluency`, 单词的流利度评分。
+    * `result.details[0].stressref`, 是否需要重音的标识，1表示重音，和参数中s:1标注对应。
+    * `result.details[0].stressscore`, 重音评分， stressscore=stressref 表示重音发音和标注符合。
+    * `result.details[0].toneref`,是否需要升调的标识，1表示升调，和参数中t:1对应。
+    * `result.details[0].tonescore`, 语调评分， tonescore=toneref 表示语调发音和标注符合。
+    * `result.details[0].dur`, 单词语音帧长度。
+    * `result.details[0].phone`中音素的表示与国际音标具有一一对应的关系: [国际音标和AISpeech API反馈映射表](Map.md)
+```
+{
+        "recordId": "1016c94d231e4193885600f941c837e2",
+        "result": {
+            "systime": 2104,
+            "res": "aeng_ensnt_0.5",
+            "toneref": 0,
+            "rank": 100,
+            "details": [
+                {				// 单词评分
+                    "stressref": 0,
+                    "toneref": 0,
+                    "stressscore": 0,
+                    "dur": 24,
+                    "char": "i",
+                    "tonescore": 0,
+                    "fluency": 92,		// 单词流利度
+                    "score": 100		// 单词评分
+                },
+                {
+                    "stressref": 0,
+                    "toneref": 0,
+                    "stressscore": 1,
+                    "dur": 41,
+                    "char": "don't",
+                    "tonescore": 0,
+                    "fluency": 99,
+                    "score": 100
+                },
+                {
+                    "stressref": 0,
+                    "toneref": 0,
+                    "stressscore": 0,
+                    "dur": 25,
+                    "char": "know",
+                    "tonescore": 0,
+                    "fluency": 99,
+                    "score": 100
+                },
+                {
+                    "stressref": 0,
+                    "toneref": 0,
+                    "stressscore": 0,
+                    "dur": 31,
+                    "char": "how",
+                    "tonescore": 0,
+                    "fluency": 99,
+                    "score": 100
+                },
+                {
+                    "stressref": 0,
+                    "toneref": 0,
+                    "stressscore": 0,
+                    "dur": 17,
+                    "char": "to",
+                    "tonescore": 0,
+                    "fluency": 99,
+                    "score": 89
+                },
+                {
+                    "stressref": 0,
+                    "toneref": 0,
+                    "stressscore": 0,
+                    "dur": 37,
+                    "char": "tell",
+                    "tonescore": 0,
+                    "fluency": 92,
+                    "score": 94
+                },
+                {
+                    "stressref": 0,
+                    "toneref": 0,
+                    "stressscore": 0,
+                    "dur": 18,
+                    "char": "the",
+                    "tonescore": 0,
+                    "fluency": 95,
+                    "score": 100
+                },
+                {
+                    "stressref": 0,
+                    "toneref": 0,
+                    "stressscore": 0,
+                    "dur": 36,
+                    "char": "boys",
+                    "tonescore": 0,
+                    "fluency": 99,
+                    "score": 100
+                },
+                {
+                    "stressref": 0,
+                    "toneref": 0,
+                    "stressscore": 0,
+                    "dur": 16,
+                    "char": "i",
+                    "tonescore": 0,
+                    "fluency": 99,
+                    "score": 100
+                },
+                {
+                    "stressref": 0,
+                    "toneref": 0,
+                    "stressscore": 0,
+                    "dur": 36,
+                    "char": "meet",
+                    "tonescore": 0,
+                    "fluency": 99,
+                    "score": 100
+                },
+                {
+                    "stressref": 0,
+                    "toneref": 0,
+                    "stressscore": 0,
+                    "dur": 44,
+                    "char": "that",
+                    "tonescore": 0,
+                    "fluency": 71,
+                    "score": 100
+                },
+                {
+                    "stressref": 0,
+                    "toneref": 0,
+                    "stressscore": 0,
+                    "dur": 12,
+                    "char": "i",
+                    "tonescore": 0,
+                    "fluency": 97,
+                    "score": 100
+                },
+                {
+                    "stressref": 0,
+                    "toneref": 0,
+                    "stressscore": 0,
+                    "dur": 52,
+                    "char": "want",
+                    "tonescore": 0,
+                    "fluency": 99,
+                    "score": 93
+                },
+                {
+                    "stressref": 0,
+                    "toneref": 0,
+                    "stressscore": 0,
+                    "dur": 18,
+                    "char": "it",
+                    "tonescore": 0,
+                    "fluency": 99,
+                    "score": 100
+                },
+                {
+                    "stressref": 0,
+                    "toneref": 0,
+                    "stressscore": 0,
+                    "dur": 49,
+                    "char": "wild",
+                    "tonescore": 0,
+                    "fluency": 99,
+                    "score": 97
+                }
+            ],
+            "wavetime": 5220,
+            "tonescore": 0,
+            "fluency": 96,				// 流利度评分
+            "overall": 99,				// 总体评分
+            "version": "AIScoreEnSent_v1.4.0"
+        },
+        "audioUrl": "http://dev.api.aispeech.com/audio/v1.1/http.enscore/1301304913748/jin.shen@aispeech.com/2c3d412a0be0a26effcba95d3d7730de953e512a/1016c94d231e4193885600f941c837e2.mp3",
+        "app": "v1.1/http.enscore",
+        "ts": 1307587521521,
+        "params": {
+            "applicationId": "1301304913748",
+            "refText": "I don't know how to tell the boys I meet that I want it wild",
+            "coreType": "en.sent.score",
+            "scoreType": "100",
+            "audioType": "mp3"
+        },
+       "applicationId": "1301304913748",
+       "sessionId": "2c3d412a0be0a26effcba95d3d7730de953e512a",	
+       "userId": "jin.shen@aispeech.com"
+    }
+```
+
+
+
+# 三、HTTP英文句子识别接口 #
+  * 应用程序在上传音频文件前必须经过身份验证。
+
+  * 英文句子识别请求
+    * HTTP url:  http://sandbox.api.aispeech.com/api/v1.1/enscore
+    * HTTP method: POST
+    * params:
+      * audio(必须)  音频文件二进制内容
+      * sysParams(JSON格式):
+```
+session(必需，身份验证后取得)
+userId(必需，终端用户id)
+applicationId(必需，用户应用程序注册ID)
+```
+    * appParams(JSON格式)，此参数是调用识别服务的必须参数
+```
+grammar(必需)    识别需要的选项表示。
+coreType(必需)   语音内核版本,英文识别为en.sent.rec; 
+audioType(必需） 音频文件类型,可选值为[wav|mp3|flv]
+language(必需)   语言，英文为english
+```
+  * 参数详细说明
+    * grammar, 必选，识别语法，使用|分隔的选项序列，目前支持英文单词以及"'","-"这两个连接符号，其他字与标点将被系统过滤。每个选项表示一种正确的说法。 例如 $word=good | hello ;(sil $word sil)。 其中$word= , ;(sil $word sil)是固定的语法标注，开发者只需要补充多个选项，用|连接。
+    * coreType, 必选，识别服务类型，可以为en.sent.rec ， en.sent.rec对应英文识别服务。
+    * language,必选， 识别语言类型，可以为english， 和coreType对应，需要设置语言类型，当coreType=en.sent.rec时，此参数只能为english。
+    * userId, 用户在应用中的标识。 对每一个终端用户设定唯一的userId，能够区分不同用户的数据，AISpeech API提供的反馈增值依赖此字段进行统计。
+    * applicationId, appKey，应用标识。当language=english时，grammar仅支持英文单词输入，单词之间以空格分开，不带标点符号。
+
+  * 英文识别结果参考：
+    * 结果是JSON结构。
+    * result字段：对本次请求的评分结果。
+    * app字段：连接的服务接口地址。
+    * audioUrl字段： 本次请求的录音文件。
+    * userId, applicationId：调用者设置的userId和applicationId。
+    * params, 调用者设置的请求参数。
+    * result.rec, 本次识别结果。
+    * result.conf, 对识别结果的置信度。
+    * result sample:
+```
+
+{
+    "recordId": "58baa66d01934688be0b8fb692c64f3e",
+    "app" : "v1.1/aistream.enscore",
+    "result": {
+        "endtime": 2470,
+        "systime": 520,
+        "res": "res_engrec_0.2",
+        "rec": "hello",                 // 识别结果
+        "starttime": 1500,
+        "wavetime": 2973,
+        "conf": 46,                     // 识别结果置信度
+        "version": "AIRec_v0.4.0"
+    },
+    "audioUrl": "http://dev.api.aispeec.com/audio/v1.1/aistream.enscore/1295337509549/aispeechtest/e2ad5f7881c3e63254bae4ee0095657d/58baa66d01934688be0b8fb692c64f3e.flv",
+    "ts": 1308733310283,
+    "sessionId": "e2ad5f7881c3e63254bae4ee0095657d",
+    "userId": "aispeechtest",
+    "applicationId": "1295337509549",
+    "params": {
+        "recordId": "58baa66d01934688be0b8fb692c64f3e",
+        "userId": "aispeechtest",
+        "applicationId": "1295337509549",
+        "language": "english",
+        "coreType": "en.sent.rec",
+        "scoreType": "100",
+        "grammar": "$word = hello | good ; (sil $word sil)"
+    }
+}
+
+```
+  * 识别结果处理
+    * rec，表示识别结果，对应用户传递的grammar中的一项。
+    * conf，置信系数，表示此识别结果的可信度，不同的应用可以设定不同的门限，用于判断某个识别结果是否可信。
+    * 如果返回错误码20001, 表示没有检测到用户录音，应用可以做noinput处理。
+    * 如果返回错误码20302等，或者conf小于设定的门限，做nomatch处理。
+    * conf表示置信度，conf值越大表示识别结果的可信度越高。开发者可以设置门限T，当conf<T时，舍弃识别结果，判定为nomatch。
+    * rec是识别结果，也就是此前设置的grammer中的分支之一。开发者可以根据此结果做后续处理。
+    * 对于noinput或者nomatch，应用开发者可以自行决定如何处理：比如可以播放提示音，或者让用户重读一次。
+    * 如果识别结果中包含errID，则表示此语音无法识别，开发者需要注意：
+      * 20301表示grammar中设置的语法包含有单词在AISpeech API的字典中不存在。 对这种情况，请开发者检查grammar的写法是否规范，是否有规定之外的字符，如果仍然有问题，请记录此问题并反馈。
+      * AISpeech API 识别服务目前包含11w字的字典，能够满足绝大多数应用，但是仍然可能存在部分生僻词，人名，地名，缩写等不在字典中，所以建议避免使用个性化的人名，地名。或者开发阶段跟AISpeech协调预先补充字典。
+      * AISpeech API 目前能够离线添加字典，随着字典更新，此类问题会很快解决。
+
+  * 示例：
+    * 英文句子识别参数示例:
+```
+sysParams:
+ {
+"session":"2c3d412a0be0a26effcba95d3d7730de953e512a",
+"userId":"test@aispeech.com",
+"applicationId":"1301304913748"
+}
+appParams:
+{
+    "applicationId": "1301304913748",
+    "language": "english",
+    "coreType": "en.sent.rec",
+    "audioType": "wav",
+    "grammar": "$word=good | hello ;(sil $word sil)"
+}
+audio: 音频文件二进制流(16bit wav,flv,mp3)
+```
+
+
+# 四、HTTP中文句子识别接口 #
+  * 应用程序在上传音频文件前必须经过身份验证。
+  * 英文句子识别请求
+    * HTTP url:  http://sandbox.api.aispeech.com/api/v1.1/cnscore
+    * HTTP method: POST
+    * params:
+      * audio(必须)  音频文件二进制内容
+      * sysParams(JSON格式):
+```
+session(必需，身份验证后取得)
+userId(必需，终端用户id)
+applicationId(必需，用户应用程序注册ID)
+```
+      * appParams(JSON格式)，此参数是调用识别服务的必须参数
+```
+grammar(必需)    识别需要的选项表示。
+coreType(必需)   语音内核版本,英文识别为cn.sent.rec; 
+audioType(必需） 音频文件类型,可选值为[wav|mp3|flv]
+language(必需)   语言，中文为chinese
+```
+  * 功能说明
+    * 对中文单词，句子识别
+    * 识别是限定分支的，也就是需要调用者设定若干个分支的语法，识别服务会识别出用户的语音跟哪个分支最相符。
+    * 语速不会明显影响识别结果。
+    * 对于噪声，胡说等情况能够检测。
+    * 对于集外（用户的发音不符合任何一个分支）的情况能够检测。
+  * 服务调用的参数：
+```
+ sysParams: 
+{
+"session":"2c3d412a0be0a26effcba95d3d7730de953e512a",
+"userId":"test@aispeech.com",
+"applicationId":"1301304913748"
+}
+appParams: 
+{
+    "applicationId": "1301304913748",
+    "language": "chinese",
+    "coreType": "cn.sent.rec",
+    "audioType": "wav",
+    "grammar": "今 天 是 你 的 生 日|我 的 中 国"
+}
+audio: 音频文件二进制流(16bit wav,flv,mp3)
+```
+  * 参数说明
+    * grammar, 必选，识别语法，使用|分隔的选项序列，目前只支持中文字的识别，英文、数字和标点将被系统过滤。每个选项表示一种正确的说法。 例如 你好 | 我们 | 他们 。 数字请转换成中文。 英文字母请用空格隔开，比如FBI写成F B I。
+    * coreType, 必选，识别服务类型，cn.sent.rec 对应中文识别服务。
+    * language,必选， 识别语言类型，chinese 表示中文识别。
+    * userId, 用户在应用中的标识。 对每一个终端用户设定唯一的userId，能够区分不同用户的数据，AISpeech API提供的反馈增值统计功能依赖此字段进行统计。
+    * applicationId, appKey，应用标识。
+    * 当language=chinese时，grammar仅支持中文输入，字之间空格分开，不带标点。
+    * 参数grammar包含中文，请使用UTF-8编码。
+  * 识别结果说明
+    * [CoreResult](CoreResult.md)
+
+
+# 备注 #
+## 错误码定义 ##
+  * 40031 参数错误(没有或者格式不对)
+  * 40080 身份验证失败
+  * 40081 未通过身份验证或者session超时(Session not exists)
+  * 40051 调用内核服务超时
+  * 40091 服务器错误
+
+## 支持的内核版本(coreType) ##
+  * en.word.score    : 英文单词评分
+  * en.sent.socre    : 英文句子评分
+  * en.sent.rec      : 英文识别
+
+## 示例客户端 ##
+```
+import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.MultipartEntity;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.entity.mime.content.StringBody;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.util.EntityUtils;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.aispeech.api.http.MessageEncrypt;
+
+public class TestHttpInteface {
+
+	public static void main(String[] args) {
+
+		TestHttpInteface testClient = new TestHttpInteface();
+		JSONObject authResult = testClient.auth("xxx",
+				"xxx");
+
+		JSONObject sysParam = new JSONObject();
+		try {
+			sysParam.put("userId", "aispeechtest");
+			sysParam.put("applicationId", "1298426941825");
+			sysParam.put("session", authResult.getString("session"));
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		JSONObject appParam = new JSONObject();
+		try {
+			appParam.put("coreType", "cn.word.score");
+			appParam.put("scoreType", 100);
+			appParam.put("refText", "ni2-hao3");
+			appParam.put("audioType", "flv");
+
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		File audioFile = new File("streams/3/ni2-hao3.flv");
+
+		JSONObject requestResult = testClient.requestCnWordScore(sysParam,
+				appParam, audioFile);
+
+		System.out.println(requestResult.toString());
+
+	}
+
+	public JSONObject auth(String appId, String secretKey) {
+		HttpClient httpClient = new DefaultHttpClient();
+
+		String url = "http://10.12.7.191:9999/api/auth/getSessionKey";
+		HttpPost request = new HttpPost(url);
+
+		String timeStamp = System.currentTimeMillis() + "";
+		List<NameValuePair> formParams = new ArrayList<NameValuePair>();
+
+		formParams.add(new BasicNameValuePair("applicationId", appId));
+		formParams.add(new BasicNameValuePair("timestamp", timeStamp));
+		formParams.add(new BasicNameValuePair("sig", MessageEncrypt.Encrypt(
+				appId + timeStamp + secretKey, "SHA-1")));
+
+		try {
+			request.setEntity(new UrlEncodedFormEntity(formParams, "UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		try {
+			HttpResponse response = httpClient.execute(request);
+			HttpEntity resEntity = response.getEntity();
+
+			String jsonString = EntityUtils.toString(resEntity);
+
+			JSONObject authResult = new JSONObject();
+			try {
+				authResult = new JSONObject(jsonString);
+			} catch (JSONException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			System.out.println(authResult.toString());
+			return authResult;
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return null;
+		// httpClient.ex
+	}
+
+	/**
+	 * 
+	 * sysParams: { "session":
+	 * "12953375095491300327340529391720efc00de450c56bbd7954171bc9af1b8ccf",
+	 * "userId": "xx@aispeech.com", "applicationId": "1295337509549" }
+	 * appParams: { "debug": true, "refText": "ni2-hao3", "coreType":
+	 * "cn.word.score.v2.1", "scoreType": 100, "audioType": wav, "resource":
+	 * "achn_chwds_ntv" } audio: 音频文件二进制流(wav,flv,mp3需要指定audioType)
+	 * 
+	 * @return
+	 */
+	public JSONObject requestCnWordScore(JSONObject sysParams,
+			JSONObject appParams, File audioFile) {
+
+		HttpClient httpClient = new DefaultHttpClient();
+
+		String url = "http://10.12.7.191:9999/api/v1.1/cnscore";
+
+		HttpPost httpPost = new HttpPost(url);
+
+		try {
+			StringBody sysParamsStr = new StringBody(sysParams.toString());
+			StringBody appParamsStr = new StringBody(appParams.toString());
+
+			MultipartEntity reqEntity = new MultipartEntity();
+
+			FileBody sbWav = new FileBody(audioFile);
+			reqEntity.addPart("audio", sbWav);
+			reqEntity.addPart("sysParams", sysParamsStr);
+			reqEntity.addPart("appParams", appParamsStr);
+
+			httpPost.setEntity(reqEntity);
+
+			HttpResponse response = httpClient.execute(httpPost);
+
+			HttpEntity resEntity = response.getEntity();
+
+			String jsonString = EntityUtils.toString(resEntity);
+
+			JSONObject authResult = new JSONObject();
+			try {
+				authResult = new JSONObject(jsonString);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			return authResult;
+
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (ClientProtocolException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+
+		return null;
+	}
+
+}
+```

@@ -1,0 +1,396 @@
+
+
+# 介绍 #
+> AISpeech API `JavaScript` SDK，提供了录音，内核计算，结果处理的方法调用，减小了广大开发者开发语音应用的成本。
+> 此文档介绍AISpeechAPI SDK v1.1版本。
+
+# 从v1.0升级到v1.1 #
+  * 修改SDK下载地址，以及版本号。当前版本号v1.1。
+    * SDK 主文件url: http://api.aispeech.com/aispeechapi-js/v1.1/load_core.js
+  * 连接AudioServer时服务器地址格式变化：
+    * 中文评分 rtmp://sandbox.api.aispeech.com:443/v1.1/aistream.cnscore
+    * 英文评分 rtmp://sandbox.api.aispeech.com:443/v1.1/aistream.enscore
+
+
+# 环境准备 #
+  1. 开发此Demo，你需要了解html的结构和基本的javascript知识。
+  1. 请先准备一个Microphone，确认Mic能录音。
+  1. 浏览器： Firefox 3.5+, IE7+, Chrome 7+, Safari 5+
+  1. 网络环境： 此SDK客户端需要连接服务器443端口，请确认您的网络设置没有屏蔽服务器443端口。
+  1. [申请appKey](TechSupport.md)。
+
+
+# 简单例子：中文单词评分 #
+> 在这个例子中，我们开发一个中文单词评分的Demo。
+    * 中文参考文本：你好，数字拼音表示为ni2-hao3。
+    * 录音，对着Microphone说“你好”。
+    * 查看结果，看看你说的“你好”是否标准。
+  1. 可参考http://api.aispeech.com/aispeechapi-js/v1.1/Examples/getting-started.html 和http://api.aispeech.com/aispeechapi-js/v1.1/Examples/advancedguide.html
+  1. 在$WWWROOT$/yourapp目录下建立一个html页面。
+  1. 安装SDK，你可以使用在线的JS文件。
+    * 使用AISpeech API 录音和评分核心功能，请引入如下代码：
+```
+<script type="text/javascript" src="http://api.aispeech.com/aispeechapi-js/v1.1/load_core.js">
+</script>
+```
+    * 使用AISpeech API 绘制汉字声调曲线功能。请引入如下代码：
+```
+<script type="text/javascript" src="http://api.aispeech.com/aispeechapi-js/v1.1/load_aigchart.js">
+</script>
+
+```
+  1. 接下来，我们想要在页面中加入一个录音机组件，以便进行语音录制。首先要新建一个div作为容器，在body中加入一个div，此div是flash录音机的容器：
+```
+<div id="aiRecorder">        
+</div>
+```
+  1. 有了div容器，我们需要通过JavaScript代码在页面注入一个录音机组件。很简单，只需要新建`AiRecorder`对象：
+    * `AiRecorder`对象是`JavaScript`对Flash录音机的封装，提供了在页面注入flash，操作flash的功能。
+    * 构造一个`AiRecorder`对象，
+      * 参数 id， `AiRecorder`实例的id，和容器div的id相同。
+      * 参数 serverList，服务器列表。
+    * 代码：
+```
+        
+
+    function initRecorder(){
+
+        var serverList = ["rtmp://sandbox.api.aispeech.com:443/v1.1/aistream.cnscore"];  
+
+        window.recorder1 = new aispeech.AiRecorder({
+
+            id: "aiRecorder",
+
+            serverList: serverList,
+
+            appKey: "your_app_key",
+
+            secretKey: "your_secret_key"
+
+        });
+
+    }
+       
+```
+    * 注意:
+      * 查看页面是否成功注入了flash对应的object节点。
+  1. 显示单词，你可以将单词定义为如下格式：
+```
+ var chars = [{
+
+        pinyin: "nǐ",
+
+        pinyinScript: "ni2",
+
+        hanzi: "你",
+
+        tone: 2
+
+    }, {
+
+        pinyin: "hǎo",
+
+        pinyinScript: "hao3",
+
+        hanzi: "好",
+
+        tone: 3
+
+    }];
+```
+  1. 现在，你已经在页面添加了一个录音机组件，接下来你要添加一些操作按钮来控制录音机。
+    * 一个开始录音按钮。点击此按钮后开始录音。
+    * 一个停止录音按钮。点击此按钮后停止录音。
+    * 一个获取评分结果的按钮，点击此按钮，显示分数。
+    * 如下html段可以添加三个按钮:
+```
+      <div>
+
+            <p>
+
+                <input type="button" value="startRecord" onclick="startRecord();"/>
+
+            </p>
+
+            <p>
+
+                <input type="button" value="stopRecord" onclick="stopRecord();"/>
+
+            </p>
+
+            <p>
+
+                <input type="button" value="getScore" onclick="getScore();"/>
+
+            </p>
+
+        </div>
+```
+  1. “开始录音”按钮的处理：
+    * 开始录音的时候，需要指定本次录音对应的计算参数。
+    * 参数 duration，录音的时间长度，单位ms。
+    * 参数 serverParams，SpeechResource对象，请求不同的语音服务内核，参数有所异同，具体请参考[ServiceListv11](ServiceListv11.md)中每个内核资源的说明。
+    * 回调 onRecordIdGenerated，服务器为本次录音生成了唯一的文件id。
+    * 回调 onStart， 录音开始事件。
+    * 回调 onStop， 录音停止事件。
+```
+       function startRecord(){
+
+        var pinyinScript = [];
+
+        for (var i = 0; i < chars.length; i++) {
+
+            pinyinScript.push(chars[i].pinyinScript);
+
+        }
+
+        var refText = pinyinScript.join("-");
+
+        aispeech.SpeechResource.setScoreType("100");
+
+        aispeech.SpeechResource.setCoreType("cnword");     
+
+        aispeech.SpeechResource.setRefText(refText);
+
+        recorder1.record({
+
+            duration: 3000,
+
+            playNotifyAudio: true,
+
+            serverParams: aispeech.SpeechResource.get(),
+
+            onRecordIdGenerated: function(code, message){
+
+                lastRecordId = message.recordId;
+
+            },
+
+            onStart: function(code, message){
+
+                //startRecord callback
+
+            },
+
+            onStop: function(code, message){
+
+                //stopRecord callback
+
+            }
+
+        });
+
+    }
+```
+  1. 有了上面的过程，你就可以开始录音了。当录音时间达到duration指定的时间长度后会自动停止录音。你也可以增加一个结束录音按钮，以便手动停止录音，对按钮click事件添加处理函数：
+```
+  
+
+    function stopRecord(){
+
+        recorder1.stop();
+
+    }
+
+    
+```
+  1. 现在你已经可以控制录音机开始录音和结束录音了。接下来需要获取语音评估结果，你可以调用getScores方法，
+    * 返回值说明，参考[ServiceList](ServiceList.md)中不同语音内核的返回值。
+    * 什么时候调用getScores？录音结束事件发生后可以调用getScores获取结果。
+    * 代码：
+```
+     function getScore(){
+
+        var recordId = recorder1.getLastRecordId();
+
+        if (recordId != null) {
+
+            recorder1.getScores({
+
+                recordId: recordId,
+
+                success: function(data){
+
+                    try {
+
+                        if (typeof recordId === "string" && recordId != "") {
+
+                            var r = "";
+
+                            if (typeof data[recordId].result == "string") {
+
+                                r = JSON.parse(data[recordId].result);
+
+                            } else {
+
+                                r = data[recordId].result;
+
+                            }
+
+                            //window.R = r;
+
+                            showChars(r);
+  //此函数显示汉字和汉字的声调曲线
+                        }
+
+                    } catch (e) {
+
+                    }
+
+                }
+
+            });
+
+        }
+
+    }
+```
+  1. 我们需要在页面显示汉字和拼音，并且可以绘制声调曲线，AISpeech API提供了绘制声调曲线的JS工具包。
+    * 首先在body段增加div:
+```
+   <div id="charsContainer">
+
+        </div>
+```
+    * 显示单词和绘制曲线的实例代码：
+```
+
+ function showChars(result){
+
+        var html = '';
+
+        html += '<table width="100%" border="0" cellpadding="0" cellspacing="0">';
+
+        html += '  <tr>';
+
+        html += '    <td>';
+
+        
+
+        var toneCurveIdArr = [];
+
+        html += '<div class="chars">';
+
+        for (var i = 0; i < chars.length; i++) {
+
+            var toneCurveId = "toneCurve" + i;
+
+            toneCurveIdArr.push(toneCurveId);
+
+            html += '<div class="item">';
+
+            html += '<div id="' + toneCurveId + '" class="curve"></div>';
+
+            html += '<div class="pinyin">' + chars[i].pinyin + '</div>';
+
+            html += '<div class="hanzi">' + chars[i].hanzi + '</div>';
+
+            html += '</div>';
+
+        }
+
+        html += '<br class="clear" /></div>';
+
+        if (typeof result != "undefined" && typeof result.overall != "undefined") {
+
+            html += '<div>overall: ' + result.overall + '</div>';
+
+        }
+
+        
+
+        html += '    </td>';
+
+        html += '  </tr>';
+
+        html += '</table>';
+
+        $("#charsContainer").html(html);
+     
+        
+
+        if (typeof result != "undefined" && typeof result.overall != "undefined") {
+
+            for (var i = 0; i < chars.length; i++) {
+
+                aispeech.AiGChart.draw({
+
+                    id: toneCurveIdArr[i],
+
+                    width: 60,
+
+                    height: 60,
+
+                    stdData: {
+
+                        tone: chars[i].tone,
+
+                        color: "#00FF00"
+
+                    },
+
+                    userData: {
+
+                        confidence: result.details[i].confidence,
+
+                        color: "#0000FF",
+
+                        offset: 0
+
+                    }
+
+                });
+
+            }
+
+        } else {
+
+            for (var i = 0; i < chars.length; i++) {
+
+                aispeech.AiGChart.draw({
+
+                    id: toneCurveIdArr[i],
+
+                    width: 60,
+
+                    height: 60,
+
+                    stdData: {
+
+                        tone: chars[i].tone,
+
+                        color: "#00FF00"
+
+                    }
+
+                });
+
+            }
+
+        }
+
+    }
+
+    
+
+```
+  1. 如果你在上面的步骤遇到了困难，可以开启debug功能 。具体参看[Tools](Tools.md)。
+
+# 英文单词评分示例 #
+  1. 主要流程和中文单词评分一致。
+  1. 英文单词，是由小写字母和‘组成的单词，空格和其他标点不允许。
+  1. 参考页面： http://api.aispeech.com/aispeechapi-js/v1.1/Examples/getting-started-enscore.html 。
+  1. coreType为enword。
+
+# 包含全部功能的语音面板 #
+  1. AISpeech API 提供了一个包含播放／录音／回放，组件设置等功能的语音面板，开发者可以直接使用此语音面板进行开发。
+  1. 访问地址：http://api.aispeech.com/aispeechapi-js/v1.1/Examples/UISpeechPanel.html
+# 高级功能 #
+    1. Mic设置
+    1. 录音回放
+    1. 音量控制
+    1. 中文字词类应用，绘制声调曲线
+    1. 调试日志输出
+    * 更多功能请参考[UserGuide](UserGuide.md)
+# 问题排查 #
+> 请参考[FAQ](FAQ.md)
